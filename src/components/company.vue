@@ -18,6 +18,17 @@
                     <div class="text item"><b>人员备份:</b> {{form.risk_role_backup}}</div>
                     <div class="text item"><b>网络冗余:</b> {{form.risk_web_backup}}</div>
                     <div class="text item"><b>电源冗余:</b> {{form.risk_power_backup}}</div>
+<!-- 
+    <el-checkbox-group v-model="[form.risk_role_backup,form.risk_web_backup,form.risk_power_backup]">
+      <el-checkbox label="人员备份" name="type"></el-checkbox>
+      <el-checkbox label="网络冗余" name="type"></el-checkbox>
+      <el-checkbox label="电源冗余" name="type"></el-checkbox>
+    </el-checkbox-group> -->
+<!--   <el-checkbox-group v-model="[form.risk_role_backup,form.risk_web_backup,form.risk_power_backup]">
+      <el-checkbox label="人员备份"></el-checkbox>
+      <el-checkbox label="网络冗余"></el-checkbox>
+      <el-checkbox label="电源冗余"></el-checkbox>
+  </el-checkbox-group> -->
                 </el-col>
                 <el-col :span="14">
                     <div class="text item">
@@ -87,68 +98,6 @@
                     "risk_role_backup": "",
                     "risk_web_backup": "",
                     "shareholder_names": ""
-                },
-                rules: { //验证规则
-                    address: [
-                        { required: true, message: '请输入密码', trigger: 'blur'}
-                    ],
-                    date_establishment: [
-                        { required: true, message: '请输入密码', trigger: 'blur'}
-                    ],
-                    desc_backup: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    desc_db: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    desc_hardware: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    desc_risk_mgr: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    desc_trading_platform: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    mgrcomp_short_name: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    num_it: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    num_master: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    num_rd: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    num_risk_mgr: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    num_staff: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    num_trade: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    reg_capital: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    reg_id: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    // risk_power_backup: [
-                    //     { required: true, message: '不允许为空', trigger: 'blur'}
-                    // ],
-                    // risk_role_backup: [
-                    //     { required: true, message: '不允许为空', trigger: 'blur'}
-                    // ],
-                    // risk_web_backup: [
-                    //     { required: true, message: '不允许为空', trigger: 'blur'}
-                    // ],
-                    shareholder_names: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ]
                 }
             }
         },

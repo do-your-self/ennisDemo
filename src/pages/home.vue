@@ -1,7 +1,7 @@
 <template>
     <el-row class="side">
         <v-header></v-header>
-        <el-row v-if="$store.state.admin=='false'||$store.state.id" class="main">
+        <el-row v-if="$store.state.admin=='false'||$store.state.id!='null'" class="main">
             <el-col :span="3" style="height:100%;">
                 <v-menu></v-menu>
             </el-col>
@@ -9,7 +9,7 @@
                 <router-view></router-view>
             </el-col>
         </el-row>
-        <el-row v-if="$store.state.admin=='true'&&!$store.state.id">
+        <el-row v-if="$store.state.admin=='true'&&$store.state.id=='null'">
             <router-view></router-view>
         </el-row>
     </el-row>
@@ -63,7 +63,7 @@
     .main {
         width: 100%;
         height: 100%;
-        position: absolute;
+        position: absolute!important;
         top: 0;
         padding-top: 60px;
     }

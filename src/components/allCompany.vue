@@ -69,6 +69,30 @@
               }
             }
           },
+          open(index,rows,id) {
+            this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              api.delIdCompany(id)
+              .then(response => {
+                console.log(response)
+                rows.splice(index, 1);
+                this.$message({
+                  type: 'success',
+                  message: '删除成功'
+                });
+              }).catch((err) => {
+                console.log(err);
+              })
+            }).catch(() => {
+              this.$message({
+                type: 'info',
+                message: '已取消删除'
+              });          
+            });
+          },
           closeDialog(clo,res){
             this.dialogFormVisible = clo;
             if(res==="success"){
@@ -78,10 +102,12 @@
             }
           },
           link(row,event,column){
+            console.log(column.label)
             if(column.label!="操作"){
               this.$store.dispatch('Id', row.mgrcomp_id);
+              console.log(row.mgrcomp_id)
               this.$router.push({
-                   path:'/home//company',
+                   path:'/home/company',
                    name:'company',
                    params:{
                     id:row.mgrcomp_id
@@ -90,17 +116,8 @@
             }
           },
           delIdCompany(index,rows) {
-            let id = rows[index].id;
-            api.delIdCompany(id)
-            .then(response => {
-              rows.splice(index, 1);
-              this.$message({
-                type: 'success',
-                message: '删除成功'
-              });
-            }).catch((err) => {
-              console.log(err);
-            })
+            let id = rows[index].mgrcomp_id;
+            this.open(index,rows,id);
           },
           handleSizeChange(val) {
 
@@ -118,6 +135,9 @@
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 200px;
         min-height: 600px;
+    }
+    tr {
+      cursor: pointer; 
     }
 </style>
 

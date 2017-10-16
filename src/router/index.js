@@ -16,137 +16,28 @@ Vue.use(Router);
 //     resolve(require('../components/Register.vue'));
 //   });
 // };
-const Login = resolve => {
-  require.ensure(['../auth/login.vue'], () => {
-    resolve(require('../auth/login.vue'));
-  });
-};
-
-const Register = resolve => {
-  require.ensure(['../auth/register.vue'], () => {
-    resolve(require('../auth/register.vue'));
-  });
-};
-
-const Home = resolve => {
-  require.ensure(['../pages/home.vue'], () => {
-    resolve(require('../pages/home.vue'));
-  });
-};
-
-const Menu = resolve => {
-  require.ensure(['../components/menu.vue'], () => {
-    resolve(require('../components/menu.vue'));
-  });
-};
-
-const User = resolve => {
-  require.ensure(['../components/user.vue'], () => {
-    resolve(require('../components/user.vue'));
-  });
-};
-
-const Invitation = resolve => {
-  require.ensure(['../auth/invitation.vue'], () => {
-    resolve(require('../auth/invitation.vue'));
-  });
-};
-
-const Staff = resolve => {
-  require.ensure(['../components/staff.vue'], () => {
-    resolve(require('../components/staff.vue'));
-  });
-};
-
-const Company = resolve => {
-  require.ensure(['../components/company.vue'], () => {
-    resolve(require('../components/company.vue'));
-  });
-};
-
-const allCompany = resolve => {
-  require.ensure(['../components/allCompany.vue'], () => {
-    resolve(require('../components/allCompany.vue'));
-  });
-};
-
-const editStaff = resolve => {
-  require.ensure(['../components/editStaff.vue'], () => {
-    resolve(require('../components/editStaff.vue'));
-  });
-};
-
-const addStaff = resolve => {
-  require.ensure(['../components/addStaff.vue'], () => {
-    resolve(require('../components/addStaff.vue'));
-  });
-};
-
-const editCompany = resolve => {
-  require.ensure(['../components/editCompany.vue'], () => {
-    resolve(require('../components/editCompany.vue'));
-  });
-};
-
-const Stg = resolve => {
-  require.ensure(['../components/stg.vue'], () => {
-    resolve(require('../components/stg.vue'));
-  });
-}
-
-const editStg = resolve => {
-  require.ensure(['../components/editStg.vue'], () => {
-    resolve(require('../components/editStg.vue'));
-  });
-};
-
-const addStg = resolve => {
-  require.ensure(['../components/addStg.vue'], () => {
-    resolve(require('../components/addStg.vue'));
-  });
-};
-
-const Product = resolve => {
-  require.ensure(['../components/product.vue'], () => {
-    resolve(require('../components/product.vue'));
-  });
-}
-
-const editProduct = resolve => {
-  require.ensure(['../components/editProduct.vue'], () => {
-    resolve(require('../components/editProduct.vue'));
-  });
-};
-
-const addProduct = resolve => {
-  require.ensure(['../components/addProduct.vue'], () => {
-    resolve(require('../components/addProduct.vue'));
-  });
-};
-
-const prodStg = resolve => {
-  require.ensure(['../components/prodStg.vue'], () => {
-    resolve(require('../components/prodStg.vue'));
-  });
-}
-
-const editProdStg = resolve => {
-  require.ensure(['../components/editProdStg.vue'], () => {
-    resolve(require('../components/editProdStg.vue'));
-  });
-};
-
-const addProdStg = resolve => {
-  require.ensure(['../components/addProdStg.vue'], () => {
-    resolve(require('../components/addProdStg.vue'));
-  });
-};
-
-const Error404 = resolve => {
-  require.ensure(['../components/404.vue'], () => {
-      resolve(require('../components/404.vue'));
-  }); 
-};
+import Login from '../auth/login.vue'
+import Register from '../auth/register.vue'
+import Home from '../pages/home.vue'
+import Menu from '../components/menu.vue'
+import User from '../components/user.vue'
+import Invitation from '../auth/invitation.vue'
+import Staff from '../components/staff.vue'
+import Company from '../components/company.vue'
+import allCompany from '../components/allCompany.vue'
+import editStaff from '../components/editStaff.vue'
+import addStaff from '../components/addStaff.vue'
+import editCompany from '../components/editCompany.vue'
+import Stg from '../components/stg.vue'
+import editStg from '../components/editStg.vue'
+import addStg from '../components/addStg.vue'
+import Product from '../components/product.vue'
+import editProduct from '../components/editProduct.vue'
+import addProduct from '../components/addProduct.vue'
+import prodStg from '../components/prodStg.vue'
+import editProdStg from '../components/editProdStg.vue'
+import addProdStg from '../components/addProdStg.vue'
+import Error404 from '../components/404.vue'
 
 const router = new Router({
   // mode: 'history',

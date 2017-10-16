@@ -19,7 +19,7 @@
           <router-link to="/home/product/editProduct">
           <el-button type="primary" size="small" icon="edit" @click="editProduct(scope.$index,tableData)" :disabled="$store.state.admin=='true'"></el-button>
           </router-link>
-          <el-button type="primary" size="small" icon="delete" @click.native.prevent="delProduct(scope.$index, tableData)" :disabled="$store.state.admin=='true'"></el-button>
+          <el-button type="primary" size="small" icon="delete" @click.native.prevent="delProduct(scope.$index, tableData)" :disabled="$store.state.admin=='true'&&$store.state.id!='null'"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -52,11 +52,11 @@
       }
     },
     beforeCreate(){
-      if(this.$store.state.admin=='true'&&!this.$store.state.id){
+      if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
         api.getAllProd(10,1).then((response) => {
           this.getData(response);
         });
-      }else if(this.$store.state.admin=='true'&&this.$store.state.id){
+      }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
         let id = this.$store.state.id;
         api.getIdProd(id,10,1).then((response) => {
           this.getData(response);
@@ -85,6 +85,29 @@
           }
         }
       },
+      open(index,rows,id) {
+        this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          api.delProduct(id)
+          .then(response => {
+            rows.splice(index, 1);
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            });
+          }).catch((err) => {
+            console.log(err);
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      },
       closeDialog(clo,res){
         this.dialogFormVisible = clo;
         if(res==="success"){
@@ -104,27 +127,18 @@
         this.title = '编辑';
       },
       delProduct(index,rows) {
-        let id = rows[index].id;
-        api.delProduct(id)
-        .then(response => {
-          rows.splice(index, 1);
-          this.$message({
-            type: 'success',
-            message: '删除成功'
-          });
-        }).catch((err) => {
-          console.log(err);
-        })
+        let id = rows[index].mgrcomp_id;
+        this.open(index,rows,id);
       },
       handleSizeChange(val) {
 
       },
       handleCurrentChange(val) {
-        if(this.$store.state.admin=='true'&&!this.$store.state.id){
+        if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
           api.getAllProd(10,val).then((response) => {
             this.getData(response);
           });
-        }else if(this.$store.state.admin=='true'&&this.$store.state.id){
+        }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
           let id = this.$store.state.id;
           api.getIdProd(id,10,val).then((response) => {
             this.getData(response);
@@ -150,6 +164,9 @@
   }
   hr {
     margin-bottom: 20px;
+  }
+  tr {
+    cursor: pointer; 
   }
 </style>
 

@@ -15,20 +15,9 @@
                     <div class="text item"><b>成立时间:</b> {{form.date_establishment}}</div>
                     <div class="text item"><b>注册资本:</b> {{form.reg_capital}}</div>
                     <div class="text item"><b>股东名单:</b> {{form.shareholder_names}}</div>
-                    <div class="text item"><b>人员备份:</b> {{form.risk_role_backup}}</div>
-                    <div class="text item"><b>网络冗余:</b> {{form.risk_web_backup}}</div>
-                    <div class="text item"><b>电源冗余:</b> {{form.risk_power_backup}}</div>
-<!-- 
-    <el-checkbox-group v-model="[form.risk_role_backup,form.risk_web_backup,form.risk_power_backup]">
-      <el-checkbox label="人员备份" name="type"></el-checkbox>
-      <el-checkbox label="网络冗余" name="type"></el-checkbox>
-      <el-checkbox label="电源冗余" name="type"></el-checkbox>
-    </el-checkbox-group> -->
-<!--   <el-checkbox-group v-model="[form.risk_role_backup,form.risk_web_backup,form.risk_power_backup]">
-      <el-checkbox label="人员备份"></el-checkbox>
-      <el-checkbox label="网络冗余"></el-checkbox>
-      <el-checkbox label="电源冗余"></el-checkbox>
-  </el-checkbox-group> -->
+                    <el-checkbox v-model="form.risk_role_backup">人员备份</el-checkbox>
+                    <el-checkbox v-model="form.risk_web_backup">网络冗余</el-checkbox>
+                    <el-checkbox v-model="form.risk_power_backup">电源冗余</el-checkbox>
                 </el-col>
                 <el-col :span="14">
                     <div class="text item">

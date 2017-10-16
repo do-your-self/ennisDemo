@@ -136,7 +136,7 @@
         this.title = '编辑';
       },
       delStaff(index,rows) {
-        let id = rows[index].mgrcomp_id;
+        let id = rows[index].id;
         this.open(index,rows,id);
       },
       handleSizeChange(val) {

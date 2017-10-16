@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="form" :model="form" label-width="100px" :fules="rules">
+    <el-form ref="form" :model="form" label-width="100px" :rules="rules">
         <el-col :span="18" :offset="3">
             <el-form-item label="策略类型" prop="stg_type">
                 <el-input v-model="form.stg_type"></el-input>

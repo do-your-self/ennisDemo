@@ -1,6 +1,6 @@
 <template>                
-    <el-form ref="form" :model="form" label-width="100px" :fules="rules">
-        <el-col :span="12">
+    <el-form ref="form" :model="form" label-width="200px" :rules="rules">
+        <el-col :span="11">
             <el-form-item label="姓名" prop="name">
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
@@ -14,16 +14,16 @@
                 <el-input v-model="form.conflict"></el-input>
             </el-form-item>
             <el-form-item label="从业年限" prop="year_start_related_industry">
-                <el-input type="number" v-model="form.year_start_related_industry"></el-input>
+                <el-input type="number" v-model.number="form.year_start_related_industry"></el-input>
             </el-form-item>
             <el-form-item label="过往从业经历" prop="desc_past_job">
                 <el-input type="textarea" v-model="form.desc_past_job"></el-input>
             </el-form-item>
         </el-col>
-        <el-col :span="12">
-            <el-form-item label="性别" prop="sex">
-                <el-radio class="radio" v-model="form.sex" label="1">男</el-radio>
-                <el-radio class="radio" v-model="form.sex" label="2">女</el-radio>
+        <el-col :span="11">
+            <el-form-item label="性别">
+                <el-radio class="radio" v-model.number="form.sex" label="1">男</el-radio>
+                <el-radio class="radio" v-model.number="form.sex" label="2">女</el-radio>
             </el-form-item>
             <el-form-item label="当前职位" prop="position">
                 <el-input v-model="form.position"></el-input>
@@ -35,17 +35,15 @@
                 <el-input v-model="form.punishment"></el-input>
             </el-form-item>
             <el-form-item label="占股比例" prop="share_held">
-                <el-input type="number" v-model="form.share_held"></el-input>
+                <el-input type="number" v-model.number="form.share_held"></el-input>
             </el-form-item>
             <el-form-item label="历史业绩" prop="desc_hist_achievement">
                 <el-input type="textarea" v-model="form.desc_hist_achievement"></el-input>
             </el-form-item>
         </el-col>
-        <el-col>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('form')">提交</el-button>
-                <el-button @click="resetForm('form')">取消</el-button>
-            </el-form-item>
+        <el-col style="padding:20px 0 50px;">
+            <el-button type="primary" @click="submitForm('form')">提交</el-button>
+            <el-button @click="resetForm('form')">取消</el-button>
         </el-col>
     </el-form>
 </template>
@@ -78,10 +76,10 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     share_held: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     year_start_related_industry: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     conflict: [
                         { required: true, message: '不允许为空', trigger: 'blur'}
@@ -96,10 +94,7 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     birthday: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    sex: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { required: true, message: '请选择时间', trigger: 'change'}
                     ],
                     education_highest: [
                         { required: true, message: '不允许为空', trigger: 'blur'}
@@ -118,8 +113,6 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.form.sex = Number(this.form.sex);
-                        this.form.year_start_related_industry = Number(this.form.year_start_related_industry);
-                        this.form.share_held = Number(this.form.share_held);
                         let opt = this.form;
                         api.addStaff(opt)
                         .then(response => {
@@ -135,7 +128,7 @@
                     } else {
                         this.$message({
                             type: 'error',
-                            message: 'error'
+                            message: '请按提示输入合法的值'
                         });
                         return false;
                     }

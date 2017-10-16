@@ -1,5 +1,5 @@
 <template>                
-    <el-form ref="form" :model="form" label-width="100px" :fules="rules">
+    <el-form ref="form" :model="form" label-width="100px" :rules="rules">
         <el-col :span="12">
             <el-form-item label="基金产品全称" prop="full_name">
                 <el-input v-model="form.full_name"></el-input>

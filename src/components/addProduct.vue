@@ -1,5 +1,5 @@
 <template>                
-    <el-form ref="form" :model="form" label-width="150px" :fules="rules">
+    <el-form ref="form" :model="form" label-width="150px" :rules="rules">
         <el-col :span="12">
             <el-form-item label="职工" prop="full_name">
                 <el-select v-model="staff" filterable placeholder="请选择" style="width:100%">

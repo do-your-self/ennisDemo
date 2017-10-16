@@ -40,6 +40,7 @@
   export default {
     data() {
       return {
+        loading: true,
         tableData: [],
         currentPage: 1,
         dialogFormVisible: false,
@@ -51,8 +52,6 @@
       }
     },
     beforeCreate(){
-      console.log(!!this.$store.state.admin)
-      console.log(!this.$store.state.admin)
         if(this.$store.state.admin=='true'&&!this.$store.state.id){
           api.getAllStaff(10,1).then((response) => {
             this.getData(response);
@@ -86,6 +85,7 @@
                 }
               }
             }
+            this.loading = false;
             this.tableData = resp;
             this.currentPage =  response.data.page;
             this.pageSize = [response.data.per_page];

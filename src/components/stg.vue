@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <div style="padding:10px 20px;text-align:left;" v-if="$store.state.admin=='false'">
       <router-link to="/home/stg/addStg">
         <el-button size="small" @click="addStg">添加</el-button>
@@ -37,6 +37,7 @@
   export default {
     data() {
       return {
+        loading: true,
         tableData: [],
         currentPage: 1,
         dialogFormVisible: false,
@@ -71,6 +72,7 @@
             //可以把无效的token清楚掉
             this.$store.dispatch('UserLogout');
           }else{
+            this.loading = false;
             let resp = response.data.items;
             this.tableData = resp;
             this.currentPage =  response.data.page;

@@ -28,11 +28,6 @@
             <el-form-item label="交易人员数(含运维)" prop="num_trade">
                 <el-input type="number" v-model="form.num_trade"></el-input>
             </el-form-item>
-            <el-form-item label="">
-                <el-checkbox v-model="form.risk_role_backup">人员备份</el-checkbox>
-                <el-checkbox v-model="form.risk_web_backup">网络冗余</el-checkbox>
-                <el-checkbox v-model="form.risk_power_backup">电源冗余</el-checkbox>
-            </el-form-item>
         </el-col>
         <el-col :span="12">
             <el-form-item label="IT人数" prop="num_it">
@@ -60,6 +55,11 @@
                 <el-input type="textarea" v-model="form.desc_risk_mgr"></el-input>
             </el-form-item>
         </el-col>
+        <el-form-item label="">
+            <el-checkbox v-model="form.risk_role_backup">人员备份</el-checkbox>
+            <el-checkbox v-model="form.risk_web_backup">网络冗余</el-checkbox>
+            <el-checkbox v-model="form.risk_power_backup">电源冗余</el-checkbox>
+        </el-form-item>
         <el-col>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('form')">提交</el-button>
@@ -74,6 +74,7 @@
     export default {
         data() {
             return {
+                loading: true,
                 activeIndex: '1',
                 form: {
                     "address": "",
@@ -170,6 +171,7 @@
                         this.$store.dispatch('UserLogout');
                     }else{
                         if(response != {}){
+                            this.loading = false;
                             this.form = response.data;
                         }
                     }
@@ -216,9 +218,9 @@
                 });
             },
             resetForm(formName) {
-                this.dialogFormVisible = false;
+                // this.dialogFormVisible = false;
                 this.$refs[formName].resetFields();
-                this.$emit("close",this.dialogFormVisible,"close");
+                // this.$emit("close",this.dialogFormVisible,"close");
             }
         }
     }

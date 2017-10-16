@@ -7,11 +7,6 @@
       <el-table-column prop="comp_name" label="公司名称" width="100"></el-table-column>
       <el-table-column prop="create_time" label="注册时间" width="200"></el-table-column>
       <el-table-column prop="active" label="激活" width="200"></el-table-column>
-<!--       <el-table-column fixed="right" label="操作" width="200">
-        <template scope="scope">
-          <el-button type="primary" size="small" icon="delete" @click.native.prevent="delStaff(scope.$index, tableData)"></el-button>
-        </template>
-      </el-table-column> -->
     </el-table>
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
       :current-page="currentPage"

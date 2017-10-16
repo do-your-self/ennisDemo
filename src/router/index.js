@@ -149,7 +149,8 @@ const Error404 = resolve => {
 };
 
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
+  // base: '/static/',
   routes: [
     /*{
       path: '/',
@@ -161,7 +162,7 @@ const router = new Router({
     },*/
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/login'
     },
     {
       path: '/home',
@@ -311,7 +312,9 @@ const router = new Router({
     {
       path: '*',
       name: 'error',
-      component: Error404
+      component: Login
+      // component: Error404
+      // redirect: '/login'
     }
   ]
 });

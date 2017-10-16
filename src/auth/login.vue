@@ -4,7 +4,6 @@
             <el-col :span="10" :offset="7">
             <!-- el-tabs放在这里其实不合理，可以提到App.vue里面。然后引入Login组件和Register组件 -->
                 <el-tabs v-model="activeName">
-
                     <el-tab-pane label="登录" name="login">
                         <el-form :model="loginForm" :rules="rules" label-width="100px" ref="loginForm">
                             <el-form-item label="用户名" prop="username">

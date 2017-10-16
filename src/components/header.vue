@@ -23,7 +23,7 @@
             <el-menu-item index="7" style="float:right;">
                 <a @click="logout()">登出</a>
             </el-menu-item>
-            <router-link to="/home/invitation">
+            <router-link to="/home/admin/invitation">
                 <el-menu-item index="8" @click="clearId()" style="float:right;">邀请用户</el-menu-item>
             </router-link>
         </el-menu>

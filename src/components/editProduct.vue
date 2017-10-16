@@ -65,6 +65,7 @@
         props: ['listId'],
         data() {
             return {
+                loading: true,
                 dialogFormVisible: null,
                 form: {
                   "full_name": "",
@@ -157,6 +158,7 @@
                         //可以把无效的token清楚掉
                         this.$store.dispatch('UserLogout');
                     }else{
+                        this.loading = false;
                         this.form = response.data;
                         if(this.form.status == 0){
                             this.form.status = "是";
@@ -178,6 +180,7 @@
                                 //可以把无效的token清楚掉
                                 this.$store.dispatch('UserLogout');
                             }else{
+                                this.loading = false;
                                 this.form = response.data;
                                 if(this.form.status == 0){
                                     this.form.status = "是";

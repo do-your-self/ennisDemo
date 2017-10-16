@@ -1,6 +1,6 @@
 <template>                
     <el-form ref="form" :model="form" label-width="100px" :fules="rules">
-        <el-col :span="24">
+        <el-col :span="18" offset="3">
             <el-form-item label="策略类型" prop="stg_type">
                 <el-input v-model="form.stg_type"></el-input>
             </el-form-item>
@@ -38,6 +38,7 @@
         props: ['listId'],
         data() {
             return {
+                loading: true,
                 dialogFormVisible: null,
                 form: {
                     "stg_type": "",
@@ -82,6 +83,7 @@
                         //可以把无效的token清楚掉
                         this.$store.dispatch('UserLogout');
                     }else{
+                        this.loading = false;
                         this.form = response.data;
                     }
                 }
@@ -97,6 +99,7 @@
                                 //可以把无效的token清楚掉
                                 this.$store.dispatch('UserLogout');
                             }else{
+                                this.loading = false;
                                 this.form = response.data;
                             }
                         }

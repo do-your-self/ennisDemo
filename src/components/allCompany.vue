@@ -34,6 +34,7 @@
     export default {
         data() {
           return {
+            loading: true,
             tableData: [],
             currentPage: 1,
             dialogFormVisible: false,
@@ -58,6 +59,7 @@
                 //可以把无效的token清楚掉
                 this.$store.dispatch('UserLogout');
               }else{
+                this.loading = false;
                 let resp = response.data.items;
                 this.tableData = resp;
                 this.currentPage = response.data.page;

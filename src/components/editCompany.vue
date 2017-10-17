@@ -1,5 +1,5 @@
 <template>
-    <el-form ref="form" :model="form" label-width="200px" :rules="rules">
+    <el-form ref="form" :model="form" label-width="150px" :rules="rules">
         <el-col :span="11">
             <el-form-item label="投顾公司简称" prop="mgrcomp_short_name">
                 <el-input v-model="form.mgrcomp_short_name"></el-input>
@@ -55,16 +55,14 @@
                 <el-input type="textarea" v-model="form.desc_risk_mgr"></el-input>
             </el-form-item>
         </el-col>
-        <div style="text-align:left;padding: 0 200px 10px;">
+        <div style="text-align:left;padding: 0 150px 10px;">
             <el-checkbox v-model="form.risk_role_backup">人员备份</el-checkbox>
             <el-checkbox v-model="form.risk_web_backup">网络冗余</el-checkbox>
             <el-checkbox v-model="form.risk_power_backup">电源冗余</el-checkbox> 
         </div>
-        <el-col>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('form')">提交</el-button>
-                <el-button @click="resetForm('form')">重置</el-button>
-            </el-form-item>
+        <el-col style="padding:20px 0 50px;">
+            <el-button type="primary" @click="submitForm('form')">提交</el-button>
+            <el-button @click="resetForm('form')">取消</el-button>
         </el-col>
     </el-form>
 </template>
@@ -179,26 +177,15 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        // this.form.num_staff = Number(this.form.num_staff);
-                        // this.form.num_trade = Number(this.form.num_trade);
-                        // this.form.num_rd = Number(this.form.num_rd);
-                        // this.form.num_risk_mgr = Number(this.form.num_risk_mgr);
-                        // this.form.reg_capital = Number(this.form.reg_capital);
-                        // this.form.num_it = Number(this.form.num_it);
-                        // this.form.num_master = Number(this.form.num_master);
                         this.form.risk_role_backup = !!this.form.risk_role_backup;
                         this.form.risk_web_backup = !!this.form.risk_web_backup;
                         this.form.risk_power_backup = !!this.form.risk_power_backup;
                         let opt = this.form;
                         api.setCompany(opt)
                         .then(response => {
-                            this.$message({
-                                type: 'success',
-                                message: '修改成功'
-                            });
                             //移除节点
                             this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success");
+                            this.$emit("close",this.dialogFormVisible,"success","修改成功");
                         }).catch((err) => {
                             console.log(err);
                         })
@@ -212,9 +199,8 @@
                 });
             },
             resetForm(formName) {
-                // this.dialogFormVisible = false;
-                this.$refs[formName].resetFields();
-                // this.$emit("close",this.dialogFormVisible,"close");
+                this.dialogFormVisible = false;
+                this.$emit("close",this.dialogFormVisible);
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
-    <el-form ref="form" :model="form" label-width="100px" :rules="rules">
-        <el-col :span="12">
+    <el-form ref="form" :model="form" label-width="150px" :rules="rules">
+        <el-col :span="11">
             <el-form-item label="姓名" prop="name">
                 <el-input v-model="form.name"></el-input>
             </el-form-item>
@@ -14,16 +14,16 @@
                 <el-input v-model="form.conflict"></el-input>
             </el-form-item>
             <el-form-item label="从业年限" prop="year_start_related_industry">
-                <el-input type="number" v-model="form.year_start_related_industry"></el-input>
+                <el-input type="number" v-model.number="form.year_start_related_industry"></el-input>
             </el-form-item>
             <el-form-item label="过往从业经历" prop="desc_past_job">
                 <el-input type="textarea" v-model="form.desc_past_job"></el-input>
             </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="11">
             <el-form-item label="性别" prop="sex">
-                <el-radio class="radio" v-model="form.sex" label="1">男</el-radio>
-                <el-radio class="radio" v-model="form.sex" label="2">女</el-radio>
+                <el-radio class="radio" v-model="form.sex" label="0">男</el-radio>
+                <el-radio class="radio" v-model="form.sex" label="1">女</el-radio>
             </el-form-item>
             <el-form-item label="当前职位" prop="position">
                 <el-input v-model="form.position"></el-input>
@@ -35,7 +35,7 @@
                 <el-input v-model="form.punishment"></el-input>
             </el-form-item>
             <el-form-item label="占股比例" prop="share_held">
-                <el-input type="number" v-model="form.share_held"></el-input>
+                <el-input type="number" v-model.number="form.share_held"></el-input>
             </el-form-item>
             <el-form-item label="历史业绩" prop="desc_hist_achievement">
                 <el-input type="textarea" v-model="form.desc_hist_achievement"></el-input>
@@ -112,6 +112,23 @@
         },
         created(){
             api.getStaffId(this.listId).then((response) => {
+                this.getData(response)
+            });
+        },
+        watch: {
+            'listId': function(){
+                if(this.listId){
+                    api.getStaffId(this.listId).then((response) => {
+                        this.getData(response)
+                    });
+                }
+            }
+        },
+        methods: {
+            dateChange(val){
+                this.form.birthday = val;
+            },
+            getData(response){      //拿到返回的数据
                 if(response){
                     if(response.status === 401){
                         this.$router.push('/login');
@@ -123,55 +140,22 @@
                         if(this.form.sex){
                             this.form.sex = '1';
                         }else{
-                            this.form.sex = '2';
+                            this.form.sex = '0';
                         }
                     }
                 }
-            });
-        },
-        watch: {
-            'listId': function(){
-                if(this.listId){
-                    api.getStaffId(this.listId).then((response) => {
-                        if(response){
-                            if(response.status === 401){
-                                this.$router.push('/login');
-                                //可以把无效的token清楚掉
-                                this.$store.dispatch('UserLogout');
-                            }else{
-                                this.loading = false;
-                                this.form = response.data;
-                                if(this.form.sex){
-                                    this.form.sex = '1';
-                                }else{
-                                    this.form.sex = '2';
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-        },
-        methods: {
-            dateChange(val){
-                this.form.birthday = val;
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.form.sex = Number(this.form.sex);
-                        // this.form.share_held = Number(this.form.share_held);
                         let opt = this.form;
                         let id = this.form.id;
                         api.setStaff(id,opt)
                         .then(response => {
-                            this.$message({
-                                type: 'success',
-                                message: '修改成功'
-                            });
                             //移除节点
                             this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success");
+                            this.$emit("close",this.dialogFormVisible,"success","修改成功");
                         }).catch((err) => {
                             console.log(err);
                         })

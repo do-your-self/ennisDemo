@@ -1,24 +1,22 @@
 <template>                
     <el-form ref="form" :model="form" label-width="100px" :rules="rules">
-        <el-col :span="18" :offset="3">
+        <el-col :span="15" :offset="4">
             <el-form-item label="策略类型" prop="stg_type">
                 <el-input v-model="form.stg_type"></el-input>
             </el-form-item>
             <el-form-item label="产品数量" prop="product_count">
-                <el-input type="number" v-model="form.product_count"></el-input>
+                <el-input type="number" v-model.number="form.product_count"></el-input>
             </el-form-item>
             <el-form-item label="规模" prop="scale">
-                <el-input type="number" v-model="form.scale"></el-input>
+                <el-input type="number" v-model.number="form.scale"></el-input>
             </el-form-item>
             <el-form-item label="规模上限" prop="scale_ceiling">
-                <el-input type="number" v-model="form.scale_ceiling"></el-input>
+                <el-input type="number" v-model.number="form.scale_ceiling"></el-input>
             </el-form-item>
         </el-col>
-        <el-col>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('form')">提交</el-button>
-                <el-button @click="resetForm('form')">取消</el-button>
-            </el-form-item>
+        <el-col style="padding:20px 0 50px;">
+            <el-button type="primary" @click="submitForm('form')">提交</el-button>
+            <el-button @click="resetForm('form')">取消</el-button>
         </el-col>
     </el-form>
 </template>
@@ -40,13 +38,13 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     product_count: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     scale: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     scale_ceiling: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ]
                 }
             }
@@ -55,25 +53,18 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.form.product_count = Number(this.form.product_count);
-                        this.form.scale = Number(this.form.scale);
-                        this.form.scale_ceiling = Number(this.form.scale_ceiling);
                         let opt = this.form;
                         api.addStg(opt)
                         .then(response => {
-                            this.$message({
-                                type: 'success',
-                                message: '添加成功'
-                            });
                             this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success");
+                            this.$emit("close",this.dialogFormVisible,"success","添加成功");
                         }).catch((err) => {
                             console.log(err);
                         })
                     } else {
                         this.$message({
                             type: 'error',
-                            message: 'error'
+                            message: '请按提示输入合法的值'
                         });
                         return false;
                     }
@@ -82,7 +73,7 @@
             resetForm(formName) {
                 this.dialogFormVisible = false;
                 this.$emit("close",this.dialogFormVisible);
-                this.$refs[formName].resetFields();
+                // this.$refs[formName].resetFields();
             }
         }
     }

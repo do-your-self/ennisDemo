@@ -95,40 +95,42 @@
             if(admin=="true"){
                 let id = this.$store.state.id;
                 api.getIdCompany(id).then((response) => {
-                    if(response){
-                        if(response.status === 401){
-                            this.$router.push('/login');
-                            //可以把无效的token清楚掉
-                            this.$store.dispatch('UserLogout');
-                        }else{
-                            if(response != {}){
-                                this.form = response.data;
-                            }
-                        }
-                    }
+                    this.getData(response);
                 });
             }else{
                 api.getCompany().then((response) => {
-                    if(response){
-                        if(response.status === 401){
-                            this.$router.push('/login');
-                            //可以把无效的token清楚掉
-                            this.$store.dispatch('UserLogout');
-                        }else{
-                            if(response != {}){
-                                this.form = response.data;
-                            }
-                        }
-                    }
+                    this.getData(response);
                 });   
             }
         },
         methods: {
+            getData(response){      //拿到返回的数据
+                if(response){
+                    if(response.status === 401){
+                        this.$router.push('/login');
+                        //可以把无效的token清楚掉
+                        this.$store.dispatch('UserLogout');
+                    }else{
+                        if(response != {}){
+                            this.form = response.data;
+                        }
+                    }
+                }
+            },
             dateChange(val){
                 this.form.date_establishment = val;
             },
-            closeDialog(clo){
+            closeDialog(clo,res,msg){
                 this.dialogFormVisible = clo;
+                if(res==="success"){
+                    api.getCompany().then((response) => {
+                        this.getData(response);
+                        this.$message({
+                            type: 'success',
+                            message: msg
+                        });
+                    });
+                }
             },
             editCompany() {
                 this.dialogFormVisible = true;

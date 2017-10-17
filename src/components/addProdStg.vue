@@ -23,11 +23,9 @@
                 <el-input type="number" v-model="form.prod_id"></el-input>
             </el-form-item>
         </el-col>
-        <el-col>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('form')">提交</el-button>
-                <el-button @click="resetForm('form')">取消</el-button>
-            </el-form-item>
+        <el-col style="padding:20px 0 50px;">
+            <el-button type="primary" @click="submitForm('form')">提交</el-button>
+            <el-button @click="resetForm('form')">取消</el-button>
         </el-col>
     </el-form>
 </template>
@@ -73,28 +71,41 @@
             }
         },
         methods: {
+            getData(response){      //拿到返回的数据
+                if(response){
+                    if(response.status === 401){
+                        this.$router.push('/login');
+                        //可以把无效的token清楚掉
+                        this.$store.dispatch('UserLogout');
+                    }else{
+                        this.loading = false;
+                        this.form = response.data;
+                        if(this.form.sex){
+                            this.form.sex = '1';
+                        }else{
+                            this.form.sex = '0';
+                        }
+                    }
+                }
+            },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        let opt = this.form;
+                        let opt = this.form;/*
                         opt.stg_proportion_from = Number(opt.stg_proportion_from);
                         opt.stg_proportion_to = Number(opt.stg_proportion_to);
-                        opt.prod_id = Number(opt.prod_id);
+                        opt.prod_id = Number(opt.prod_id);*/
                         api.addProdStg(opt)
                         .then(response => {
-                            this.$message({
-                                type: 'success',
-                                message: '添加成功'
-                            });
                             this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success");
+                            this.$emit("close",this.dialogFormVisible,"success","添加成功");
                         }).catch((err) => {
                             console.log(err);
                         })
                     } else {
                         this.$message({
                             type: 'error',
-                            message: 'error'
+                            message: '请按提示输入合法的值'
                         });
                         return false;
                     }
@@ -103,7 +114,7 @@
             resetForm(formName) {
                 this.dialogFormVisible = false;
                 this.$emit("close",this.dialogFormVisible);
-                this.$refs[formName].resetFields();
+                // this.$refs[formName].resetFields();
             }
         }
     }

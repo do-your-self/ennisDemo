@@ -1,11 +1,6 @@
 <template>                
     <el-form ref="form" :model="form" label-width="150px" :rules="rules">
-        <el-col :span="12">
-            <el-form-item label="职工" prop="full_name">
-                <el-select v-model="staff" filterable placeholder="请选择" style="width:100%">
-                    <el-option v-for="item in list" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-            </el-form-item>
+        <el-col :span="11">
             <el-form-item label="基金产品全称" prop="full_name">
                 <el-input v-model="form.full_name"></el-input>
             </el-form-item>
@@ -13,30 +8,30 @@
                 <el-input v-model="form.short_name"></el-input>
             </el-form-item>
             <el-form-item label="预警线" prop="warning_line">
-                <el-input type="number" v-model="form.warning_line"></el-input>
+                <el-input type="number" v-model.number="form.warning_line"></el-input>
             </el-form-item>
             <el-form-item label="风控线" prop="winding_line">
-                <el-input type="number" v-model="form.winding_line"></el-input>
+                <el-input type="number" v-model.number="form.winding_line"></el-input>
             </el-form-item>
-            <el-form-item label="产品成立时间" prop="">
+            <el-form-item label="产品成立时间" prop="date_establishment">
                 <el-date-picker type="date" placeholder="选择日期" v-model="form.date_establishment" @change="dateChange" style="width: 100%;"></el-date-picker>
             </el-form-item>
             <el-form-item label="基金经理ID" prop="prod_mgr_id">
-                <el-input type="number" v-model="form.prod_mgr_id"></el-input>
+                <el-input type="number" v-model.number="form.prod_mgr_id"></el-input>
             </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="11">
             <el-form-item label="产品数量" prop="prod_count">
-                <el-input type="number" v-model="form.prod_count"></el-input>
+                <el-input type="number" v-model.number="form.prod_count"></el-input>
             </el-form-item>
             <el-form-item label="产品规模" prop="prod_scale">
-                <el-input type="number" v-model="form.prod_scale"></el-input>
+                <el-input type="number" v-model.number="form.prod_scale"></el-input>
             </el-form-item>
             <el-form-item label="平均年华换手率" prop="avg_turn_over_rate">
-                <el-input type="number" v-model="form.avg_turn_over_rate"></el-input>
+                <el-input type="number" v-model.number="form.avg_turn_over_rate"></el-input>
             </el-form-item>
             <el-form-item label="盈利股票平均持仓" prop="avg_win_holding_period">
-                <el-input type="number" v-model="form.avg_win_holding_period"></el-input>
+                <el-input type="number" v-model.number="form.avg_win_holding_period"></el-input>
             </el-form-item>
             <el-form-item label="运行状态" prop="status">
                  <el-select v-model="form.status" placeholder="请选择" style="width:100%">
@@ -46,17 +41,15 @@
             <el-form-item label="结构化描述信息(如果是结构化产品)" prop="desc_struct">
                 <el-input type="textarea" v-model="form.desc_struct"></el-input>
             </el-form-item>
-            <el-form-item>
-                <el-checkbox v-model="form.is_auto_trading">是否程序化交易</el-checkbox>
-                <el-checkbox v-model="form.is_intraday_trading">是否日内交易</el-checkbox>
-                <el-checkbox v-model="form.is_struct">是否结构化</el-checkbox>
-            </el-form-item>
         </el-col>
-        <el-col>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('form')">提交</el-button>
-                <el-button @click="resetForm('form')">取消</el-button>
-            </el-form-item>
+        <div style="text-align:left;padding:0 150px 10px;float:left;">
+            <el-checkbox v-model="form.is_auto_trading">是否程序化交易</el-checkbox>
+            <el-checkbox v-model="form.is_intraday_trading">是否日内交易</el-checkbox>
+            <el-checkbox v-model="form.is_struct">是否结构化</el-checkbox>
+        </div>
+        <el-col style="padding:20px 0 50px;">
+            <el-button type="primary" @click="submitForm('form')">提交</el-button>
+            <el-button @click="resetForm('form')">取消</el-button>
         </el-col>
     </el-form>
 </template>
@@ -80,7 +73,7 @@
                     "warning_line": "",
                     "winding_line": "",
                     "desc_struct": "",
-                    "status": "",
+                    "status": "1",
                     "date_establishment": "",
                     "is_auto_trading": false,
                     "is_intraday_trading": false,
@@ -98,10 +91,10 @@
                     }
                 ],
                 options: [{
-                        value: '0',
+                        value: '1',
                         label: '是'
                     }, {
-                        value: '1',
+                        value: '0',
                         label: '否'
                     }
                 ],
@@ -113,25 +106,25 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     prod_count: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     prod_scale: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     warning_line: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     winding_line: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     desc_struct: [
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     status: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { required: true, message: '请选择运行状态', trigger: 'blur'}
                     ],
                     date_establishment: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { required: true, message: '请选择时间', trigger: 'change'}
                     ],
                     is_auto_trading: [
                         { required: true, message: '不允许为空', trigger: 'blur'}
@@ -140,16 +133,16 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     avg_turn_over_rate: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     avg_win_holding_period: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     is_struct: [
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     prod_mgr_id: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ]
                 }
             }
@@ -165,6 +158,23 @@
             })
         },
         methods: {
+            getData(response){      //拿到返回的数据
+                if(response){
+                    if(response.status === 401){
+                        this.$router.push('/login');
+                        //可以把无效的token清楚掉
+                        this.$store.dispatch('UserLogout');
+                    }else{
+                        this.loading = false;
+                        this.form = response.data;
+                        if(this.form.sex){
+                            this.form.sex = '1';
+                        }else{
+                            this.form.sex = '0';
+                        }
+                    }
+                }
+            },
             remoteMethod(query) {
                 if (query !== '') {
                     this.loading = true;
@@ -184,30 +194,19 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.form.prod_count = Number(this.form.prod_count);
-                        this.form.prod_scale = Number(this.form.prod_scale);
-                        this.form.warning_line = Number(this.form.warning_line);
-                        this.form.winding_line = Number(this.form.winding_line);
                         this.form.status = Number(this.form.status);
-                        this.form.avg_turn_over_rate = Number(this.form.avg_turn_over_rate);
-                        this.form.avg_win_holding_period = Number(this.form.avg_win_holding_period);
-                        this.form.prod_mgr_id = Number(this.form.prod_mgr_id);
                         let opt = this.form;
                         api.addProduct(opt)
                         .then(response => {
-                            this.$message({
-                                type: 'success',
-                                message: '添加成功'
-                            });
                             this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success");
+                            this.$emit("close",this.dialogFormVisible,"success","添加成功");
                         }).catch((err) => {
                             console.log(err);
                         })
                     } else {
                         this.$message({
                             type: 'error',
-                            message: 'error'
+                            message: '请按提示输入合法的值'
                         });
                         return false;
                     }
@@ -216,7 +215,7 @@
             resetForm(formName) {
                 this.dialogFormVisible = false;
                 this.$emit("close",this.dialogFormVisible);
-                this.$refs[formName].resetFields();
+                // this.$refs[formName].resetFields();
             }
         }
     }

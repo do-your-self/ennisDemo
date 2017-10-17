@@ -1,24 +1,22 @@
 <template>
     <el-form ref="form" :model="form" label-width="100px" :rules="rules">
-        <el-col :span="18" :offset="3">
+        <el-col :span="15" :offset="4">
             <el-form-item label="策略类型" prop="stg_type">
                 <el-input v-model="form.stg_type"></el-input>
             </el-form-item>
             <el-form-item label="产品数量" prop="product_count">
-                <el-input type="number" v-model="form.product_count"></el-input>
+                <el-input type="number" v-model.number="form.product_count"></el-input>
             </el-form-item>
             <el-form-item label="规模" prop="scale">
-                <el-input type="number" v-model="form.scale"></el-input>
+                <el-input type="number" v-model.number="form.scale"></el-input>
             </el-form-item>
             <el-form-item label="规模上限" prop="scale_ceiling">
-                <el-input type="number" v-model="form.scale_ceiling"></el-input>
+                <el-input type="number" v-model.number="form.scale_ceiling"></el-input>
             </el-form-item>
         </el-col>
-        <el-col>
-            <el-form-item>
-                <el-button type="primary" @click="submitForm('form')">提交</el-button>
-                <el-button @click="resetForm('form')">取消</el-button>
-            </el-form-item>
+        <el-col style="padding:20px 0 50px;">
+            <el-button type="primary" @click="submitForm('form')">提交</el-button>
+            <el-button @click="resetForm('form')">取消</el-button>
         </el-col>
     </el-form>             
 </template>
@@ -42,13 +40,13 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     product_count: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     scale: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ],
                     scale_ceiling: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ]
                 },
                 id: null
@@ -56,6 +54,23 @@
         },
         created(){
             api.getStgId(this.listId).then((response) => {
+                this.getData(response);
+            });
+        },
+        watch: {
+            'listId': function(){
+                if(this.listId){
+                    api.getStgId(this.listId).then((response) => {
+                        this.getData(response);
+                    });
+                }
+            }
+        },
+        methods: {
+            dateChange(val){
+                this.form.birthday = val;
+            },
+            getData(response){      //拿到返回的数据
                 if(response){
                     if(response.status === 401){
                         this.$router.push('/login');
@@ -66,30 +81,6 @@
                         this.form = response.data;
                     }
                 }
-            });
-        },
-        watch: {
-            'listId': function(){
-                // this.form = {};
-                if(this.listId){
-                    api.getStgId(this.listId).then((response) => {
-                        if(response){
-                            if(response.status === 401){
-                                this.$router.push('/login');
-                                //可以把无效的token清楚掉
-                                this.$store.dispatch('UserLogout');
-                            }else{
-                                this.loading = false;
-                                this.form = response.data;
-                            }
-                        }
-                    });
-                }
-            }
-        },
-        methods: {
-            dateChange(val){
-                this.form.birthday = val;
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
@@ -102,20 +93,16 @@
                         let id = this.form.id;
                         api.setStg(id,opt)
                         .then(response => {
-                            this.$message({
-                                type: 'success',
-                                message: '修改成功'
-                            });
                             //移除节点
                             this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success");
+                            this.$emit("close",this.dialogFormVisible,"success","添加成功");
                         }).catch((err) => {
                             console.log(err);
                         })
                     } else {
                         this.$message({
                             type: 'error',
-                            message: 'error'
+                            message: '请按提示输入合法的值'
                         });
                         return false;
                     }

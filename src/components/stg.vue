@@ -105,11 +105,15 @@
           });          
         });
       },
-      closeDialog(clo,res){
+      closeDialog(clo,res,msg){
         this.dialogFormVisible = clo;
         if(res==="success"){
           api.getStg(10,this.currentPage).then((response) => {
             this.getData(response);
+            this.$message({
+                type: 'success',
+                message: msg
+            });
           });
         }
       },
@@ -124,7 +128,7 @@
         this.title = '编辑';
       },
       delStg(index,rows) {
-        let id = rows[index].mgrcomp_id;
+        let id = rows[index].id;
         this.open(index,rows,id);
       },
       handleSizeChange(val) {

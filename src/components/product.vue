@@ -108,11 +108,15 @@
           });          
         });
       },
-      closeDialog(clo,res){
+      closeDialog(clo,res,msg){
         this.dialogFormVisible = clo;
         if(res==="success"){
           api.getProduct(10,this.currentPage).then((response) => {
             this.getData(response);
+            this.$message({
+                type: 'success',
+                message: msg
+            });
           });
         }
       },

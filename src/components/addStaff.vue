@@ -1,5 +1,5 @@
 <template>                
-    <el-form ref="form" :model="form" label-width="200px" :rules="rules">
+    <el-form ref="form" :model="form" label-width="150px" :rules="rules">
         <el-col :span="11">
             <el-form-item label="姓名" prop="name">
                 <el-input v-model="form.name"></el-input>
@@ -22,8 +22,8 @@
         </el-col>
         <el-col :span="11">
             <el-form-item label="性别">
-                <el-radio class="radio" v-model.number="form.sex" label="1">男</el-radio>
-                <el-radio class="radio" v-model.number="form.sex" label="2">女</el-radio>
+                <el-radio class="radio" v-model="form.sex" label="0">男</el-radio>
+                <el-radio class="radio" v-model="form.sex" label="1">女</el-radio>
             </el-form-item>
             <el-form-item label="当前职位" prop="position">
                 <el-input v-model="form.position"></el-input>
@@ -116,12 +116,8 @@
                         let opt = this.form;
                         api.addStaff(opt)
                         .then(response => {
-                            this.$message({
-                                type: 'success',
-                                message: '添加成功'
-                            });
                             this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success");
+                            this.$emit("close",this.dialogFormVisible,"success","添加成功");
                         }).catch((err) => {
                             console.log(err);
                         })

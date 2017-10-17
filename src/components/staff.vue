@@ -52,23 +52,23 @@
       }
     },
     beforeCreate(){
-        if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
-          api.getAllStaff(10,1).then((response) => {
-            this.getData(response);
-          });
-        }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
-          let id = this.$store.state.id;
-          api.getIdStaff(id,10,1).then((response) => {
-            this.getData(response);
-          });
-        }else{
-          api.getStaff(10,1).then((response) => {
-            this.getData(response);
-          });
-        }
+      if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
+        api.getAllStaff(10,1).then((response) => {
+          this.getData(response);
+        });
+      }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
+        let id = this.$store.state.id;
+        api.getIdStaff(id,10,1).then((response) => {
+          this.getData(response);
+        });
+      }else{
+        api.getStaff(10,1).then((response) => {
+          this.getData(response);
+        });
+      }
     },
     methods: {
-      getData: function(response){
+      getData: function(response){      //拿到返回的数据
         if(response){
           if(response.status === 401){
             this.$router.push('/login');
@@ -79,9 +79,9 @@
             for(var i=0;i<resp.length;i++){
               for(var k in resp[i]){
                 if(k === 'sex' && resp[i][k] === false){
-                  resp[i][k] = '女';
-                }else if(k === 'sex' && resp[i][k] === true){
                   resp[i][k] = '男';
+                }else if(k === 'sex' && resp[i][k] === true){
+                  resp[i][k] = '女';
                 }
               }
             }
@@ -117,11 +117,15 @@
           });          
         });
       },
-      closeDialog(clo,res){
+      closeDialog(clo,res,msg){
         this.dialogFormVisible = clo;
         if(res==="success"){
           api.getStaff(10,this.currentPage).then((response) => {
-            this.getData();
+            this.getData(response);
+            this.$message({
+                type: 'success',
+                message: msg
+            });
           });
         }
       },

@@ -20,6 +20,9 @@ export default {
     },
     Id({ commit }, data){
         commit(types.ID, data);
+    },
+    User({ commit }, data){
+        commit(types.USER, data);
     }
 }
 

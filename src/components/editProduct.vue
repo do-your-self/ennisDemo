@@ -1,6 +1,11 @@
 <template>                
     <el-form ref="form" :model="form" label-width="150px" :rules="rules">
         <el-col :span="11">
+<!--             <el-form-item label="基金经理" prop="prod_mgr_id">
+                <el-select v-model.number="form.prod_mgr_id" filterable placeholder="请选择" style="width:100%">
+                    <el-option v-for="item in list" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+            </el-form-item> -->
             <el-form-item label="基金产品全称" prop="full_name">
                 <el-input v-model="form.full_name"></el-input>
             </el-form-item>
@@ -63,8 +68,10 @@
         props: ['listId'],
         data() {
             return {
+                staff: [],
+                list: [],
+                states: [],
                 loading: true,
-                dialogFormVisible: null,
                 form: {
                   "full_name": "",
                   "short_name": "",
@@ -80,16 +87,9 @@
                   "avg_turn_over_rate": "",
                   "avg_win_holding_period": "",
                   "is_struct": "",
-                  "prod_mgr_id": ""
+                  "prod_mgr_id": "",
+                  "region": ""
                 },
-                options2: [{
-                        value: true,
-                        label: '是'
-                    }, {
-                        value: false,
-                        label: '否'
-                    }
-                ],
                 options: [{
                         value: '0',
                         label: '是'
@@ -142,6 +142,7 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     prod_mgr_id: [
+                        // { type: 'number', required: true, message: '不允许为空', trigger: 'change'}
                         { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ]
                 },
@@ -162,6 +163,16 @@
                     });
                 }
             }
+        },
+        mounted() {
+            api.getStaff(50,1).then(response => {
+                this.states = response.data.items;
+                this.list = this.states.map(item => {
+                    return { value: item.mgrcomp_id, label: item.name };
+                });
+            }).catch((err) => {
+                console.log(err);
+            })
         },
         methods: {
             dateChange(val){
@@ -186,23 +197,14 @@
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
-                    if (valid) {/*
-                        this.form.prod_count = Number(this.form.prod_count);
-                        this.form.prod_scale = Number(this.form.prod_scale);
-                        this.form.warning_line = Number(this.form.warning_line);
-                        this.form.winding_line = Number(this.form.winding_line);
-                        this.form.status = Number(this.form.status);
-                        this.form.avg_turn_over_rate = Number(this.form.avg_turn_over_rate);
-                        this.form.avg_win_holding_period = Number(this.form.avg_win_holding_period);
-                        this.form.prod_mgr_id = Number(this.form.prod_mgr_id);*/
+                    if (valid) {
                         this.form.status = Number(this.form.status);
                         let opt = this.form;
                         let id = this.form.id;
                         api.setProduct(id,opt)
                         .then(response => {
                             //移除节点
-                            this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success","修改成功");
+                            this.$emit("close","success","修改成功");
                         }).catch((err) => {
                             console.log(err);
                         })
@@ -216,9 +218,8 @@
                 });
             },
             resetForm(formName) {
-                this.dialogFormVisible = false;
-                // this.$refs[formName].resetFields();
-                this.$emit("close",this.dialogFormVisible,"close");
+                this.$refs[formName].resetFields();
+                this.$emit("close");
             }
         }
     }

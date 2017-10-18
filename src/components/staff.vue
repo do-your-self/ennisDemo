@@ -28,7 +28,7 @@
       :page-sizes="pageSize"
       :total="total">
     </el-pagination>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close="closeDialog">
     <hr>
       <router-view :listId="listId" v-if="listId||listId==''" v-on:close="closeDialog"></router-view>
     </el-dialog>
@@ -117,15 +117,16 @@
           });          
         });
       },
-      closeDialog(clo,res,msg){
-        this.dialogFormVisible = clo;
+      closeDialog(res,msg){
+        this.dialogFormVisible = false;
+        this.$router.push('/home/staff');
         if(res==="success"){
+          this.$message({
+            type: 'success',
+            message: msg
+          });
           api.getStaff(10,this.currentPage).then((response) => {
             this.getData(response);
-            this.$message({
-                type: 'success',
-                message: msg
-            });
           });
         }
       },

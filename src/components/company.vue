@@ -51,7 +51,7 @@
                 </el-col>
             </el-row>
         </el-card>
-        <el-dialog :title="title" :visible.sync="dialogFormVisible">
+        <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close="closeDialog">
             <hr>
             <router-view v-on:close="closeDialog"></router-view>
         </el-dialog>
@@ -120,15 +120,16 @@
             dateChange(val){
                 this.form.date_establishment = val;
             },
-            closeDialog(clo,res,msg){
-                this.dialogFormVisible = clo;
+            closeDialog(res,msg){
+                this.dialogFormVisible = false;
+                this.$router.push('/home/company');
                 if(res==="success"){
+                    this.$message({
+                        type: 'success',
+                        message: msg
+                    });
                     api.getCompany().then((response) => {
                         this.getData(response);
-                        this.$message({
-                            type: 'success',
-                            message: msg
-                        });
                     });
                 }
             },

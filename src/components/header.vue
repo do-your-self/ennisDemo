@@ -1,10 +1,9 @@
 <template>
     <div>
-        <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" v-if="$store.state.admin=='true'">
+        <el-menu theme="dark" class="el-menu-demo" mode="horizontal" @select="handleSelect" v-if="$store.state.admin=='true'">
             <router-link to="/home/admin/allCompany">
             <div class="logo" @click="clearId()">后台管理系统</div>
             </router-link>
-            <!-- <div class="logo">后台管理系统</div> -->
             <router-link to="/home/admin/allCompany">
                 <el-menu-item index="1" @click="clearId()">公司</el-menu-item>
             </router-link>
@@ -23,36 +22,30 @@
             <router-link to="/home/admin/prodStg">
                 <el-menu-item index="6" @click="clearId()">产品策略管理</el-menu-item>
             </router-link>
-
-
-
+            <div @click="clearId()" class="company">{{$store.state.company}}</div>
             <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
-                    用户<i class="el-icon-caret-bottom el-icon--right"></i>
+                    {{$store.state.user}}<i class="el-icon-caret-bottom el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>user</el-dropdown-item>
+                        <el-dropdown-item>{{$store.state.user}}</el-dropdown-item>
                         <el-dropdown-item command="invitation">邀请用户</el-dropdown-item>
                         <el-dropdown-item divided command="logout">登出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
-
-
-
-
-<!-- 
-            <el-menu-item index="7" style="float:right;">
-                <a @click="logout()">登出</a>
-            </el-menu-item>
-            <router-link to="/home/admin/invitation">
-                <el-menu-item index="8" @click="clearId()" style="float:right;">邀请用户</el-menu-item>
-            </router-link> -->
         </el-menu>
         <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" v-if="$store.state.admin=='false'">
             <div class="logo">后台管理系统</div>
-            <el-menu-item index="1" style="float:right;">
-                <a @click="logout()">登出</a>
-            </el-menu-item>
+            <div @click="clearId()" class="company">{{$store.state.company}}</div>
+            <el-dropdown @command="handleCommand">
+                <span class="el-dropdown-link">
+                    {{$store.state.user}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                </span>
+                <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>{{$store.state.user}}</el-dropdown-item>
+                        <el-dropdown-item divided command="logout">登出</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
         </el-menu>
     </div>
 </template>
@@ -102,6 +95,17 @@
 
 
 <style>
+    .company {
+        float: right;
+        height: 60px;
+        line-height: 60px;
+        margin: 0;
+        cursor: pointer;
+        position: relative;
+        box-sizing: border-box;
+        margin-right: 150px;
+        color: #fff;
+    }
     .el-dropdown {
         position: absolute!important;
         right: 20px;

@@ -53,7 +53,6 @@
     export default {
         data() {
             return {
-                dialogFormVisible: null,
                 form: {
                     "desc_hist_achievement": "",
                     "university_graduated": "",
@@ -116,8 +115,7 @@
                         let opt = this.form;
                         api.addStaff(opt)
                         .then(response => {
-                            this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success","添加成功");
+                            this.$emit("close","success","添加成功");
                         }).catch((err) => {
                             console.log(err);
                         })
@@ -131,8 +129,7 @@
                 });
             },
             resetForm(formName) {
-                this.dialogFormVisible = false;
-                this.$emit("close",this.dialogFormVisible);
+                this.$emit("close");
                 this.$refs[formName].resetFields();
             }
         }

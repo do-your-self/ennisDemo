@@ -26,7 +26,6 @@
     export default {
         data() {
             return {
-                dialogFormVisible: null,
                 form: {
                     "stg_type": "",
                     "product_count": "",
@@ -56,8 +55,7 @@
                         let opt = this.form;
                         api.addStg(opt)
                         .then(response => {
-                            this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success","添加成功");
+                            this.$emit("close","success","添加成功");
                         }).catch((err) => {
                             console.log(err);
                         })
@@ -71,9 +69,8 @@
                 });
             },
             resetForm(formName) {
-                this.dialogFormVisible = false;
-                this.$emit("close",this.dialogFormVisible);
-                // this.$refs[formName].resetFields();
+                this.$emit("close");
+                this.$refs[formName].resetFields();
             }
         }
     }

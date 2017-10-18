@@ -89,6 +89,7 @@ export default {
                                 let admin = data.admin;
                                 this.$store.dispatch('UserLogin', token);
                                 this.$store.dispatch('Company', company);
+                                this.$store.dispatch('User', data.name);
                                 this.$store.dispatch('Id', 'null');
                                 if(data.admin){
                                     this.$store.dispatch('Admin', 'true');

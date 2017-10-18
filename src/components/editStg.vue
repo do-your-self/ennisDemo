@@ -28,7 +28,6 @@
         data() {
             return {
                 loading: true,
-                dialogFormVisible: null,
                 form: {
                   "stg_type": "",
                   "product_count": "",
@@ -94,8 +93,7 @@
                         api.setStg(id,opt)
                         .then(response => {
                             //移除节点
-                            this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success","添加成功");
+                            this.$emit("close","success","修改成功");
                         }).catch((err) => {
                             console.log(err);
                         })
@@ -109,9 +107,8 @@
                 });
             },
             resetForm(formName) {
-                this.dialogFormVisible = false;
                 this.$refs[formName].resetFields();
-                this.$emit("close",this.dialogFormVisible,"close");
+                this.$emit("close");
             }
         }
     }

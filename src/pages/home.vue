@@ -10,7 +10,9 @@
             </el-col>
         </el-row>
         <el-row v-if="$store.state.admin=='true'&&$store.state.id=='null'">
-            <router-view></router-view>
+            <el-col :span="20" :offset="2">
+                <router-view></router-view>
+            </el-col>
         </el-row>
     </el-row>
 </template>

@@ -1,5 +1,5 @@
 <template>
-    <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" style="width: 100%;">
+    <el-menu class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" style="width: 100%;">
         <router-link to="/home/company">
             <el-menu-item index="1"><i class="el-icon-menu"></i>公司信息</el-menu-item>
         </router-link>

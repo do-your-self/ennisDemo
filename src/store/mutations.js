@@ -21,6 +21,10 @@ const mutations = {
         window.sessionStorage.removeItem('admin');
         state.id = null;
         window.sessionStorage.removeItem('id');
+        state.user = null;
+        window.sessionStorage.removeItem('user');
+        state.company = null;
+        window.sessionStorage.removeItem('company');
     },
     //这步可有可无，根据自己需求去写
     [types.COMPANY]: (state, data) => {
@@ -37,6 +41,11 @@ const mutations = {
         //把adimn存起来
         state.id = data;
         window.sessionStorage.setItem('id', data);
+    },
+    [types.USER]: (state, data) => {
+        //把adimn存起来
+        state.user = data;
+        window.sessionStorage.setItem('user', data);
     }
 };
 

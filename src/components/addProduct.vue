@@ -1,6 +1,11 @@
 <template>                
     <el-form ref="form" :model="form" label-width="150px" :rules="rules">
         <el-col :span="11">
+<!--             <el-form-item label="基金经理" prop="prod_mgr_id">
+                <el-select v-model.number="form.prod_mgr_id" filterable placeholder="请选择" style="width:100%">
+                    <el-option v-for="item in list" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+            </el-form-item> -->
             <el-form-item label="基金产品全称" prop="full_name">
                 <el-input v-model="form.full_name"></el-input>
             </el-form-item>
@@ -64,7 +69,6 @@
                 list: [],
                 loading: false,
                 states: [],
-                dialogFormVisible: null,
                 form: {
                     "full_name": "",
                     "short_name": "",
@@ -82,14 +86,6 @@
                     "is_struct": false,
                     "prod_mgr_id": ""
                 },
-                options2: [{
-                        value: true,
-                        label: '是'
-                    }, {
-                        value: false,
-                        label: '否'
-                    }
-                ],
                 options: [{
                         value: '1',
                         label: '是'
@@ -142,6 +138,7 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     prod_mgr_id: [
+                        // { type: 'number', required: true, message: '不允许为空', trigger: 'change'}
                         { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
                     ]
                 }
@@ -151,7 +148,7 @@
             api.getStaff(50,1).then(response => {
                 this.states = response.data.items;
                 this.list = this.states.map(item => {
-                    return { value: item.name, label: item.name };
+                    return { value: item.id, label: item.name };
                 });
             }).catch((err) => {
                 console.log(err);
@@ -198,8 +195,7 @@
                         let opt = this.form;
                         api.addProduct(opt)
                         .then(response => {
-                            this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success","添加成功");
+                            this.$emit("close","success","添加成功");
                         }).catch((err) => {
                             console.log(err);
                         })
@@ -213,8 +209,7 @@
                 });
             },
             resetForm(formName) {
-                this.dialogFormVisible = false;
-                this.$emit("close",this.dialogFormVisible);
+                this.$emit("close");
                 // this.$refs[formName].resetFields();
             }
         }

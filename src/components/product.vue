@@ -28,13 +28,12 @@
       :page-sizes="pageSize"
       :total="total">
     </el-pagination>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close="closeDialog">
     <hr>
       <router-view :listId="listId" v-if="listId||listId==''" v-on:close="closeDialog"></router-view>
     </el-dialog>
   </div>
 </template>
-
 <script>
   import api from '../axios.js'
   export default {
@@ -47,8 +46,7 @@
         title: '',
         pageSize: [],
         total: 0,
-        listId: null,
-        form: null
+        listId: null
       }
     },
     beforeCreate(){
@@ -108,15 +106,16 @@
           });          
         });
       },
-      closeDialog(clo,res,msg){
-        this.dialogFormVisible = clo;
+      closeDialog(res,msg){
+        this.dialogFormVisible = false;
+        this.$router.push('/home/product');
         if(res==="success"){
+          this.$message({
+            type: 'success',
+            message: msg
+          });
           api.getProduct(10,this.currentPage).then((response) => {
             this.getData(response);
-            this.$message({
-                type: 'success',
-                message: msg
-            });
           });
         }
       },
@@ -131,7 +130,7 @@
         this.title = '编辑';
       },
       delProduct(index,rows) {
-        let id = rows[index].mgrcomp_id;
+        let id = rows[index].id;
         this.open(index,rows,id);
       },
       handleSizeChange(val) {

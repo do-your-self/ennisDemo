@@ -1,11 +1,11 @@
 <template>
   <div>
     <el-table :data="tableData" stripe style="width: 100%" align="center">
-      <el-table-column type="index" width="100"></el-table-column>
+      <el-table-column type="index" width="200"></el-table-column>
       <el-table-column prop="id" label="Id" width="200"></el-table-column>
-      <el-table-column prop="username" label="用户名" width="200"></el-table-column>
-      <el-table-column prop="comp_name" label="公司名称" width="100"></el-table-column>
-      <el-table-column prop="create_time" label="注册时间" width="200"></el-table-column>
+      <el-table-column prop="username" label="用户名" width="300"></el-table-column>
+      <el-table-column prop="comp_name" label="公司名称" width="300"></el-table-column>
+      <el-table-column prop="create_time" label="注册时间" width="340"></el-table-column>
       <el-table-column prop="active" label="激活" width="200"></el-table-column>
     </el-table>
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"

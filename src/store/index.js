@@ -12,6 +12,8 @@ const state = {
     token: window.sessionStorage.getItem('token'),
     admin: window.sessionStorage.getItem('admin'),
     id: window.sessionStorage.getItem('id'),
+    user: window.sessionStorage.getItem('user'),
+    company: window.sessionStorage.getItem('company'),
     username: ''
 };
 

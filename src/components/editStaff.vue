@@ -71,7 +71,6 @@
                     "conflict": "",
                     "mgrcomp_id": "" 
                 },
-                dialogFormVisible: null,
                 rules: { //验证规则
                     desc_hist_achievement: [
                         { required: true, message: '不允许为空', trigger: 'blur'}
@@ -154,8 +153,7 @@
                         api.setStaff(id,opt)
                         .then(response => {
                             //移除节点
-                            this.dialogFormVisible = false;
-                            this.$emit("close",this.dialogFormVisible,"success","修改成功");
+                            this.$emit("close","success","修改成功");
                         }).catch((err) => {
                             console.log(err);
                         })
@@ -169,9 +167,8 @@
                 });
             },
             resetForm(formName) {
-                this.dialogFormVisible = false;
                 this.$refs[formName].resetFields();
-                this.$emit("close",this.dialogFormVisible);
+                this.$emit("close");
             }
         }
     }

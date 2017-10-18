@@ -1,11 +1,11 @@
 <template>                
     <el-form ref="form" :model="form" label-width="150px" :rules="rules">
         <el-col :span="11">
-<!--             <el-form-item label="基金经理" prop="prod_mgr_id">
+            <el-form-item label="基金经理" prop="prod_mgr_id">
                 <el-select v-model.number="form.prod_mgr_id" filterable placeholder="请选择" style="width:100%">
                     <el-option v-for="item in list" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
-            </el-form-item> -->
+            </el-form-item>
             <el-form-item label="基金产品全称" prop="full_name">
                 <el-input v-model="form.full_name"></el-input>
             </el-form-item>
@@ -24,9 +24,6 @@
             <el-form-item label="结构化描述信息(如果是结构化产品)" prop="desc_struct">
                 <el-input v-model="form.desc_struct"></el-input>
             </el-form-item>
-            <el-form-item label="基金经理ID" prop="prod_mgr_id">
-                <el-input type="number" v-model.number="form.prod_mgr_id"></el-input>
-            </el-form-item>
         </el-col>
         <el-col :span="11">
             <el-form-item label="产品数量" prop="prod_count">
@@ -43,7 +40,8 @@
             </el-form-item>
             <el-form-item label="运行状态" prop="status">
                  <el-select v-model="form.status" placeholder="请选择" style="width:100%">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    <el-option key="1" label="是" value="1"></el-option>
+                    <el-option key="0" label="否" value="0"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="结构化描述信息(如果是结构化产品)" prop="desc_struct">
@@ -90,14 +88,6 @@
                   "prod_mgr_id": "",
                   "region": ""
                 },
-                options: [{
-                        value: '0',
-                        label: '是'
-                    }, {
-                        value: '1',
-                        label: '否'
-                    }
-                ],
                 rules: { //验证规则
                     full_name: [
                         { required: true, message: '不允许为空', trigger: 'blur'}
@@ -121,7 +111,7 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     status: [
-                        { required: true, message: '请选择运行状态', trigger: 'blur'}
+                        { required: true, message: '请选择运行状态', trigger: 'change'}
                     ],
                     date_establishment: [
                         { required: true, message: '请选择时间', trigger: 'blur'}
@@ -142,8 +132,7 @@
                         { required: true, message: '不允许为空', trigger: 'blur'}
                     ],
                     prod_mgr_id: [
-                        // { type: 'number', required: true, message: '不允许为空', trigger: 'change'}
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
+                        { type: 'number', required: true, message: '请选择产品经理', trigger: 'change'}
                     ]
                 },
                 id: null
@@ -156,7 +145,6 @@
         },
         watch: {
             'listId': function(){
-                // this.form = {};
                 if(this.listId){
                     api.getProductId(this.listId).then((response) => {
                         this.getData(response);
@@ -168,7 +156,7 @@
             api.getStaff(50,1).then(response => {
                 this.states = response.data.items;
                 this.list = this.states.map(item => {
-                    return { value: item.mgrcomp_id, label: item.name };
+                    return { value: item.id, label: item.name };
                 });
             }).catch((err) => {
                 console.log(err);
@@ -187,20 +175,18 @@
                     }else{
                         this.loading = false;
                         this.form = response.data;
-                        if(this.form.status == 0){
-                            this.form.status = "是";
-                        }else{
-                            this.form.status = "否";
-                        }
+                        this.form.status = String(this.form.status);
                     }
                 }
             },
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.form.status = Number(this.form.status);
-                        let opt = this.form;
                         let id = this.form.id;
+                        let opt = JSON.parse(JSON.stringify(this.form));
+                        delete opt.id;
+                        delete opt.mgrcomp_id;
+                        opt.status = Number(opt.status);
                         api.setProduct(id,opt)
                         .then(response => {
                             //移除节点

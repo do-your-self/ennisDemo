@@ -77,7 +77,6 @@
             }).then(() => {
               api.delIdCompany(id)
               .then(response => {
-                console.log(response)
                 rows.splice(index, 1);
                 this.$message({
                   type: 'success',
@@ -102,16 +101,14 @@
             }
           },
           link(row,event,column){
-            console.log(column.label)
             if(column.label!="操作"){
               this.$store.dispatch('Id', row.mgrcomp_id);
-              console.log(row.mgrcomp_id)
               this.$router.push({
-                   path:'/home/company',
-                   name:'company',
-                   params:{
-                    id:row.mgrcomp_id
-                   }
+                path:'/home/company',
+                name:'company',
+                params:{
+                  id:row.mgrcomp_id
+                }
               });
             }
           },

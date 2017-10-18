@@ -134,7 +134,7 @@
         this.open(index,rows,id);
       },
       handleSizeChange(val) {
-
+            
       },
       handleCurrentChange(val) {
         if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){

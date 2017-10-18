@@ -5,16 +5,16 @@
         <el-button size="small" @click="addStaff">添加</el-button>
       </router-link>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%" align="center">
-      <el-table-column type="index" width="100"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="150"></el-table-column>
-      <el-table-column prop="sex" label="性别" width="140"></el-table-column>
-      <el-table-column prop="position" label="当前职位" width="200"></el-table-column>
-      <el-table-column prop="birthday" label="生日" width="200"></el-table-column>
-      <el-table-column prop="education_highest" label="最高学历" width="200"></el-table-column>
-      <el-table-column prop="university_graduated" label="毕业院校" width="200"></el-table-column>
-      <el-table-column prop="share_held" label="占股比例" width="200"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+    <el-table :data="tableData" stripe style="width: 100%">
+      <el-table-column type="index" width="100" header-align="center"></el-table-column>
+      <el-table-column prop="name" label="姓名" width="150" header-align="center"></el-table-column>
+      <el-table-column prop="sex" label="性别" width="140" header-align="center"></el-table-column>
+      <el-table-column prop="position" label="当前职位" width="200" header-align="center"></el-table-column>
+      <el-table-column prop="birthday" label="生日" width="200" header-align="center"></el-table-column>
+      <el-table-column prop="education_highest" label="最高学历" width="200" header-align="center"></el-table-column>
+      <el-table-column prop="university_graduated" label="毕业院校" width="200" header-align="center"></el-table-column>
+      <el-table-column prop="share_held" label="占股比例" width="200" header-align="center"></el-table-column>
+      <el-table-column fixed="right" label="操作" width="150" header-align="center">
         <template scope="scope">
           <router-link to="/home/staff/editStaff">
           <el-button type="primary" size="small" icon="edit" @click="editStaff(scope.$index,tableData)" :disabled="$store.state.admin=='true'"></el-button>

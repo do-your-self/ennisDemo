@@ -2,7 +2,7 @@
     <el-form ref="form" :model="form" label-width="150px" :rules="rules">
         <el-col :span="11">
             <el-form-item label="基金经理" prop="prod_mgr_id">
-                <el-select v-model.number="form.prod_mgr_id" filterable placeholder="请选择" style="width:100%">
+                <el-select v-model.number="form.prod_mgr_id" filterable placeholder="请选择" style="width:100%" no-match-text="无匹配数据,请添加一个基金经理">
                     <el-option v-for="item in list" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
             </el-form-item>

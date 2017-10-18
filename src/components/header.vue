@@ -27,21 +27,21 @@
                 <span class="el-dropdown-link">
                     {{$store.state.user}}<i class="el-icon-caret-bottom el-icon--right"></i>
                 </span>
-                <el-dropdown-menu slot="dropdown">
+                <el-dropdown-menu slot="dropdown" style="margin-top: 30px;font-size:14px;">
                         <el-dropdown-item>{{$store.state.user}}</el-dropdown-item>
                         <el-dropdown-item command="invitation">邀请用户</el-dropdown-item>
                         <el-dropdown-item divided command="logout">登出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </el-menu>
-        <el-menu theme="dark" :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect" v-if="$store.state.admin=='false'">
+        <el-menu theme="dark" class="el-menu-demo" mode="horizontal" @select="handleSelect" v-if="$store.state.admin=='false'">
             <div class="logo">后台管理系统</div>
             <div @click="clearId()" class="company">{{$store.state.company}}</div>
             <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
                     {{$store.state.user}}<i class="el-icon-caret-bottom el-icon--right"></i>
                 </span>
-                <el-dropdown-menu slot="dropdown">
+                <el-dropdown-menu slot="dropdown" style="margin-top: 30px;font-size:14px;">
                         <el-dropdown-item>{{$store.state.user}}</el-dropdown-item>
                         <el-dropdown-item divided command="logout">登出</el-dropdown-item>
                 </el-dropdown-menu>
@@ -53,15 +53,8 @@
 <script>
     import api from '../axios.js'
     export default {
-        data() {
-            return {
-                activeIndex: '1'
-            }
-        },
-        beforeCreate(){
-        },
         methods: {
-            handleCommand(command) {            //
+            handleCommand(command) {            // which dropdown click which
                 if(command == 'logout'){
                     this.logout();
                 }else if(command == 'invitation'){
@@ -104,13 +97,17 @@
         position: relative;
         box-sizing: border-box;
         margin-right: 150px;
+        color: #dcdcdc;
+        font-size: 14px;
+    }
+    .company:hover,.el-dropdown span:hover {
         color: #fff;
     }
     .el-dropdown {
         position: absolute!important;
         right: 20px;
         top: 20px;
-        color: #fff!important; 
+        color: #dcdcdc!important; 
         cursor: pointer;  
     }
     .logo{

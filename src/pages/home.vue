@@ -49,6 +49,10 @@
         color: #20a0ff!important; 
         border-bottom: 5px solid #20a0ff!important;
     }
+    .el-menu--horizontal.el-menu--dark .el-menu-item:hover {
+        background: #1f2938!important;
+        color: #20a0ff;
+    }
     .router-link-exact-active>li {
         color: #20a0ff!important;
     }

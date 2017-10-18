@@ -1,21 +1,20 @@
 <template>
     <div>
-        <el-table :data="tableData" stripe style="width: 100%;text-align: center;" @row-click="link" align="center">
-          <!-- <el-table-column v-for="col in cols" :prop="col.prop" :label="col.label" ></el-table-column> -->
-            <el-table-column type="index" width="100"></el-table-column>
-            <el-table-column prop="user" label="投顾公司" width="150"></el-table-column>
-            <el-table-column prop="reg_id" label="协会注册备案号" width="100"></el-table-column>
-            <el-table-column prop="address" label="地址" width="150"></el-table-column>
-            <el-table-column prop="date_establishment" label="成立时间" width="150"></el-table-column>
-            <el-table-column prop="reg_capital" label="注册资本" width="150"></el-table-column>
-            <el-table-column prop="shareholder_names" label="股东名单" width="150"></el-table-column>
-            <el-table-column prop="num_staff" label="员工数量" width="150"></el-table-column>
-            <el-table-column prop="num_rd" label="投研人数" width="150"></el-table-column>
-            <el-table-column prop="num_trade" label="交易人员数(含运维)" width="150"></el-table-column>
-            <el-table-column prop="num_it" label="IT人数" width="150"></el-table-column>
-            <el-table-column prop="num_risk_mgr" label="风控人数" width="150"></el-table-column>
-            <el-table-column prop="num_master" label="硕士及以上学历人数" width="150"></el-table-column>
-            <el-table-column fixed="right" label="操作" width="150">
+        <el-table :data="tableData" stripe style="width: 100%;" @row-click="link">
+            <el-table-column type="index" width="100" header-align="center"></el-table-column>
+            <el-table-column prop="user" label="投顾公司" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="reg_id" label="协会注册备案号" width="100" header-align="center"></el-table-column>
+            <el-table-column prop="address" label="地址" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="date_establishment" label="成立时间" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="reg_capital" label="注册资本" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="shareholder_names" label="股东名单" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="num_staff" label="员工数量" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="num_rd" label="投研人数" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="num_trade" label="交易人员数(含运维)" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="num_it" label="IT人数" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="num_risk_mgr" label="风控人数" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="num_master" label="硕士及以上学历人数" width="150" header-align="center"></el-table-column>
+            <el-table-column fixed="right" label="操作" width="150" header-align="center">
               <template scope="scope">
                   <el-button type="primary" size="small" icon="delete" @click.native.prevent="delIdCompany(scope.$index, tableData)"></el-button>
               </template>

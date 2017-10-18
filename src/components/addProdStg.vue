@@ -2,7 +2,7 @@
     <el-form ref="form" :model="form" label-width="100px" :rules="rules">
         <el-col :span="15" :offset="4">
             <el-form-item label="产品" prop="prod_id">
-                <el-select v-model.number="form.prod_id" filterable placeholder="请选择" style="width:100%">
+                <el-select v-model.number="form.prod_id" filterable placeholder="请选择" style="width:100%" no-match-text="无匹配数据,请添加一个产品">
                     <el-option v-for="item in list" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
             </el-form-item>

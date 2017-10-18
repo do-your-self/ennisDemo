@@ -5,13 +5,13 @@
         <el-button size="small" @click="addStg">添加</el-button>
       </router-link>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%" align="center">
-      <el-table-column type="index" width="100"></el-table-column>
-      <el-table-column prop="stg_type" label="策略类型" width="400"></el-table-column>
-      <el-table-column prop="product_count" label="产品数量" width="300"></el-table-column>
-      <el-table-column prop="scale" label="规模" width="300"></el-table-column>
-      <el-table-column prop="scale_ceiling" label="规模上限" width="300"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+    <el-table :data="tableData" stripe style="width: 100%">
+      <el-table-column type="index" width="100" header-align="center"></el-table-column>
+      <el-table-column prop="stg_type" label="策略类型" width="400" header-align="center"></el-table-column>
+      <el-table-column prop="product_count" label="产品数量" width="300" header-align="center"></el-table-column>
+      <el-table-column prop="scale" label="规模" width="300" header-align="center"></el-table-column>
+      <el-table-column prop="scale_ceiling" label="规模上限" width="300" header-align="center"></el-table-column>
+      <el-table-column fixed="right" label="操作" width="150" header-align="center">
         <template scope="scope">
           <router-link to="/home/stg/editStg">
           <el-button type="primary" size="small" icon="edit" @click="editStg(scope.$index,tableData)" :disabled="$store.state.admin=='true'"></el-button>

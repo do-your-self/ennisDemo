@@ -5,16 +5,16 @@
         <el-button size="small" @click="addProduct">添加</el-button>
       </router-link>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%" align="center">
+    <el-table :data="tableData" stripe style="width: 100%">
       <el-table-column type="index" width="100"></el-table-column>
-      <el-table-column prop="full_name" label="基金产品全称" width="200"></el-table-column>
-      <el-table-column prop="short_name" label="基金产品简称" width="150"></el-table-column>
-      <el-table-column prop="prod_count" label="产品数量" width="150"></el-table-column>
-      <el-table-column prop="prod_scale" label="产品规模" width="200"></el-table-column>
-      <el-table-column prop="warning_line" label="预警线" width="150"></el-table-column>
-      <el-table-column prop="winding_line" label="风控线" width="150"></el-table-column>
-      <el-table-column prop="date_establishment" label="产品成立时间" width="300"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150">
+      <el-table-column prop="full_name" label="基金产品全称" width="200" header-align="center"></el-table-column>
+      <el-table-column prop="short_name" label="基金产品简称" width="150" header-align="center"></el-table-column>
+      <el-table-column prop="prod_count" label="产品数量" width="150" header-align="center"></el-table-column>
+      <el-table-column prop="prod_scale" label="产品规模" width="200" header-align="center"></el-table-column>
+      <el-table-column prop="warning_line" label="预警线" width="150" header-align="center"></el-table-column>
+      <el-table-column prop="winding_line" label="风控线" width="150" header-align="center"></el-table-column>
+      <el-table-column prop="date_establishment" label="产品成立时间" width="300" header-align="center"></el-table-column>
+      <el-table-column fixed="right" label="操作" width="150" header-align="center">
         <template scope="scope">
           <router-link to="/home/product/editProduct">
           <el-button type="primary" size="small" icon="edit" @click="editProduct(scope.$index,tableData)" :disabled="$store.state.admin=='true'"></el-button>
@@ -134,7 +134,7 @@
         this.open(index,rows,id);
       },
       handleSizeChange(val) {
-            
+
       },
       handleCurrentChange(val) {
         if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){

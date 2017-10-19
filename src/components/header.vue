@@ -25,10 +25,10 @@
             <div @click="clearId()" class="company">{{$store.state.company}}</div>
             <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
-                    {{$store.state.user}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                    {{$store.state.user.length > 10? $store.state.user.substr(0,10)+'...':$store.state.user}}<i class="el-icon-caret-bottom el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown" style="margin-top: 30px;font-size:14px;">
-                        <el-dropdown-item>{{$store.state.user}}</el-dropdown-item>
+                        <el-dropdown-item>{{$store.state.user.length > 10? $store.state.user.substr(0,10)+'...':$store.state.user}}</el-dropdown-item>
                         <el-dropdown-item command="invitation">邀请用户</el-dropdown-item>
                         <el-dropdown-item divided command="logout">登出</el-dropdown-item>
                 </el-dropdown-menu>
@@ -39,10 +39,10 @@
             <div @click="clearId()" class="company">{{$store.state.company}}</div>
             <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
-                    {{$store.state.user}}<i class="el-icon-caret-bottom el-icon--right"></i>
+                    {{$store.state.user.length > 10? $store.state.user.substr(0,10)+'...':$store.state.user}}<i class="el-icon-caret-bottom el-icon--right"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown" style="margin-top: 30px;font-size:14px;">
-                        <el-dropdown-item>{{$store.state.user}}</el-dropdown-item>
+                        <el-dropdown-item>{{$store.state.user.length > 10? $store.state.user.substr(0,10)+'...':$store.state.user}}</el-dropdown-item>
                         <el-dropdown-item divided command="logout">登出</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
@@ -54,7 +54,7 @@
     import api from '../axios.js'
     export default {
         methods: {
-            handleCommand(command) {            // which dropdown click which
+            handleCommand(command) {            // which dropdown click
                 if(command == 'logout'){
                     this.logout();
                 }else if(command == 'invitation'){

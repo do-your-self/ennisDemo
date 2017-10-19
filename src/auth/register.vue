@@ -1,6 +1,6 @@
 <template>
     <el-col :span="20" :offset="1">
-        <el-form :model="regForm" :rules="rules" label-width="100px" ref="regForm">
+        <el-form :model="regForm" :rules="rules" label-width="80px" ref="regForm">
             <el-form-item label="用户名" prop="username">
                 <el-input v-model="regForm.username"></el-input>
             </el-form-item>
@@ -35,28 +35,23 @@ export default {
         //自定义验证规则
         let validatePass1 = (rule, value, callback) => {
             // 6-16位, 数字, 字母, 字符至少包含两种, 同时不能包含中文和空格
-/*            let reg = /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s\u4e00-\u9fa5]{2,16}$/;
+            let reg = /(?!^[0-9]+$)(?!^[A-z]+$)(?!^[^A-z0-9]+$)^[^\s\u4e00-\u9fa5]{2,16}$/;
             if(!reg.test(value)){
-                callback(new Error('密码长度需6-16位，且包含字母和字符'));
+                callback(new Error('密码长度需6-16位，且包含字母和数字'));
             }else{
                 callback();
-            }*/
-            if (value === '') {
-              callback(new Error('请输入密码'));
-            } else {
-              if (this.regForm.checkPassword !== '') {
-                this.$refs.regForm.validateField('checkPassword');
-              }
-              callback();
             }
+            // if (value === '') {
+            //   callback(new Error('请输入密码'));
+            // } else {
+            //   if (this.regForm.checkPassword !== '') {
+            //     this.$refs.regForm.validateField('checkPassword');
+            //   }
+            //   callback();
+            // }
         };
         //验证密码是否重复
         let validatePass2 = (rule, value, callback) => {
-/*            if(value !== this.regForm.password){
-                callback(new Error('两次密码输入不一致'));
-            }else{
-                callback();
-            }*/
             if (value === '') {
               callback(new Error('请再次输入密码'));
             } else if (value !== this.regForm.password) {
@@ -78,7 +73,7 @@ export default {
             rules: {
                 username: [
                     { required: true, message: '用户名不能少', trigger: 'blur'},
-                    { min: 4, max: 16, message: '用户名在4到16位之间', trigger: 'blur'}
+                    { min: 4, max: 16, message: '用户名在4到16位之间', trigger: 'blur,change'}
                 ],
                 password: [
                     { required: true, message: '请输入密码', trigger: 'blur,change'},
@@ -115,6 +110,7 @@ export default {
                                     message: '注册成功'
                                 });
                             }else{
+                                alert(data.statusText)
                                 this.$message({
                                     type: 'info',
                                     message: data.statusText

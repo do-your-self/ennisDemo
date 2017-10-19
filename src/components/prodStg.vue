@@ -24,7 +24,6 @@
       </el-table-column>
     </el-table>
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
-      :current-page="currentPage"
       :page-sizes="pageSize"
       :total="total">
     </el-pagination>
@@ -77,8 +76,11 @@
           }else{
             this.loading = false;
             let resp = response.data.items;
+            for(var i=0; i<resp.length;i++){
+              resp[i].stg_proportion_from=Math.round(resp[i].stg_proportion_from* 100) / 100;
+              resp[i].stg_proportion_to=Math.round(resp[i].stg_proportion_to* 100) / 100;
+            }
             this.tableData = resp;
-            this.currentPage =  response.data.page;
             this.pageSize = [response.data.per_page];
             this.total = response.data.total;
             this.pages = response.data.pages;
@@ -132,7 +134,7 @@
         this.title = '编辑';
       },
       delProdStg(index,rows) {
-        let id = rows[index].mgrcomp_id;
+        let id = rows[index].id;
         this.open(index,rows,id);
       },
       handleSizeChange(val) {

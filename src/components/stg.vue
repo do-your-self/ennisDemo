@@ -21,7 +21,6 @@
       </el-table-column>
     </el-table>
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
-      :current-page="currentPage"
       :page-sizes="pageSize"
       :total="total">
     </el-pagination>
@@ -74,7 +73,10 @@
           }else{
             this.loading = false;
             let resp = response.data.items;
-            this.tableData = resp;
+            for(var i=0; i<resp.length;i++){
+              resp[i].scale_ceiling=Math.round(resp[i].scale_ceiling* 100) / 100;
+            }
+            this.tableData = resp; 
             this.currentPage =  response.data.page;
             this.pageSize = [response.data.per_page];
             this.total = response.data.total;

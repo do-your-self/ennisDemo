@@ -92,7 +92,7 @@
         },
         beforeCreate(){
             let admin = this.$store.state.admin;
-            if(admin=="true"){
+            if(admin=="true"&&this.$store.state.id!="null"){
                 let id = this.$store.state.id;
                 api.getIdCompany(id).then((response) => {
                     this.getData(response);

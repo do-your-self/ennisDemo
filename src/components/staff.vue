@@ -24,7 +24,6 @@
       </el-table-column>
     </el-table>
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
-      :current-page="currentPage"
       :page-sizes="pageSize"
       :total="total">
     </el-pagination>
@@ -148,11 +147,11 @@
 
       },
       handleCurrentChange(val) {
-        if(this.$store.state.admin=='true'&&!this.$store.state.id){
+        if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
           api.getAllStaff(10,val).then((response) => {
             this.getData(response);
           });
-        }else if(this.$store.state.admin=='true'&&!this.$store.state.id){
+        }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
           let id = this.$store.state.id;
           api.getIdStaff(id,10,val).then((response) => {
             this.getData(response);

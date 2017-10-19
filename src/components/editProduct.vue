@@ -114,7 +114,7 @@
                         { required: true, message: '请选择运行状态', trigger: 'change'}
                     ],
                     date_establishment: [
-                        { required: true, message: '请选择时间', trigger: 'blur'}
+                        { required: true, message: '请选择时间', trigger: 'change'}
                     ],
                     is_auto_trading: [
                         { required: true, message: '不允许为空', trigger: 'blur'}

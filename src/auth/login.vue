@@ -1,24 +1,35 @@
 <template>
-    <div style="margin-top:200px;">
+    <div style="height:100%;background:#2c3e50;">
         <el-row>
-            <el-col :span="10" :offset="7">
+            <el-col :span="8" :offset="8" class="bg">
+            <!-- <h2 style="text-align:left;border-left:5px solid #000;">欢迎注册</h2> -->
             <!-- el-tabs放在这里其实不合理，可以提到App.vue里面。然后引入Login组件和Register组件 -->
                 <el-tabs v-model="activeName">
                     <el-tab-pane label="登录" name="login">
-                        <el-form :model="loginForm" :rules="rules" label-width="100px" ref="loginForm">
-                            <el-form-item label="用户名" prop="username">
-                                <el-input v-model="loginForm.username"></el-input>
-                            </el-form-item>
-                            <el-form-item label="密码" prop="password">
-                                <el-input v-model="loginForm.password" type="password"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="primary" @click="submitForm('loginForm')">提交</el-button>
-                                <el-button @click="resetForm('loginForm')">重置</el-button>
-                            </el-form-item>
-                        </el-form>
+                        <el-col :span="20" :offset="1">
+                            <el-form :model="loginForm" :rules="rules" label-width="100px" ref="loginForm" style="margin-top:20px;">
+                                <el-form-item label="用户名" prop="username">
+                                    <el-input v-model="loginForm.username"></el-input>
+                                </el-form-item>
+                                <el-form-item label="密码" prop="password">
+                                    <el-input v-model="loginForm.password" type="password"></el-input>
+                                </el-form-item>
+                                <el-form-item style="text-align:left;">
+                                    <el-checkbox label="记住密码" v-model="rempsw"></el-checkbox>
+                                </el-form-item>
+                          <!--       <el-form-item>
+                                    <el-checkbox label="记住密码" name="rempsw"></el-checkbox>
+                                </el-form-item> -->
+                                <el-form-item>
+                                    <el-button type="primary" @click="submitForm('loginForm')" style="width:100%;">提交</el-button>
+                                    <!-- <el-button @click="resetForm('loginForm')">重置</el-button> -->
+                                </el-form-item>
+                                <el-form-item style="text-align:left;">
+                                    <a href="#" style="text-decoration:underline; color:#20a0ff">忘记密码?</a>
+                                </el-form-item>
+                            </el-form>
+                        </el-col>
                     </el-tab-pane>
-
                     <el-tab-pane label="注册" name="register">
                         <Register></Register>
                     </el-tab-pane>
@@ -37,11 +48,14 @@ import Register from './register.vue'
 
 export default {
     data(){
+        let user = window.localStorage.getItem('fofuser');
+        let psw = window.localStorage.getItem('fofpsw');
         return {
+            rempsw: false,
             activeName: 'login', //选项卡
             loginForm: {        //表单v-model的值
-                username: '',
-                password: ''
+                username: user||'',
+                password: psw||''
             },
             rules: { //验证规则
                 username: [
@@ -57,11 +71,6 @@ export default {
     methods: {
         resetForm(formName){
             this.$refs[formName].resetFields();
-            api.test().then(({ data }) => {
-                console.log("success")
-            }).catch((err) => {
-                console.log("err");
-            })
         },
         submitForm(formName){
             this.$refs[formName].validate((valid) => {
@@ -87,10 +96,16 @@ export default {
                                 let token = data.token;
                                 let company = data.company;
                                 let admin = data.admin;
+                                if(this.rempsw){
+                                    window.localStorage.setItem('fofuser', this.loginForm.username);
+                                    window.localStorage.setItem('fofpsw', this.loginForm.password);
+                                }
                                 this.$store.dispatch('UserLogin', token);
                                 this.$store.dispatch('Company', company);
                                 this.$store.dispatch('User', data.name);
                                 this.$store.dispatch('Id', 'null');
+                                window.localStorage.setItem('user', data.name);
+                                window.localStorage.setItem('company', company);
                                 if(data.admin){
                                     this.$store.dispatch('Admin', 'true');
                                 }else{
@@ -128,6 +143,25 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+    .bg {
+        background: #fff;
+        padding: 20px 50px;
+        border-radius: 5px;
+        position: relative;
+        top: 200px;
+        min-height: 400px;
+    }
+    .tab {
+        width: 50%;
+    }
+    .el-tabs__nav {
+        width: 100%;
+    }
+    .el-tabs__item {
+        width: 50%;
+        font-size: 18px!important;
+        font-weight: 800;
+        text-align:center;
+    }
 </style>

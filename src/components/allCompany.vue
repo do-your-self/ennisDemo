@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-table :data="tableData" stripe style="width: 100%;" @row-click="link">
-            <el-table-column type="index" width="100" header-align="center"></el-table-column>
+            <el-table-column type="selection" width="100" header-align="center"></el-table-column>
             <el-table-column prop="user" label="投顾公司" width="150" header-align="center"></el-table-column>
             <el-table-column prop="reg_id" label="协会注册备案号" width="100" header-align="center"></el-table-column>
             <el-table-column prop="address" label="地址" width="150" header-align="center"></el-table-column>

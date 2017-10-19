@@ -11,41 +11,45 @@ const mutations = {
     [types.LOGIN]: (state, data) => {
         //更改token的值
         state.token = data;
-        window.sessionStorage.setItem('token', data);
+        window.localStorage.setItem('token', data);
+        window.localStorage.setItem('admin', data);
+        window.localStorage.setItem('id', data);
+        window.localStorage.setItem('user', data);
+        window.localStorage.setItem('company', data);
     },
     [types.LOGOUT]: (state) => {
         //登出的时候要清除token admin
         state.token = null;
-        window.sessionStorage.removeItem('token');
+        window.localStorage.removeItem('token');
         state.admin = null;
-        window.sessionStorage.removeItem('admin');
+        window.localStorage.removeItem('admin');
         state.id = null;
-        window.sessionStorage.removeItem('id');
+        window.localStorage.removeItem('id');
         state.user = null;
-        window.sessionStorage.removeItem('user');
+        window.localStorage.removeItem('user');
         state.company = null;
-        window.sessionStorage.removeItem('company');
+        window.localStorage.removeItem('company');
     },
     //这步可有可无，根据自己需求去写
     [types.COMPANY]: (state, data) => {
         //把用户名存起来
         state.company = data;
-        window.sessionStorage.setItem('company', data);
+        window.localStorage.setItem('company', data);
     },
     [types.ADMIN]: (state, data) => {
         //把adimn存起来
         state.admin = data;
-        window.sessionStorage.setItem('admin', data);
+        window.localStorage.setItem('admin', data);
     },
     [types.ID]: (state, data) => {
         //把adimn存起来
         state.id = data;
-        window.sessionStorage.setItem('id', data);
+        window.localStorage.setItem('id', data);
     },
     [types.USER]: (state, data) => {
         //把adimn存起来
         state.user = data;
-        window.sessionStorage.setItem('user', data);
+        window.localStorage.setItem('user', data);
     }
 };
 

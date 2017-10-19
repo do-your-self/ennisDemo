@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <el-col :span="20" :offset="1">
         <el-form :model="regForm" :rules="rules" label-width="100px" ref="regForm">
             <el-form-item label="用户名" prop="username">
                 <el-input v-model="regForm.username"></el-input>
@@ -10,21 +10,21 @@
             <el-form-item label="确认密码" prop="checkPassword">
                 <el-input v-model="regForm.checkPassword" type="password"></el-input>
             </el-form-item>
-            <el-form-item label="email" prop="email">
+            <el-form-item label="邮箱" prop="email">
                 <el-input v-model="regForm.email" type="email"></el-input>
             </el-form-item>
-            <el-form-item label="company" prop="company_name">
+            <el-form-item label="公司" prop="company_name">
                 <el-input v-model="regForm.company_name" type="text"></el-input>
             </el-form-item>
-            <el-form-item label="code" prop="code">
+            <el-form-item label="邀请码" prop="code">
                 <el-input v-model="regForm.code" type="text"></el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="submitForm('regForm')">注册</el-button>
-                <el-button @click="resetForm('regForm')">重置</el-button>
+                <el-button type="primary" @click="submitForm('regForm')" style="width:45%;">注册</el-button>
+                <el-button @click="resetForm('regForm')" style="width:45%;">重置</el-button>
             </el-form-item>
         </el-form>
-    </div>
+    </el-col>
 </template>
 
 <script>
@@ -81,12 +81,21 @@ export default {
                     { min: 4, max: 16, message: '用户名在4到16位之间', trigger: 'blur'}
                 ],
                 password: [
-                    { required: true, message: '请输入密码', trigger: 'blur'},
-                    { validator: validatePass1, trigger: 'blur'}
+                    { required: true, message: '请输入密码', trigger: 'blur,change'},
+                    { validator: validatePass1, trigger: 'blur,change'}
                 ],
                 checkPassword: [
-                    { required: true, message: '请再次输入密码', trigger: 'blur'},
-                    { validator: validatePass2, trigger: 'blur'}
+                    { required: true, message: '请再次输入密码', trigger: 'blur,change'},
+                    { validator: validatePass2, trigger: 'blur,change'}
+                ],
+                email: [
+                    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+                ],
+                company_name:  [
+                    { min: 2, max: 16, message: '长度在2到16位之间', trigger: 'blur,change'}
+                ],
+                code:  [
+                    { required: true, message: '请输入邀请码', trigger: 'blur' }
                 ]
             }
         }

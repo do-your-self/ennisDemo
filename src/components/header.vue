@@ -2,7 +2,7 @@
     <div>
         <el-menu theme="dark" class="el-menu-demo" mode="horizontal" @select="handleSelect" v-if="$store.state.admin=='true'">
             <router-link to="/home/admin/allCompany">
-            <div class="logo" @click="clearId()">后台管理系统</div>
+                <div class="logo" @click="clearId()">后台管理系统</div>
             </router-link>
             <router-link to="/home/admin/allCompany">
                 <el-menu-item index="1" @click="clearId()">公司</el-menu-item>
@@ -35,8 +35,11 @@
             </el-dropdown>
         </el-menu>
         <el-menu theme="dark" class="el-menu-demo" mode="horizontal" @select="handleSelect" v-if="$store.state.admin=='false'">
-            <div class="logo">后台管理系统</div>
-            <div @click="clearId()" class="company">{{$store.state.company}}</div>
+            <router-link to="/home/company">
+                <div class="logo">后台管理系统</div>
+            </router-link>
+            <!-- <div class="logo">后台管理系统</div> -->
+            <div class="company">{{$store.state.company}}</div>
             <el-dropdown @command="handleCommand">
                 <span class="el-dropdown-link">
                     {{$store.state.user.length > 10? $store.state.user.substr(0,10)+'...':$store.state.user}}<i class="el-icon-caret-bottom el-icon--right"></i>

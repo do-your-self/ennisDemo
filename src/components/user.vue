@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" stripe style="width: 100%" align="center">
+    <el-table :data="tableData" stripe style="width: 100%" align="center" v-loading="loading">
       <el-table-column type="index" width="200"></el-table-column>
       <el-table-column prop="id" label="Id" width="200"></el-table-column>
       <el-table-column prop="username" label="用户名" width="300"></el-table-column>
@@ -21,6 +21,7 @@
   export default {
     data() {
       return {
+        loading: true,
         tableData: [],
         currentPage: 1,
         pageSize: [],
@@ -42,6 +43,7 @@
             this.$store.dispatch('UserLogout');
           }else{
             let resp = response.data.items;
+            this.loading = false;
             this.tableData = resp;
             this.currentPage =  response.data.page;
             this.pageSize = [response.data.per_page];

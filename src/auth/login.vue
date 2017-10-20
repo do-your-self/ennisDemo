@@ -17,7 +17,7 @@
                                     <el-checkbox label="记住密码" v-model="rempsw"></el-checkbox>
                                 </el-form-item>
                                 <el-form-item>
-                                    <el-button type="primary" @click="submitForm('loginForm')" style="width:100%;">提交</el-button>
+                                    <el-button type="primary" @click="submitForm('loginForm')" style="width:45%;">提交</el-button>
                                 </el-form-item>
 <!--                                 <el-form-item style="text-align:left;">
                                     <a href="#" style="text-decoration:underline; color:#20a0ff">忘记密码?</a>

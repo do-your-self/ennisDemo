@@ -72,7 +72,6 @@
     export default {
         data() {
             return {
-                loading: true,
                 activeIndex: '1',
                 form: {
                     "address": "",
@@ -160,7 +159,6 @@
                         this.$store.dispatch('UserLogout');
                     }else{
                         if(response != {}){
-                            this.loading = false;
                             this.form = response.data;
                             delete this.form.id;
                             delete this.form.mgrcomp_id;

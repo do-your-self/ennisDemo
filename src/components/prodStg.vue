@@ -5,7 +5,7 @@
         <el-button size="small" @click="addProdStg">添加</el-button>
       </router-link>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%">
+    <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
       <el-table-column type="index" width="100"></el-table-column>
       <el-table-column prop="year_end_backtesting" label="规模" width="100" header-align="center"></el-table-column>
       <el-table-column prop="stg_proportion_from" label="策略占比区间开始" width="200" header-align="center"></el-table-column>
@@ -66,6 +66,22 @@
         });
       }
     },
+    // activated(){
+    //   if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
+    //     api.getAllProdStg(10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
+    //     let id = this.$store.state.id;
+    //     api.getIdProdStg(id,10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }else{
+    //     api.getProdStg(10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }
+    // },
     methods: {
       getData: function(response){
         if(response){
@@ -141,6 +157,7 @@
 
       },
       handleCurrentChange(val) {
+        this.loading=true;
         if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
           api.getAllProdStg(10,val).then((response) => {
             this.getData(response);

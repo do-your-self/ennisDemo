@@ -54,7 +54,6 @@
         props: ['listId'],
         data() {
             return {
-                loading: true,
                 form: {
                     "id": "",
                     "name": "",
@@ -134,7 +133,6 @@
                         //可以把无效的token清楚掉
                         this.$store.dispatch('UserLogout');
                     }else{
-                        this.loading = false;
                         this.form = response.data;
                         if(this.form.sex){
                             this.form.sex = '1';

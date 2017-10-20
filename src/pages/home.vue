@@ -1,17 +1,23 @@
 <template>
     <el-row class="side">
         <v-header></v-header>
-        <el-row v-if="$store.state.admin=='false'||$store.state.id!='null'" class="main">
+        <!-- <el-row v-if="$store.state.admin=='false'||$store.state.id!='null'" class="main"> -->
+        <el-row :class="$store.state.admin=='false'||$store.state.id!='null'?'show':'hide'">
             <el-col :span="3" style="height:100%;">
                 <v-menu></v-menu>
             </el-col>
             <el-col :span="21" class="content">
-                <router-view></router-view>
+                <keep-alive>
+                    <router-view></router-view> 
+                </keep-alive>
             </el-col>
         </el-row>
-        <el-row v-if="$store.state.admin=='true'&&$store.state.id=='null'">
+        <!-- <el-row v-if="$store.state.admin=='true'&&$store.state.id=='null'"> -->
+        <el-row :class="$store.state.admin=='true'&&$store.state.id=='null'?'show':'hide'">
             <el-col :span="20" :offset="2">
-                <router-view></router-view>
+                <keep-alive>
+                    <router-view></router-view> 
+                </keep-alive>
             </el-col>
         </el-row>
     </el-row>
@@ -38,6 +44,12 @@
 </script>
 
 <style>
+    .show{
+        display: block;
+    }
+    .hide{
+        display: none;
+    }
     .el-menu-vertical-demo:not(.el-menu--collapse) {
         width: 200px;
         min-height: 600px;

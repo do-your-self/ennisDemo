@@ -5,7 +5,7 @@
         <el-button size="small" @click="addProduct">添加</el-button>
       </router-link>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%">
+    <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
       <el-table-column type="index" width="100"></el-table-column>
       <el-table-column prop="full_name" label="基金产品全称" width="200" header-align="center"></el-table-column>
       <el-table-column prop="short_name" label="基金产品简称" width="150" header-align="center"></el-table-column>
@@ -64,6 +64,22 @@
         });
       }
     },
+    // activated(){
+    //   if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
+    //     api.getAllProd(10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
+    //     let id = this.$store.state.id;
+    //     api.getIdProd(id,10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }else{
+    //     api.getProduct(10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }
+    // },
     methods: {
       getData: function(response){
         if(response){
@@ -138,6 +154,7 @@
 
       },
       handleCurrentChange(val) {
+        this.loading=true;
         if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
           api.getAllProd(10,val).then((response) => {
             this.getData(response);

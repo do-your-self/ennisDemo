@@ -5,7 +5,7 @@
         <el-button size="small" @click="addStaff">添加</el-button>
       </router-link>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%">
+    <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
       <el-table-column type="index" width="100" header-align="center"></el-table-column>
       <el-table-column prop="name" label="姓名" width="150" header-align="center"></el-table-column>
       <el-table-column prop="sex" label="性别" width="140" header-align="center"></el-table-column>
@@ -66,6 +66,22 @@
         });
       }
     },
+    // activated(){
+    //   if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
+    //     api.getAllStaff(10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
+    //     let id = this.$store.state.id;
+    //     api.getIdStaff(id,10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }else{
+    //     api.getStaff(10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }
+    // },
     methods: {
       getData: function(response){      //拿到返回的数据
         if(response){
@@ -147,6 +163,7 @@
 
       },
       handleCurrentChange(val) {
+        this.loading=true;
         if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
           api.getAllStaff(10,val).then((response) => {
             this.getData(response);

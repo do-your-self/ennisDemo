@@ -41,7 +41,6 @@
                 items: [],
                 staff: [],
                 list: [],
-                loading: true,
                 form: {
                     "stg_type": "",
                     "year_start_backtesting": "",
@@ -110,7 +109,6 @@
                         //可以把无效的token清楚掉
                         this.$store.dispatch('UserLogout');
                     }else{
-                        this.loading = false;
                         this.form = response.data;
                     }
                 }

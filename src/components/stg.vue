@@ -5,7 +5,7 @@
         <el-button size="small" @click="addStg">添加</el-button>
       </router-link>
     </div>
-    <el-table :data="tableData" stripe style="width: 100%">
+    <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
       <el-table-column type="index" width="100" header-align="center"></el-table-column>
       <el-table-column prop="stg_type" label="策略类型" width="400" header-align="center"></el-table-column>
       <el-table-column prop="product_count" label="产品数量" width="300" header-align="center"></el-table-column>
@@ -63,6 +63,22 @@
         });
       }
     },
+    // activated(){
+    //   if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
+    //     api.getAllStg(10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
+    //     let id = this.$store.state.id;
+    //     api.getIdStg(id,10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }else{
+    //     api.getStg(10,1).then((response) => {
+    //       this.getData(response);
+    //     });
+    //   }
+    // },
     methods: {
       getData: function(response){
         if(response){
@@ -138,6 +154,7 @@
 
       },
       handleCurrentChange(val) {
+        this.loading=true;
         if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
           api.getAllStg(10,val).then((response) => {
             this.getData(response);

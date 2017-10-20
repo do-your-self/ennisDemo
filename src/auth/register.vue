@@ -103,20 +103,49 @@ export default {
             this.$refs[formName].validate((valid) => {
                 if(valid){ //验证通过
                     api.userRegister(this.regForm)
-                        .then(({ data }) => {
-                            if(data.success){
+                    .then( (data) => {
+                        switch(data.status){
+                            case 200:  
                                 this.$message({
                                     type: 'success',
                                     message: '注册成功'
                                 });
-                            }else{
-                                alert(data.statusText)
-                                this.$message({
+                                setTimeout(function(){
+                                    window.location.reload();
+                                },2000)
+                                // this.$router.push({
+                                //      path:'/home/login'
+                                // });
+                                break;
+                            case 433: 
+                                this.$message({  //code过期 Invalid validation code
                                     type: 'info',
-                                    message: data.statusText
+                                    message: "邀请码不存在",
+                                    customClass: "height"
                                 });
-                            }
-                        });
+                                break; 
+                            case 434:  
+                                this.$message({   // User name already exists
+                                    type: 'info',
+                                    message: "用户名已存在"
+                                }); 
+                                break;
+                            case 435:  
+                                this.$message({   //Company name already exists
+                                    type: 'info',
+                                    message: "投资公司已存在"
+                                });
+                                break;
+                            case 436: 
+                                this.$message({   //Email already exists
+                                    type: 'info',
+                                    message: "邮箱已存在"
+                                }); 
+                                break;
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                    });
                 }else{ //验证不通过
                     return false;
                 }

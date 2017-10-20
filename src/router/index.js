@@ -193,12 +193,14 @@ const router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: Login
-    },
-    {
-      path: '/register',
-      name: 'register',
-      component: Register 
+      component: Login,
+      children: [
+        {
+          path: '/home/register',
+          name: 'register',
+          component: Register 
+        }
+      ]
     },
     {
       path: '*',

@@ -69,7 +69,6 @@
                 staff: [],
                 list: [],
                 states: [],
-                loading: true,
                 form: {
                   "full_name": "",
                   "short_name": "",
@@ -173,7 +172,6 @@
                         //可以把无效的token清楚掉
                         this.$store.dispatch('UserLogout');
                     }else{
-                        this.loading = false;
                         this.form = response.data;
                         this.form.status = String(this.form.status);
                     }

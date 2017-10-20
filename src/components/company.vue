@@ -1,6 +1,6 @@
 <template>
     <el-col :span="24">
-        <el-card class="box-card" style="text-align:left;width:100%">
+        <el-card class="box-card" style="text-align:left;width:100%" v-loading="loading">
             <div slot="header" class="clearfix">
                 <span style="line-height: 36px;">{{form.user}}</span>
                 <router-link to="/home/editCompany" v-if="$store.state.admin=='false'">
@@ -63,6 +63,7 @@
     export default {
         data() {
             return {
+                loading: true,
                 title: '',
                 dialogFormVisible: false,
                 activeIndex: '1',
@@ -113,6 +114,7 @@
                     }else{
                         if(response != {}){
                             this.form = response.data;
+                            this.loading = false;
                         }
                     }
                 }

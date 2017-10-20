@@ -1,0 +1,7 @@
+before_script:
+  - docker stop ennis || true && docker rm ennis || true
+
+build:
+  script:
+    - docker build -t node_app .
+    - docker run --name ennis  -itd  -p 8000:8000 node_app:latest

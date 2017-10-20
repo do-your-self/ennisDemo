@@ -4,7 +4,7 @@ import router from './router'
 
 //设置全局axios默认值
 // axios.defaults.baseURL = 'http://10.0.3.124:5000/';
-axios.defaults.baseURL = 'http://10.0.5.115:5000/';
+axios.defaults.baseURL = 'http://localhost:5000/';
 axios.defaults.timeout = 5000; //5000的超时验证
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
@@ -113,7 +113,7 @@ export default {
         return instance.get('/api/admin/stg/'+id+'?page='+page+'&per_page='+per);
     },
 
-    //admin get user list 
+    //admin get user list
     getUser(per,page){
         return instance.get('/api/admin/user?page='+page+'&per_page='+per);
     },
@@ -123,7 +123,7 @@ export default {
         return instance.post('/api/admin/send_mail',data);
     },
 
-    //获取company 
+    //获取company
     getCompany(){
         return instance.get('/api/company/self');
     },
@@ -147,7 +147,7 @@ export default {
     delStaff(id){
         return instance.delete('/api/staff/'+id);
     },
-    
+
     //获取某个职工
     getStaffId(id){
         return instance.get('/api/staff/'+id);

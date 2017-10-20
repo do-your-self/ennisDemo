@@ -41,14 +41,6 @@ export default {
             }else{
                 callback();
             }
-            // if (value === '') {
-            //   callback(new Error('请输入密码'));
-            // } else {
-            //   if (this.regForm.checkPassword !== '') {
-            //     this.$refs.regForm.validateField('checkPassword');
-            //   }
-            //   callback();
-            // }
         };
         //验证密码是否重复
         let validatePass2 = (rule, value, callback) => {

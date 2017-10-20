@@ -66,22 +66,6 @@
         });
       }
     },
-    // activated(){
-    //   if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
-    //     api.getAllStaff(10,1).then((response) => {
-    //       this.getData(response);
-    //     });
-    //   }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
-    //     let id = this.$store.state.id;
-    //     api.getIdStaff(id,10,1).then((response) => {
-    //       this.getData(response);
-    //     });
-    //   }else{
-    //     api.getStaff(10,1).then((response) => {
-    //       this.getData(response);
-    //     });
-    //   }
-    // },
     methods: {
       getData: function(response){      //拿到返回的数据
         if(response){

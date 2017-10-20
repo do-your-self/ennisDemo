@@ -63,22 +63,6 @@
         });
       }
     },
-    // activated(){
-    //   if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
-    //     api.getAllStg(10,1).then((response) => {
-    //       this.getData(response);
-    //     });
-    //   }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
-    //     let id = this.$store.state.id;
-    //     api.getIdStg(id,10,1).then((response) => {
-    //       this.getData(response);
-    //     });
-    //   }else{
-    //     api.getStg(10,1).then((response) => {
-    //       this.getData(response);
-    //     });
-    //   }
-    // },
     methods: {
       getData: function(response){
         if(response){

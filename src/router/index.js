@@ -4,18 +4,8 @@ import Router from 'vue-router'
 
 Vue.use(Router);
 
-//路由懒加载
-// const Login = resolve => {
-//   require.ensure(['../components/Login.vue'], () => {
-//     resolve(require('../components/Login.vue'));
-//   });
-// };
+//路由
 
-// const Register = resolve => {
-//   require.ensure(['../components/Register.vue'], () => {
-//     resolve(require('../components/Register.vue'));
-//   });
-// };
 import Login from '../auth/login.vue'
 import Register from '../auth/register.vue'
 import Home from '../pages/home.vue'
@@ -40,17 +30,7 @@ import addProdStg from '../components/addProdStg.vue'
 import Error404 from '../components/404.vue'
 
 const router = new Router({
-  // mode: 'history',
-  // base: '/static/',
   routes: [
-    /*{
-      path: '/',
-      name: 'Hello',
-      component: Hello,
-      meta: {
-        requiresAuth: true
-      }
-    },*/
     {
       path: '/',
       redirect: '/login'
@@ -206,8 +186,6 @@ const router = new Router({
       path: '*',
       name: 'error',
       component: Login
-      // component: Error404
-      // redirect: '/login'
     }
   ]
 });

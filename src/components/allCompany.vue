@@ -118,6 +118,7 @@
 
           },
           handleCurrentChange(val) {
+            this.loading=true;
             api.getAllCompany(10,val).then((response) => {
               this.getData(response);
             });

@@ -19,9 +19,6 @@
                                 <el-form-item>
                                     <el-button type="primary" @click="submitForm('loginForm')" style="width:45%;">提交</el-button>
                                 </el-form-item>
-<!--                                 <el-form-item style="text-align:left;">
-                                    <a href="#" style="text-decoration:underline; color:#20a0ff">忘记密码?</a>
-                                </el-form-item> -->
                             </el-form>
                         </el-col>
                     </el-tab-pane>

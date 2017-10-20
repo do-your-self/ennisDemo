@@ -23,19 +23,3 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
-Vue.prototype.created= function(val){
-    if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
-        api.getAllProdStg(10,val).then((response) => {
-            this.getData(response);
-        });
-    }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
-        let id = this.$store.state.id;
-        api.getIdProdStg(id,10,val).then((response) => {
-            this.getData(response);
-        });
-    }else{
-        api.getProdStg(10,val).then((response) => {
-            this.getData(response);
-        });
-    }
-}

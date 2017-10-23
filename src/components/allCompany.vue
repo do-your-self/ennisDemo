@@ -2,23 +2,13 @@
     <div>
         <el-table :data="tableData" stripe style="width: 100%;" @row-click="link" v-loading="loading">
             <el-table-column type="index" width="100" header-align="center"></el-table-column>
-            <el-table-column prop="user" label="投顾公司" width="150" header-align="center"></el-table-column>
-            <el-table-column prop="reg_id" label="协会注册备案号" width="100" header-align="center"></el-table-column>
-            <el-table-column prop="address" label="地址" width="150" header-align="center"></el-table-column>
-            <el-table-column prop="date_establishment" label="成立时间" width="150" header-align="center"></el-table-column>
-            <el-table-column prop="reg_capital" label="注册资本" width="150" header-align="center"></el-table-column>
-            <el-table-column prop="shareholder_names" label="股东名单" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="user" label="投顾公司" width="200" header-align="center"></el-table-column>
+            <el-table-column prop="mgrcomp_short_name" label="公司简称" width="200" header-align="center"></el-table-column>
+            <el-table-column prop="reg_id" label="协会注册备案号" width="200" header-align="center"></el-table-column>
+            <el-table-column prop="address" label="地址" width="250" header-align="center"></el-table-column>
+            <el-table-column prop="date_establishment" label="成立时间" width="200" header-align="center"></el-table-column>
+            <el-table-column prop="reg_capital" label="注册资本" width="200" header-align="center"></el-table-column>
             <el-table-column prop="num_staff" label="员工数量" width="150" header-align="center"></el-table-column>
-            <el-table-column prop="num_rd" label="投研人数" width="150" header-align="center"></el-table-column>
-            <el-table-column prop="num_trade" label="交易人员数(含运维)" width="150" header-align="center"></el-table-column>
-            <el-table-column prop="num_it" label="IT人数" width="150" header-align="center"></el-table-column>
-            <el-table-column prop="num_risk_mgr" label="风控人数" width="150" header-align="center"></el-table-column>
-            <el-table-column prop="num_master" label="硕士及以上学历人数" width="150" header-align="center"></el-table-column>
-            <el-table-column fixed="right" label="操作" width="150" header-align="center">
-              <template scope="scope">
-                  <el-button type="primary" size="small" icon="delete" @click.native.prevent="delIdCompany(scope.$index, tableData)"></el-button>
-              </template>
-            </el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
           :page-sizes="pageSize"
@@ -67,29 +57,6 @@
               }
             }
           },
-          open(index,rows,id) {
-            this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-            }).then(() => {
-              api.delIdCompany(id)
-              .then(response => {
-                rows.splice(index, 1);
-                this.$message({
-                  type: 'success',
-                  message: '删除成功'
-                });
-              }).catch((err) => {
-                console.log(err);
-              })
-            }).catch(() => {
-              this.$message({
-                type: 'info',
-                message: '已取消删除'
-              });          
-            });
-          },
           closeDialog(clo,res){
             this.dialogFormVisible = clo;
             if(res==="success"){
@@ -109,10 +76,6 @@
                 }
               });
             }
-          },
-          delIdCompany(index,rows) {
-            let id = rows[index].id;
-            this.open(index,rows,id);
           },
           handleSizeChange(val) {
 

@@ -1,12 +1,17 @@
 <template>
   <div>
-    <el-table :data="tableData" stripe style="width: 100%" align="center" v-loading="loading">
-      <el-table-column type="index" width="200"></el-table-column>
-      <el-table-column prop="id" label="Id" width="200"></el-table-column>
-      <el-table-column prop="username" label="用户名" width="300"></el-table-column>
-      <el-table-column prop="comp_name" label="公司名称" width="300"></el-table-column>
-      <el-table-column prop="create_time" label="注册时间" width="340"></el-table-column>
-      <el-table-column prop="active" label="激活" width="200"></el-table-column>
+    <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
+      <el-table-column type="index" width="200" header-align="center"></el-table-column>
+      <el-table-column prop="username" label="用户名" width="300" header-align="center"></el-table-column>
+      <el-table-column prop="comp_name" label="公司名称" width="300" header-align="center"></el-table-column>
+      <el-table-column prop="create_time" label="注册时间" width="340" header-align="center"></el-table-column>
+      <el-table-column prop="active" label="激活" width="200" :formatter="isAct" header-align="center">
+      </el-table-column>
+      <el-table-column fixed="right" label="操作" width="150" header-align="center">
+        <template scope="scope">
+          <el-button type="primary" size="small" icon="delete" @click.native.prevent="delUser(scope.$index, tableData)"></el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
       :current-page="currentPage"
@@ -35,6 +40,9 @@
       });
     },
     methods: {
+      isAct(data){
+        return data.active?'是':'否';
+      },
       getData: function(response){
         if(response){
           if(response.status === 401){
@@ -52,23 +60,38 @@
           }
         }
       },
-      // delStaff(index,rows) {
-      //   let id = rows[index].id;
-      //   api.delStaff(id)
-      //   .then(response => {
-      //     rows.splice(index, 1);
-      //     this.$message({
-      //       type: 'success',
-      //       message: '删除成功'
-      //     });
-      //   }).catch((err) => {
-      //     console.log(err);
-      //   })
-      // },
+      open(index,rows,id) {
+        this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          api.delUser(id)
+          .then(response => {
+            rows.splice(index, 1);
+            this.$message({
+              type: 'success',
+              message: '删除成功'
+            });
+          }).catch((err) => {
+            console.log(err);
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      },
+      delUser(index,rows) {
+        let id = rows[index].id;
+        this.open(index,rows,id);
+      },
       handleSizeChange(val) {
 
       },
       handleCurrentChange(val) {
+        this.loading=true;
         api.getUser(10,val).then((response) => {
           this.getData(response);
         });

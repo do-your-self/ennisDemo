@@ -69,8 +69,8 @@ export default {
     },
 
     //admin 删除用户
-    delIdCompany(id){
-        return instance.delete('/api/admin/company/'+id);
+    delUser(id){
+        return instance.delete('/api/admin/user/'+id);
     },
 
     //admin get all prod

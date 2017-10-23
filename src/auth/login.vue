@@ -109,7 +109,7 @@ export default {
                                 if(admin){
                                     //跳转到指定的路由
                                     this.$router.push({
-                                         path:'/home/admin/allCompany'
+                                         path:'/home/admin/user'
                                     });
                                 }else{
                                     //跳转到指定的路由

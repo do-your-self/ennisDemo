@@ -52,7 +52,7 @@ export default {
             },
             rules: { //验证规则
                 username: [
-                    { required: true, message: '用户名不能少', trigger: 'blur'},
+                    { required: true, message: '用户名不能为空', trigger: 'blur'},
                     { min: 4, max: 16, message: '用户名在4到16位之间', trigger: 'blur,change'}
                 ],
                 password: [

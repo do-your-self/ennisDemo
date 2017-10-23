@@ -46,22 +46,34 @@ const router = new Router({
         {
           path: '/home/user',
           name: 'user',
-          component: User
+          component: User,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/home/staff',
           name: 'staff',
           component: Staff,
+          meta: {
+            requiresAuth: true
+          },
           children: [
             {
               path: '/home/staff/editStaff',
               name: 'editStaff',
-              component: editStaff
+              component: editStaff,
+              meta: {
+                requiresAuth: true
+              }
             },
             {
               path: '/home/staff/addStaff',
               name: 'addStaff',
-              component: addStaff
+              component: addStaff,
+              meta: {
+                requiresAuth: true
+              }
             }
           ] 
         },
@@ -69,11 +81,17 @@ const router = new Router({
           path: '/home/company',
           name: 'company',
           component: Company,
+          meta: {
+            requiresAuth: true
+          },
           children: [
             {
               path: '/home/editCompany',
               name: 'editCompany',
-              component: editCompany
+              component: editCompany,
+              meta: {
+                requiresAuth: true
+              }
             }
           ]
         },
@@ -81,16 +99,25 @@ const router = new Router({
           path: '/home/stg',
           name: 'stg',
           component: Stg,
+          meta: {
+            requiresAuth: true
+          },
           children: [
             {
               path: '/home/stg/editStg',
               name: 'editStg',
-              component: editStg
+              component: editStg,
+              meta: {
+                requiresAuth: true
+              }
             },
             {
               path: '/home/stg/addStg',
               name: 'addStg',
-              component: addStg
+              component: addStg,
+              meta: {
+                requiresAuth: true
+              }
             }
           ]
         },
@@ -98,16 +125,25 @@ const router = new Router({
           path: '/home/product',
           name: 'product',
           component: Product,
+          meta: {
+            requiresAuth: true
+          },
           children: [
             {
               path: '/home/product/editProduct',
               name: 'editProduct',
-              component: editProduct
+              component: editProduct,
+              meta: {
+                requiresAuth: true
+              }
             },
             {
               path: '/home/product/addProduct',
               name: 'addProduct',
-              component: addProduct
+              component: addProduct,
+              meta: {
+                requiresAuth: true
+              }
             }
           ]
         },
@@ -115,58 +151,91 @@ const router = new Router({
           path: '/home/prodStg',
           name: 'prodStg',
           component: prodStg,
+          meta: {
+            requiresAuth: true
+          },
           children: [
             {
               path: '/home/prodStg/editProdStg',
               name: 'editProdStg',
-              component: editProdStg
+              component: editProdStg,
+              meta: {
+                requiresAuth: true
+              }
             },
             {
               path: '/home/prodStg/addProdStg',
               name: 'addProdStg',
-              component: addProdStg
+              component: addProdStg,
+              meta: {
+                requiresAuth: true
+              }
             }
           ]
         },
         {
           path: '/home/admin/allCompany',
           name: 'allCompany',
-          component: allCompany
+          component: allCompany,
+          meta: {
+            requiresAuth: true
+          }
         },           
         {
           path: '/home/admin/invitation',
           name: 'invitation',
-          component: Invitation
+          component: Invitation,
+          meta: {
+            requiresAuth: true
+          }
         },            
         {
           path: '/home/admin/staff',
           name: 'staff1',
-          component: Staff
+          component: Staff,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/home/admin/company',
           name: 'company1',
-          component: Company
+          component: Company,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/home/admin/stg',
           name: 'stg1',
-          component: Stg
+          component: Stg,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/home/admin/product',
           name: 'product1',
-          component: Product
+          component: Product,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/home/admin/prodStg',
           name: 'prodStg1',
-          component: prodStg
+          component: prodStg,
+          meta: {
+            requiresAuth: true
+          }
         },
         {
           path: '/home/admin/user',
           name: 'user1',
-          component: User
+          component: User,
+          meta: {
+            requiresAuth: true
+          }
         }
       ]
     },
@@ -195,6 +264,7 @@ router.beforeEach((to, from, next) => {
   //获取store里面的token
   let token = store.state.token;
   //判断要去的路由有没有requiresAuth
+  console.log(to.meta.requiresAuth)
   if(to.meta.requiresAuth){
 
     if(token){
@@ -207,6 +277,10 @@ router.beforeEach((to, from, next) => {
     }
 
   }else{
+      // next({
+      //   path: '/login',
+      //   query: { redirect: to.fullPath }  // 将刚刚要去的路由path（却无权限）作为参数，方便登录成功后直接跳转到该路由
+      // });
     next();//如果无需token,那么随它去吧
   }
 });

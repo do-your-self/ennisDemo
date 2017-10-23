@@ -5,14 +5,14 @@ import router from './router'
 //设置全局axios默认值
 // axios.defaults.baseURL = 'http://10.0.3.124:5000/';
 axios.defaults.baseURL = 'http://10.0.5.115:5000/';
-axios.defaults.timeout = 5000; //5000的超时验证
+//axios.defaults.timeout = 5000; //5000的超时验证
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 //创建一个axios实例
 const instance = axios.create();
 instance.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
-axios.interceptors.request.use = instance.interceptors.request.use;
+instance.interceptors.request.use = axios.interceptors.request.use;
 
 //request拦截器
 instance.interceptors.request.use(
@@ -33,6 +33,7 @@ instance.interceptors.response.use(
         return response;
     },
     error => { //默认除了2XX之外的都是错误的，就会走这里
+        console.log(error.response)
         if(error.response){
             switch(error.response.status){
                 case 401:
@@ -55,6 +56,7 @@ export default {
 
     //用户登录
     userLogin(data){
+        console.log(data)
         return instance.post('/api/auth/login', data);
     },
 

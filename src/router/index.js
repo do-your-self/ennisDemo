@@ -48,7 +48,7 @@ const router = new Router({
           name: 'user',
           component: User,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'admin'
           }
         },
         {
@@ -56,7 +56,7 @@ const router = new Router({
           name: 'staff',
           component: Staff,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'user'
           },
           children: [
             {
@@ -64,7 +64,7 @@ const router = new Router({
               name: 'editStaff',
               component: editStaff,
               meta: {
-                requiresAuth: true
+                requiresAuth: 'user'
               }
             },
             {
@@ -72,7 +72,7 @@ const router = new Router({
               name: 'addStaff',
               component: addStaff,
               meta: {
-                requiresAuth: true
+                requiresAuth: 'user'
               }
             }
           ] 
@@ -82,7 +82,7 @@ const router = new Router({
           name: 'company',
           component: Company,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'user'
           },
           children: [
             {
@@ -90,7 +90,7 @@ const router = new Router({
               name: 'editCompany',
               component: editCompany,
               meta: {
-                requiresAuth: true
+                requiresAuth: 'user'
               }
             }
           ]
@@ -100,7 +100,7 @@ const router = new Router({
           name: 'stg',
           component: Stg,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'user'
           },
           children: [
             {
@@ -108,7 +108,7 @@ const router = new Router({
               name: 'editStg',
               component: editStg,
               meta: {
-                requiresAuth: true
+                requiresAuth: 'user'
               }
             },
             {
@@ -116,7 +116,7 @@ const router = new Router({
               name: 'addStg',
               component: addStg,
               meta: {
-                requiresAuth: true
+                requiresAuth: 'user'
               }
             }
           ]
@@ -126,7 +126,7 @@ const router = new Router({
           name: 'product',
           component: Product,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'user'
           },
           children: [
             {
@@ -134,7 +134,7 @@ const router = new Router({
               name: 'editProduct',
               component: editProduct,
               meta: {
-                requiresAuth: true
+                requiresAuth: 'user'
               }
             },
             {
@@ -142,7 +142,7 @@ const router = new Router({
               name: 'addProduct',
               component: addProduct,
               meta: {
-                requiresAuth: true
+                requiresAuth: 'user'
               }
             }
           ]
@@ -152,7 +152,7 @@ const router = new Router({
           name: 'prodStg',
           component: prodStg,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'user'
           },
           children: [
             {
@@ -160,7 +160,7 @@ const router = new Router({
               name: 'editProdStg',
               component: editProdStg,
               meta: {
-                requiresAuth: true
+                requiresAuth: 'user'
               }
             },
             {
@@ -168,7 +168,7 @@ const router = new Router({
               name: 'addProdStg',
               component: addProdStg,
               meta: {
-                requiresAuth: true
+                requiresAuth: 'user'
               }
             }
           ]
@@ -178,7 +178,7 @@ const router = new Router({
           name: 'allCompany',
           component: allCompany,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'admin'
           }
         },           
         {
@@ -186,7 +186,7 @@ const router = new Router({
           name: 'invitation',
           component: Invitation,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'admin'
           }
         },            
         {
@@ -194,7 +194,7 @@ const router = new Router({
           name: 'staff1',
           component: Staff,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'admin'
           }
         },
         {
@@ -202,7 +202,7 @@ const router = new Router({
           name: 'company1',
           component: Company,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'admin'
           }
         },
         {
@@ -210,7 +210,7 @@ const router = new Router({
           name: 'stg1',
           component: Stg,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'admin'
           }
         },
         {
@@ -218,7 +218,7 @@ const router = new Router({
           name: 'product1',
           component: Product,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'admin'
           }
         },
         {
@@ -226,7 +226,7 @@ const router = new Router({
           name: 'prodStg1',
           component: prodStg,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'admin'
           }
         },
         {
@@ -234,7 +234,7 @@ const router = new Router({
           name: 'user1',
           component: User,
           meta: {
-            requiresAuth: true
+            requiresAuth: 'admin'
           }
         }
       ]
@@ -263,11 +263,12 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   //获取store里面的token
   let token = store.state.token;
+  let admin = store.state.admin;
   //判断要去的路由有没有requiresAuth
-  console.log(to.meta.requiresAuth)
   if(to.meta.requiresAuth){
-
-    if(token){
+    if(to.meta.requiresAuth=='admin'&&token&&admin=='true'){ //admin login
+      next();
+    }else if(to.meta.requiresAuth=='user'&&token&&admin=='false'){//普通用户
       next();
     }else{
       next({
@@ -275,7 +276,6 @@ router.beforeEach((to, from, next) => {
         query: { redirect: to.fullPath }  // 将刚刚要去的路由path（却无权限）作为参数，方便登录成功后直接跳转到该路由
       });
     }
-
   }else{
       // next({
       //   path: '/login',

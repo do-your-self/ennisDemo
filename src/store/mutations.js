@@ -11,45 +11,45 @@ const mutations = {
     [types.LOGIN]: (state, data) => {
         //更改token的值
         state.token = data;
-        window.localStorage.setItem('token', data);
-        window.localStorage.setItem('admin', data);
-        window.localStorage.setItem('id', data);
-        window.localStorage.setItem('user', data);
-        window.localStorage.setItem('company', data);
+        window.sessionStorage.setItem('token', data);
+        window.sessionStorage.setItem('admin', data);
+        window.sessionStorage.setItem('id', data);
+        window.sessionStorage.setItem('user', data);
+        window.sessionStorage.setItem('company', data);
     },
     [types.LOGOUT]: (state) => {
         //登出的时候要清除token admin
         state.token = null;
-        window.localStorage.removeItem('token');
+        window.sessionStorage.removeItem('token');
         state.admin = null;
-        window.localStorage.removeItem('admin');
+        window.sessionStorage.removeItem('admin');
         state.id = null;
-        window.localStorage.removeItem('id');
+        window.sessionStorage.removeItem('id');
         state.user = null;
         window.localStorage.removeItem('user');
         state.company = null;
-        window.localStorage.removeItem('company');
+        window.sessionStorage.removeItem('company');
     },
     //这步可有可无，根据自己需求去写
     [types.COMPANY]: (state, data) => {
         //把用户名存起来
         state.company = data;
-        window.localStorage.setItem('company', data);
+        window.sessionStorage.setItem('company', data);
     },
     [types.ADMIN]: (state, data) => {
         //把adimn存起来
         state.admin = data;
-        window.localStorage.setItem('admin', data);
+        window.sessionStorage.setItem('admin', data);
     },
     [types.ID]: (state, data) => {
         //把adimn存起来
         state.id = data;
-        window.localStorage.setItem('id', data);
+        window.sessionStorage.setItem('id', data);
     },
     [types.USER]: (state, data) => {
         //把adimn存起来
         state.user = data;
-        window.localStorage.setItem('user', data);
+        window.sessionStorage.setItem('user', data);
     }
 };
 

@@ -11,7 +11,7 @@
                                     <el-input v-model="loginForm.username"></el-input>
                                 </el-form-item>
                                 <el-form-item label="密码" prop="password">
-                                    <el-input v-model="loginForm.password" type="password"></el-input>
+                                    <el-input v-model="loginForm.password" type="password" @keyup.enter.native="keyup"></el-input>
                                 </el-form-item>
                                 <el-form-item style="text-align:left;">
                                     <el-checkbox label="记住密码" v-model="rempsw"></el-checkbox>
@@ -52,7 +52,7 @@ export default {
             },
             rules: { //验证规则
                 username: [
-                    { required: true, message: '用户名不能为空', trigger: 'blur'},
+                    { required: true, message: '请输入用户名', trigger: 'blur'},
                     { min: 4, max: 16, message: '用户名在4到16位之间', trigger: 'blur,change'}
                 ],
                 password: [
@@ -63,6 +63,11 @@ export default {
         }
     },
     methods: {
+        keyup(e){
+            if(e.keyCode=="13"){
+                this.submitForm('loginForm');
+            }
+        },
         resetForm(formName){
             this.$refs[formName].resetFields();
         },
@@ -98,8 +103,8 @@ export default {
                                 this.$store.dispatch('Company', company);
                                 this.$store.dispatch('User', data.name);
                                 this.$store.dispatch('Id', 'null');
-                                window.localStorage.setItem('user', data.name);
-                                window.localStorage.setItem('company', company);
+                                window.sessionStorage.setItem('user', data.name);
+                                window.sessionStorage.setItem('company', company);
                                 if(data.admin){
                                     this.$store.dispatch('Admin', 'true');
                                 }else{
@@ -123,6 +128,8 @@ export default {
                                     message: '用户名或密码错误'
                                 });
                             }
+                        }).catch((err) => {
+                            console.log(err);
                         });
                 }else{
                     //验证不通过

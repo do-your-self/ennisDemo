@@ -113,7 +113,7 @@ export default {
         return instance.get('/api/admin/stg/'+id+'?page='+page+'&per_page='+per);
     },
 
-    //admin get user list 
+    //admin get user list
     getUser(per,page){
         return instance.get('/api/admin/user?page='+page+'&per_page='+per);
     },
@@ -123,7 +123,7 @@ export default {
         return instance.post('/api/admin/send_mail',data);
     },
 
-    //获取company 
+    //获取company
     getCompany(){
         return instance.get('/api/company/self');
     },
@@ -147,7 +147,7 @@ export default {
     delStaff(id){
         return instance.delete('/api/staff/'+id);
     },
-    
+
     //获取某个职工
     getStaffId(id){
         return instance.get('/api/staff/'+id);

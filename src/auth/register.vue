@@ -64,7 +64,7 @@ export default {
             },
             rules: {
                 username: [
-                    { required: true, message: '用户名不能少', trigger: 'blur'},
+                    { required: true, message: '请输入用户名', trigger: 'blur'},
                     { min: 4, max: 16, message: '用户名在4到16位之间', trigger: 'blur,change'}
                 ],
                 password: [

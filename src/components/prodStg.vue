@@ -100,6 +100,10 @@
               type: 'success',
               message: '删除成功'
             });
+            --this.total;
+            if(this.tatal%10==0){
+              --this.currentPage;
+            }
           }).catch((err) => {
             console.log(err);
           })

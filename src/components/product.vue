@@ -64,22 +64,6 @@
         });
       }
     },
-    // activated(){
-    //   if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
-    //     api.getAllProd(10,1).then((response) => {
-    //       this.getData(response);
-    //     });
-    //   }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
-    //     let id = this.$store.state.id;
-    //     api.getIdProd(id,10,1).then((response) => {
-    //       this.getData(response);
-    //     });
-    //   }else{
-    //     api.getProduct(10,1).then((response) => {
-    //       this.getData(response);
-    //     });
-    //   }
-    // },
     methods: {
       getData: function(response){
         if(response){
@@ -113,6 +97,10 @@
               type: 'success',
               message: '删除成功'
             });
+            --this.total;
+            if(this.tatal%10==0){
+              --this.currentPage;
+            }
           }).catch((err) => {
             console.log(err);
           })

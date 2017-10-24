@@ -4,7 +4,7 @@
             <el-menu-item index="1"><i class="el-icon-menu"></i>公司信息</el-menu-item>
         </router-link>
         <router-link to="/home/staff">
-            <el-menu-item index="2"><i class="el-icon-information"></i>用户信息</el-menu-item>
+            <el-menu-item index="2"><i class="el-icon-information"></i>职工信息</el-menu-item>
         </router-link>
         <router-link to="/home/stg">
             <el-menu-item index="3"><i class="el-icon-document"></i>策略信息</el-menu-item>

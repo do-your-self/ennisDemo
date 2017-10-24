@@ -8,7 +8,7 @@
             <el-table-column prop="address" label="地址" width="250" header-align="center"></el-table-column>
             <el-table-column prop="date_establishment" label="成立时间" width="200" header-align="center"></el-table-column>
             <el-table-column prop="reg_capital" label="注册资本" width="200" header-align="center"></el-table-column>
-            <el-table-column prop="num_staff" label="员工数量" width="150" header-align="center"></el-table-column>
+            <el-table-column prop="num_staff" label="员工数量" width="190" header-align="center"></el-table-column>
         </el-table>
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
           :page-sizes="pageSize"

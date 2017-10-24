@@ -1,25 +1,40 @@
 <template>                
-    <el-form ref="form" :model="form" label-width="100px" :rules="rules">
-        <el-col :span="15" :offset="4">
+    <el-form ref="form" :model="form" label-width="150px" :rules="rules">
+        <el-col :span="18" :offset="2">
             <el-form-item label="产品" prop="prod_id">
                 <el-select v-model.number="form.prod_id" filterable placeholder="请选择" style="width:100%" no-match-text="无匹配数据,请添加一个产品">
                     <el-option v-for="item in list" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="策略类型" prop="stg_type">
-                <el-input v-model="form.stg_type"></el-input>
+                <el-select v-model="form.stg_type" placeholder="请选择策略类型" style="width:100%">
+                    <el-option label="股票多空" value="股票多空"></el-option>
+                    <el-option label="量化对冲" value="量化对冲"></el-option>
+                    <el-option label="债券" value="债券"></el-option>
+                    <el-option label="套利" value="套利"></el-option>
+                    <el-option label="CTA" value="CTA"></el-option>
+                    <el-option label="宏观对冲" value="宏观对冲"></el-option>
+                    <el-option label="另类策略" value="另类策略"></el-option>
+                </el-select>
             </el-form-item>
             <el-form-item label="产品数量" prop="year_start_backtesting">
-                <el-input v-model="form.year_start_backtesting"></el-input>
+                <el-input v-model="form.year_start_backtesting"><template slot="append">只</template></el-input>
             </el-form-item>
             <el-form-item label="规模" prop="year_end_backtesting">
-                <el-input v-model="form.year_end_backtesting"></el-input>
+                <el-input v-model="form.year_end_backtesting"><template slot="append">万</template></el-input>
             </el-form-item>
-            <el-form-item label="策略占比区间开始" prop="stg_proportion_from">
-                <el-input type="number" v-model.number="form.stg_proportion_from"></el-input>
-            </el-form-item>
-            <el-form-item label="策略占比区间结束" prop="stg_proportion_to">
-                <el-input type="number" v-model.number="form.stg_proportion_to"></el-input>
+            <el-form-item label="策略占比区间" required>
+                <el-col :span="11">
+                    <el-form-item prop="stg_proportion_from">
+                        <el-input type="number" v-model.number="form.stg_proportion_from"></el-input>
+                    </el-form-item>
+                </el-col>
+                <el-col class="line" :span="2">-</el-col>
+                <el-col :span="11">
+                    <el-form-item prop="stg_proportion_to">
+                        <el-input type="number" v-model.number="form.stg_proportion_to"></el-input>
+                    </el-form-item>
+                </el-col>    
             </el-form-item>
             <el-form-item label="策略描述" prop="desc">
                 <el-input v-model="form.desc"></el-input>
@@ -51,7 +66,7 @@
                 },
                 rules: { //验证规则
                     stg_type: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
+                        { required: true, message: '请选择策略类型', trigger: 'change'}
                     ],
                     year_start_backtesting: [
                         { required: true, message: '不允许为空', trigger: 'blur'}

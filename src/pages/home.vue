@@ -55,7 +55,7 @@
     .router-link-exact-active {
         color: #20a0ff!important; 
     }
-    .router-link-active>li {
+    .router-link-active>li.is-active {
         color: #20a0ff!important; 
         border-bottom: 5px solid #20a0ff!important;
     }
@@ -65,12 +65,13 @@
     }
     .router-link-exact-active>li {
         color: #20a0ff!important;
+        border-bottom: 5px solid #20a0ff!important;
     }
     .router-link-active {
         color: #20a0ff!important; 
     }
     .el-menu-item.is-active {
-        color: #48576a;
+        color: #bfcbd9!important;
     }
     .side {
         width: 100%;

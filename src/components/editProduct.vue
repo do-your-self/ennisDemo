@@ -27,21 +27,22 @@
         </el-col>
         <el-col :span="11">
             <el-form-item label="产品数量" prop="prod_count">
-                <el-input type="number" v-model.number="form.prod_count"></el-input>
+                <el-input type="number" v-model.number="form.prod_count"><template slot="append">只</template></el-input>
             </el-form-item>
             <el-form-item label="产品规模" prop="prod_scale">
-                <el-input type="number" v-model.number="form.prod_scale"></el-input>
+                <el-input type="number" v-model.number="form.prod_scale"><template slot="append">万</template></el-input>
             </el-form-item>
             <el-form-item label="平均年华换手率" prop="avg_turn_over_rate">
-                <el-input type="number" v-model.number="form.avg_turn_over_rate"></el-input>
+                <el-input type="number" v-model.number="form.avg_turn_over_rate"><template slot="append">%</template></el-input>
             </el-form-item>
             <el-form-item label="盈利股票平均持仓" prop="avg_win_holding_period">
-                <el-input type="number" v-model.number="form.avg_win_holding_period"></el-input>
+                <el-input type="number" v-model.number="form.avg_win_holding_period"><template slot="append">天</template></el-input>
             </el-form-item>
             <el-form-item label="运行状态" prop="status">
                  <el-select v-model="form.status" placeholder="请选择" style="width:100%">
-                    <el-option key="1" label="是" value="1"></el-option>
-                    <el-option key="0" label="否" value="0"></el-option>
+                    <el-option key="1" label="未发行" value="1"></el-option>
+                    <el-option key="2" label="运行中" value="2"></el-option>
+                    <el-option key="3" label="已清盘" value="3"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="结构化描述信息(如果是结构化产品)" prop="desc_struct">

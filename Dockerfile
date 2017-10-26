@@ -7,4 +7,4 @@ RUN cnpm install
 RUN cnpm install pm2 -g
 RUN npm run build
 EXPOSE 8000
-CMD [ "pm2", "start", "server.js" ]
+CMD [ "pm2-docker", "server.js" ]

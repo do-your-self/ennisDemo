@@ -1,179 +1,194 @@
 <template>
-    <el-form ref="form" :model="form" label-width="150px" :rules="rules">
-        <el-col :span="11">
-            <el-form-item label="姓名" prop="name">
-                <el-input v-model="form.name"></el-input>
-            </el-form-item>
-            <el-form-item label="生日" prop="birthday">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.birthday" @change="dateChange"  style="width: 100%;"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="最高学历" prop="education_highest">
-                <el-input v-model="form.education_highest"></el-input>
-            </el-form-item>
-            <el-form-item label="利益冲突" prop="conflict">
-                <el-input v-model="form.conflict"></el-input>
-            </el-form-item>
-            <el-form-item label="从业年限" prop="year_start_related_industry">
-                <el-input type="number" v-model.number="form.year_start_related_industry"></el-input>
-            </el-form-item>
-            <el-form-item label="过往从业经历" prop="desc_past_job">
-                <el-input type="textarea" v-model="form.desc_past_job"></el-input>
-            </el-form-item>
-        </el-col>
-        <el-col :span="11">
-            <el-form-item label="性别" prop="sex">
-                <el-radio class="radio" v-model="form.sex" label="0">男</el-radio>
-                <el-radio class="radio" v-model="form.sex" label="1">女</el-radio>
-            </el-form-item>
-            <el-form-item label="当前职位" prop="position">
-                <el-input v-model="form.position"></el-input>
-            </el-form-item>
-            <el-form-item label="毕业院校" prop="university_graduated">
-                <el-input v-model="form.university_graduated"></el-input>
-            </el-form-item>
-            <el-form-item label="最近一次收到处罚" prop="punishment">
-                <el-input v-model="form.punishment"></el-input>
-            </el-form-item>
-            <el-form-item label="占股比例" prop="share_held">
-                <el-input type="number" v-model.number="form.share_held"></el-input>
-            </el-form-item>
-            <el-form-item label="历史业绩" prop="desc_hist_achievement">
-                <el-input type="textarea" v-model="form.desc_hist_achievement"></el-input>
-            </el-form-item>
-        </el-col>
-        <el-col style="padding:20px 0 50px;">
-            <el-button type="primary" @click="submitForm('form')">提交</el-button>
-            <el-button @click="resetForm('form')">取消</el-button>
-        </el-col>
-    </el-form>             
+  <md-card style="width:100%;">
+
+    <md-card-header>
+      <div class="md-title">编辑</div>
+      <div class="md-subhead">修改职工信息</div>
+    </md-card-header>
+
+    <md-card-content>
+      <form style="width:100%;">
+        <md-layout md-gutter="16">
+          <md-layout md-flex="30" md-flex-offset="15">
+
+            <md-input-container :class="{'md-input-invalid':$v.form.name.$error}">
+              <label>姓名</label>
+              <md-input class="md-input" v-model.trim="form.name" @input="$v.form.name.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.birthday.$error}">
+              <label>出生年月</label>
+              <md-input v-model="form.birthday" type="date" @input="$v.form.birthday.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.education_highest.$error}">
+              <label>最高学历</label>
+              <md-input v-model="form.education_highest" @input="$v.form.education_highest.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.year_start_related_industry.$error}">
+              <label>从业年限</label>
+              <md-input v-model.number="form.year_start_related_industry"
+                        @input="$v.form.year_start_related_industry.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.conflict.$error}">
+              <label>利益冲突</label>
+              <md-textarea v-model="form.conflict" maxlength="100" @input="$v.form.conflict.$touch()"></md-textarea>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.desc_past_job.$error}">
+              <label>过往从业经历</label>
+              <md-textarea v-model="form.desc_past_job" @input="$v.form.desc_past_job.$touch()"></md-textarea>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+          </md-layout>
+          <md-layout md-flex="30" md-flex-offset="5">
+            <div class="inputCon">
+              <md-radio v-model="form.sex" id="my-test4" name="my-test-group2" md-value="男" class="md-primary">男
+              </md-radio>
+              <md-radio v-model="form.sex" id="my-test5" name="my-test-group2" md-value="女" class="md-primary">女
+              </md-radio>
+            </div>
+            <md-input-container :class="{'md-input-invalid':$v.form.position.$error}">
+              <label>当前职位</label>
+              <md-input v-model="form.position" @input="$v.form.position.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.university_graduated.$error}">
+              <label>毕业院校</label>
+              <md-input v-model="form.university_graduated" @input="$v.form.university_graduated.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.share_held.$error}">
+              <label>占股比例</label>
+              <md-input v-model.number="form.share_held" @input="$v.form.share_held.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.punishment.$error}">
+              <label>最近一次收到处罚</label>
+              <md-textarea v-model="form.punishment" maxlength="100" @input="$v.form.punishment.$touch()"></md-textarea>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.desc_hist_achievement.$error}">
+              <label>历史业绩</label>
+              <md-textarea v-model="form.desc_hist_achievement" maxlength="100"
+                           @input="$v.form.desc_hist_achievement.$touch()"></md-textarea>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+          </md-layout>
+        </md-layout>
+
+            <!-- 提示框 -->
+            <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
+              <span><md-icon>info</md-icon>{{msg}}</span>
+              <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
+            </md-snackbar>
+      </form>
+
+      <md-layout md-align="center">
+        <md-button class="md-primary md-raised" @click="submitForm">提交</md-button>
+        <md-button class="md-dense md-raised" @click="cancelForm">取消</md-button>
+      </md-layout>
+    </md-card-content>
+  </md-card>
+
+
 </template>
 
 <script>
-    import api from '../axios.js'
-    export default {
-        props: ['listId'],
-        data() {
-            return {
-                form: {
-                    "id": "",
-                    "name": "",
-                    "sex": "",
-                    "birthday": "",
-                    "position": "",
-                    "education_highest": "",
-                    "university_graduated": "",
-                    "year_start_related_industry": "",
-                    "share_held": "",
-                    "desc_past_job": "",
-                    "desc_hist_achievement": "",
-                    "punishment": "",
-                    "conflict": "",
-                    "mgrcomp_id": "" 
-                },
-                rules: { //验证规则
-                    desc_hist_achievement: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    university_graduated: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    share_held: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    year_start_related_industry: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    conflict: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    punishment: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    desc_past_job: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    name: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    birthday: [
-                        { required: true, message: '请选择时间', trigger: 'change'}
-                    ],
-                    education_highest: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    position: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ]
-                },
-                id: null
-            }
+  import api from '../axios.js'
+  import {required} from 'vuelidate/lib/validators'
+
+  export default {
+    data() {
+      return {
+        form: this.$route.query,
+        vertical: 'top',
+        horizontal: 'center',
+        duration: 4000,
+        msg: ''
+      }
+    },
+    validations: {
+      form: {
+        name: {
+          required
         },
-        created(){
-            api.getStaffId(this.listId).then((response) => {
-                this.getData(response)
-            });
+        birthday: {
+          required
         },
-        watch: {
-            'listId': function(){
-                if(this.listId){
-                    api.getStaffId(this.listId).then((response) => {
-                        this.getData(response)
-                    });
-                }
-            }
+        position: {
+          required
         },
-        methods: {
-            dateChange(val){
-                this.form.birthday = val;
-            },
-            getData(response){      //拿到返回的数据
-                if(response){
-                    if(response.status === 401){
-                        this.$router.push('/login');
-                        //可以把无效的token清楚掉
-                        this.$store.dispatch('UserLogout');
-                    }else{
-                        this.form = response.data;
-                        if(this.form.sex){
-                            this.form.sex = '1';
-                        }else{
-                            this.form.sex = '0';
-                        }
-                    }
-                }
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        this.form.sex = Number(this.form.sex);
-                        let opt = this.form;
-                        let id = this.form.id;
-                        api.setStaff(id,opt)
-                        .then(response => {
-                            //移除节点
-                            this.$emit("close","success","修改成功");
-                        }).catch((err) => {
-                            console.log(err);
-                        })
-                    } else {
-                        this.$message({
-                            type: 'error',
-                            message: '请按提示输入合法的值'
-                        });
-                        return false;
-                    }
-                });
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-                this.$emit("close");
-            }
+        education_highest: {
+          required
+        },
+        university_graduated: {
+          required
+        },
+        year_start_related_industry: {
+          required
+        },
+        share_held: {
+          required
+        },
+        desc_past_job: {
+          required
+        },
+        desc_hist_achievement: {
+          required
+        },
+        punishment: {
+          required
+        },
+        conflict: {
+          required
         }
+      }
+    },
+    methods: {
+      message(msg) {
+        this.msg = msg;
+        this.$refs.snackbar.open();
+      },
+      submitForm(formName) {
+        this.$v.form.$touch();
+        if (!this.$v.$error) {
+          if (this.form.sex=='男') {
+            this.form.sex = 1;
+          } else {
+            this.form.sex = 0;
+          }
+          this.form.year_start_related_industry = Number(this.form.year_start_related_industry);
+          let opt = this.form;
+          let id = this.form.id;
+          delete this.form.id;
+          delete this.form.mgrcomp_id;
+          api.setStaff(id, opt)
+            .then(response => {
+              this.message('修改成功');
+              this.$router.push('/home/staff');
+            }).catch((err) => {
+          })
+        }
+      },
+      cancelForm(formName) {
+        this.message('取消');
+        this.$router.push('/home/staff');
+      }
     }
+  }
 </script>
 
 <style scoped>
-
+  .inputCon {
+    height: 82px;
+    width: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    position: relative;
+  }
 </style>
 
 

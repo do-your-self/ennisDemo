@@ -1,43 +1,54 @@
 <template>
-    <el-menu class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" style="width: 100%;">
-        <router-link to="/home/company">
-            <el-menu-item index="1"><i class="el-icon-menu"></i>公司信息</el-menu-item>
-        </router-link>
-        <router-link to="/home/staff">
-            <el-menu-item index="2"><i class="el-icon-information"></i>职工信息</el-menu-item>
-        </router-link>
-        <router-link to="/home/stg">
-            <el-menu-item index="3"><i class="el-icon-document"></i>策略信息</el-menu-item>
-        </router-link>
-        <router-link to="/home/product">
-            <el-menu-item index="4"><i class="el-icon-plus"></i>产品信息</el-menu-item>
-        </router-link>
-        <router-link to="/home/prodStg">
-            <el-menu-item index="5"><i class="el-icon-date"></i>产品策略信息</el-menu-item>
-        </router-link>
-    </el-menu>
+  <md-list style="width:100%;background:#eee;">
+    <md-list-item @click="routerLink('/home/company')" :class="{'active': active=='/home/company'?true:false}">
+      <md-icon class="md-primary">business</md-icon>
+      <span>公司信息</span>
+    </md-list-item>
+    <md-list-item @click="routerLink('/home/staff')" :class="{'active': active=='/home/staff'?true:false}">
+      <md-icon class="md-primary">group</md-icon>
+      <span>职工信息</span>
+    </md-list-item>
+    <md-list-item @click="routerLink('/home/stg')" :class="{'active': active=='/home/stg'?true:false}">
+      <md-icon class="md-primary">short_text</md-icon>
+      <span>策略信息</span>
+    </md-list-item>
+    <md-list-item @click="routerLink('/home/product')" :class="{'active': active=='/home/product'?true:false}">
+      <md-icon class="md-primary">show_chart</md-icon>
+      <span>产品信息</span>
+    </md-list-item>
+    <md-list-item @click="routerLink('/home/prodStg')" :class="{'active': active=='/home/prodStg'?true:false}">
+      <md-icon class="md-primary">shuffle</md-icon>
+      <span>产品策略信息</span>
+    </md-list-item>
+  </md-list>
 </template>
 
 <script>
-    export default {
-        methods: {
-            handleOpen(key, keyPath) {
-            },
-            handleClose(key, keyPath) {
-            }
-        }
+  export default {
+    data(){
+      return {
+        active: this.$router.currentRoute.fullPath
+      }
+    },
+    methods: {
+      routerLink(path) {
+        console.log(this.$router.currentRoute.fullPath)
+        this.$router.push(path)
+        this.active = path;
+      }
     }
+  }
 </script>
 
 <style>
-    .el-menu-vertical-demo{
-        width: 100%;
-        height: 100%;
-        text-align: left;
-    }
-    a{
-        text-decoration: none;
-    }
+  .active {
+    background: #3f51b5!important;
+    border-bottom: 2px solid #3f51b5;
+    color: #fff;
+  }
+  .active .md-icon {
+    color: #fff!important;
+  }
 </style>
 
 

@@ -9,6 +9,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 Vue.use(ElementUI);
 
+//引用vue-material
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.css'
+Vue.use(VueMaterial)
+
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
 //引入store
 import store from './store'
 
@@ -23,3 +31,4 @@ new Vue({
   template: '<App/>',
   components: { App }
 })
+

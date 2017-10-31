@@ -1,103 +1,132 @@
 <template>
-    <div>
-        <el-table :data="tableData" stripe style="width: 100%;" @row-click="link" v-loading="loading">
-            <el-table-column type="index" width="100" header-align="center"></el-table-column>
-            <el-table-column prop="user" label="投顾公司" width="200" header-align="center"></el-table-column>
-            <el-table-column prop="mgrcomp_short_name" label="公司简称" width="200" header-align="center"></el-table-column>
-            <el-table-column prop="reg_id" label="协会注册备案号" width="200" header-align="center"></el-table-column>
-            <el-table-column prop="address" label="地址" width="250" header-align="center"></el-table-column>
-            <el-table-column prop="date_establishment" label="成立时间" width="200" header-align="center"></el-table-column>
-            <el-table-column prop="reg_capital" label="注册资本" width="200" header-align="center"></el-table-column>
-            <el-table-column prop="num_staff" label="员工数量" width="190" header-align="center"></el-table-column>
-        </el-table>
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
-          :page-sizes="pageSize"
-          :total="total">
-        </el-pagination>
-    </div>
+  <md-table-card style="width:100%;">
+    <md-table md-sort="calories">
+
+      <!-- table header -->
+      <md-table-header>
+        <md-table-row>
+          <md-table-head md-sort-by="user">投顾公司</md-table-head>
+          <md-table-head md-sort-by="mgrcomp_short_name">公司简称</md-table-head>
+          <md-table-head md-sort-by="reg_id">协会注册备案号</md-table-head>
+          <md-table-head md-sort-by="address">地址</md-table-head>
+          <md-table-head md-sort-by="date_establishment">成立时间</md-table-head>
+          <md-table-head md-sort-by="reg_capital">注册资本</md-table-head>
+          <md-table-head md-sort-by="shareholder_names">股东名单</md-table-head>
+          <md-table-head md-sort-by="num_staff">员工数量</md-table-head>
+        </md-table-row>
+      </md-table-header>
+
+      <!-- table body -->
+      <md-table-body>
+        <tr class="md-table-row" v-for="(row, rowIndex) in tableData" @click="link(rowIndex)" :key="rowIndex"
+            :md-item="row">
+          <md-table-cell v-for="(column, columnIndex) in row" :key="columnIndex"
+                         v-if="columnIndex !== 'id' && columnIndex !== 'num_rd' && columnIndex !== 'num_trade' && columnIndex !== 'num_it' && columnIndex !== 'num_risk_mgr' && columnIndex !== 'num_master' && columnIndex !== 'desc_hardware' && columnIndex !== 'desc_trading_platform' && columnIndex !== 'desc_db' && columnIndex !== 'desc_backup' && columnIndex !== 'desc_risk_mgr' && columnIndex !== 'risk_role_backup' && columnIndex !== 'risk_web_backup' && columnIndex !== 'risk_power_backup' && columnIndex !== 'mgrcomp_id'">
+            <span
+              v-if="columnIndex !== 'id' && columnIndex !== 'num_rd' && columnIndex !== 'num_trade' && columnIndex !== 'num_it' && columnIndex !== 'num_risk_mgr' && columnIndex !== 'num_master' && columnIndex !== 'desc_hardware' && columnIndex !== 'desc_trading_platform' && columnIndex !== 'desc_db' && columnIndex !== 'desc_backup' && columnIndex !== 'desc_risk_mgr' && columnIndex !== 'risk_role_backup' && columnIndex !== 'risk_web_backup' && columnIndex !== 'risk_power_backup' && columnIndex !== 'mgrcomp_id'">{{ column
+              }}</span>
+          </md-table-cell>
+        </tr>
+      </md-table-body>
+    </md-table>
+
+    <!-- 分页 -->
+    <md-table-pagination
+      md-size="5"
+      :md-total="total"
+      :md-page="currentPage"
+      md-label="行"
+      md-separator="共"
+      :md-page-options="[10]"
+      @pagination="handleCurrentChange">
+    </md-table-pagination>
+
+    <!-- 提示框 -->
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
+      <span><md-icon>info</md-icon>{{msg}}</span>
+      <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
+    </md-snackbar>
+
+    <!-- 对话弹框 -->
+    <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog">
+      <md-dialog-title>
+        <md-icon class="md-size-2x md-warn">info</md-icon>
+        提示
+      </md-dialog-title>
+      <md-dialog-content>此操作将永久删除该条信息, 是否继续?</md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-raised" @click="closeDialog('dialog','cancel')">取消</md-button>
+        <md-button class="md-raised md-primary" @click="closeDialog('dialog','submit')">确定</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+  </md-table-card>
 </template>
 
 <script>
-    import api from '../axios.js'
-    export default {
-        data() {
-          return {
-            loading: true,
-            tableData: [],
-            currentPage: 1,
-            dialogFormVisible: false,
-            title: '',
-            pageSize: [],
-            total: 0,
-            listId: null,
-            form: null,
-            col: []
-          }
-        },
-        beforeCreate(){
-          api.getAllCompany(10,1).then((response) => {
-            this.getData(response);
-          });
-        },
-        methods: {
-          getData(response){
-            if(response){
-              if(response.status === 401){
-                this.$router.push('/login');
-                //可以把无效的token清楚掉
-                this.$store.dispatch('UserLogout');
-              }else{
-                this.loading = false;
-                let resp = response.data.items;
-                this.tableData = resp;
-                this.currentPage = response.data.page;
-                this.pageSize = [response.data.per_page];
-                this.total = response.data.total;
-                this.pages = response.data.pages;
-              }
-            }
-          },
-          closeDialog(clo,res){
-            this.dialogFormVisible = clo;
-            if(res==="success"){
-              api.getAllCompany(10,this.currentPage).then((response) => {
-                this.getData(response);
-              });
-            }
-          },
-          link(row,event,column){
-            if(column.label!="操作"){
-              this.$store.dispatch('Id', row.mgrcomp_id);
-              this.$router.push({
-                path:'/home/company',
-                name:'company',
-                params:{
-                  id:row.mgrcomp_id
-                }
-              });
-            }
-          },
-          handleSizeChange(val) {
+  import api from '../axios.js'
 
-          },
-          handleCurrentChange(val) {
-            this.loading=true;
-            api.getAllCompany(10,val).then((response) => {
-              this.getData(response);
-            });
+  export default {
+    data() {
+      return {
+        tableData: [],
+        currentPage: 1,
+        total: 0,
+        vertical: 'top',
+        horizontal: 'center',
+        duration: 4000,
+        msg: ''
+      }
+    },
+    beforeCreate() {
+      api.getAllCompany(10, 1).then((response) => {
+        this.getData(response);
+      });
+    },
+    methods: {
+      getData(response) {
+        if (response) {
+          if (response.status === 401) {
+            this.$router.push('/login');
+            //可以把无效的token清楚掉
+            this.$store.dispatch('UserLogout');
+          } else {
+            this.tableData = response.data.items;
+            this.currentPage = response.data.page;
+            this.total = response.data.total;
           }
         }
+      },
+      closeDialog(clo, res) {
+        this.dialogFormVisible = clo;
+        if (res === "success") {
+          api.getAllCompany(10, this.currentPage).then((response) => {
+            this.getData(response);
+          });
+        }
+      },
+      link(index) {
+        let id = this.tableData[index].mgrcomp_id
+        this.$store.dispatch('Id', id);
+        this.$router.push({
+          path: '/home/company',
+          name: 'company',
+          params: {
+            id: id
+          }
+        });
+      },
+      handleCurrentChange(val) {
+        api.getAllCompany(10, val.page).then((response) => {
+          this.getData(response);
+        });
+      }
     }
+  }
 </script>
 
 <style>
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-        width: 200px;
-        min-height: 600px;
-    }
-    tr {
-      cursor: pointer; 
-    }
+
 </style>
 
 

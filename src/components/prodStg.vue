@@ -1,37 +1,77 @@
 <template>
-  <div>
-    <div style="padding:10px 20px;text-align:left;" v-if="$store.state.admin=='false'">
-      <router-link to="/home/prodStg/addProdStg">
-        <el-button size="small" @click="addProdStg">添加</el-button>
-      </router-link>
-    </div>
-    <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
-      <el-table-column type="index" width="100"></el-table-column>
-      <el-table-column prop="year_end_backtesting" label="规模" width="100" header-align="center"></el-table-column>
-      <el-table-column prop="stg_proportion_from" label="策略占比区间开始" width="200" header-align="center"></el-table-column>
-      <el-table-column prop="year_start_backtesting" label="产品数量" width="150" header-align="center"></el-table-column>
-      <el-table-column prop="prod_id" label="规模上限" width="150" header-align="center"></el-table-column>
-      <el-table-column prop="desc" label="策略描述" width="300" header-align="center"></el-table-column>
-      <el-table-column prop="stg_type" label="策略类型" width="200" header-align="center"></el-table-column>
-      <el-table-column prop="stg_proportion_to" label="策略占比区间结束" width="200" header-align="center"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150" header-align="center">
-        <template scope="scope">
-          <router-link to="/home/prodStg/editProdStg">
-          <el-button type="primary" size="small" icon="edit" @click="editProdStg(scope.$index,tableData)" :disabled="$store.state.admin=='true'"></el-button>
-          </router-link>
-          <el-button type="primary" size="small" icon="delete" @click.native.prevent="delProdStg(scope.$index, tableData)" :disabled="$store.state.admin=='true'&&$store.state.id!='null'"></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
-      :page-sizes="pageSize"
-      :total="total">
-    </el-pagination>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close="closeDialog">
-    <hr>
-      <router-view :listId="listId" v-if="listId||listId==''" v-on:close="closeDialog"></router-view>
-    </el-dialog>
-  </div>
+  <md-table-card style="width:100%;">
+  <md-toolbar v-if="$store.state.admin=='false'">
+    <h1 class="md-title">
+      <md-button class="md-icon-button" @click="add">
+        <md-icon>add</md-icon>
+      </md-button>
+    </h1>
+  </md-toolbar>
+
+  <md-table md-sort="calories">
+    <!-- table header -->
+    <md-table-header>
+      <md-table-row>
+        <md-table-head md-sort-by="year_end_backtesting">规模</md-table-head>
+        <md-table-head md-sort-by="stg_proportion_from">策略占比区间开始</md-table-head>
+        <md-table-head md-sort-by="year_start_backtesting">产品数量</md-table-head>
+        <md-table-head md-sort-by="prod_id">规模上限</md-table-head>
+        <md-table-head md-sort-by="desc">策略描述</md-table-head>
+        <md-table-head md-sort-by="stg_type">策略类型</md-table-head>
+        <md-table-head md-sort-by="stg_proportion_to">策略占比区间结束</md-table-head>
+        <md-table-head style="width:100px;text-align:center;">操作</md-table-head>
+      </md-table-row>
+    </md-table-header>
+
+    <!-- table body -->
+    <md-table-body>
+      <md-table-row v-for="(row, rowIndex) in tableData" :key="rowIndex" :md-item="row">
+          <md-table-cell v-for="(column, columnIndex) in row" :key="columnIndex" v-if="columnIndex !== 'id' && columnIndex !== 'mgrcomp_id'">
+            <span v-if="columnIndex !== 'id' && columnIndex !== 'mgrcomp_id'">{{ column }}</span>
+          </md-table-cell>
+          <md-table-cell>
+            <md-button class="md-raised md-primary md-icon-button" @click="edit(rowIndex,row.id)" :disabled="$store.state.admin=='true'">
+              <md-icon>edit</md-icon>
+            </md-button>     
+            <md-button class="md-raised md-primary md-icon-button" @click="del(rowIndex,row.id)" :disabled="$store.state.admin=='true'">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </md-table-cell>
+      </md-table-row>
+    </md-table-body>
+  </md-table>
+
+    <!-- 分页 -->
+    <md-table-pagination
+      md-size="5"
+      :md-total="total"
+      :md-page="currentPage"
+      md-label="行"
+      md-separator="共"
+      :md-page-options="[10]"
+      @pagination="handleCurrentChange">
+    </md-table-pagination>
+
+    <!-- 提示框 -->
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
+      <span><md-icon>info</md-icon>{{msg}}</span>
+      <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
+    </md-snackbar>
+
+    <!-- 对话弹框 -->
+    <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog">
+      <md-dialog-title>
+        <md-icon class="md-size-2x md-warn">info</md-icon>
+        提示
+      </md-dialog-title>
+      <md-dialog-content>此操作将永久删除该条信息, 是否继续?</md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-raised" @click="closeDialog('dialog','cancel')">取消</md-button>
+        <md-button class="md-raised md-primary" @click="closeDialog('dialog','submit')">确定</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+</md-table-card>
 </template>
 
 <script>
@@ -39,15 +79,15 @@
   export default {
     data() {
       return {
-        loading: true,
         tableData: [],
         currentPage: 1,
-        dialogFormVisible: false,
-        title: '',
-        pageSize: [],
         total: 0,
-        listId: null,
-        form: null
+        vertical: 'top',
+        horizontal: 'center',
+        duration: 4000,
+        msg: '',
+        id: '',
+        index: ''
       }
     },
     beforeCreate(){
@@ -67,6 +107,10 @@
       }
     },
     methods: {
+      message(msg) {
+        this.msg = msg;
+        this.$refs.snackbar.open();
+      },
       getData: function(response){
         if(response){
           if(response.status === 401){
@@ -74,78 +118,55 @@
             //可以把无效的token清楚掉
             this.$store.dispatch('UserLogout');
           }else{
-            this.loading = false;
             let resp = response.data.items;
             for(var i=0; i<resp.length;i++){
               resp[i].stg_proportion_from=Math.round(resp[i].stg_proportion_from* 100) / 100;
               resp[i].stg_proportion_to=Math.round(resp[i].stg_proportion_to* 100) / 100;
             }
             this.tableData = resp;
-            this.pageSize = [response.data.per_page];
+            this.currentPage = response.data.page;
             this.total = response.data.total;
-            this.pages = response.data.pages;
           }
         }
       },
-      open(index,rows,id) {
-        this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          api.delProdStg(id)
-          .then(response => {
-            rows.splice(index, 1);
-            this.$message({
-              type: 'success',
-              message: '删除成功'
-            });
+      //判断确定取消操作并关闭回话框
+      closeDialog(ref, e) {
+        if (e == 'submit') {
+          api.delProdStg(this.id).then(response => {
+            this.tableData.splice(this.index, 1);
+            this.msg = '删除成功';
+            this.$refs.snackbar.open();
             --this.total;
-            if(this.tatal%10==0){
+            if (this.total % 10 == 0) {
               --this.currentPage;
             }
+            api.getProdStg(10, this.currentPage).then((response) => {
+              this.getData(response);
+            });
           }).catch((err) => {
-            console.log(err);
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-      },
-      closeDialog(res,msg){
-        this.dialogFormVisible = false;
-        this.$router.push('/home/prodStg');
-        if(res==="success"){
-          this.$message({
-            type: 'success',
-            message: msg
-          });
-          api.getProdStg(10,this.currentPage).then((response) => {
-            this.getData(response);
-          });
+        } else {
+          this.msg = '已取消删除';
+          this.$refs.snackbar.open();
         }
+        this.$refs[ref].close();
       },
-      addProdStg(){
-        this.dialogFormVisible = true;
-        this.listId = '';
-        this.title = '新增';
+      add(){
+        this.$router.push('/home/addProdStg')
       },
-      editProdStg(index,rows) {
-        this.dialogFormVisible = true;
-        this.listId = rows[index].id;
-        this.title = '编辑';
+      edit(index,id) {
+        this.$router.push({
+          path: '/home/editProdStg',
+          query: this.tableData[index]
+        })
       },
-      delProdStg(index,rows) {
-        let id = rows[index].id;
-        this.open(index,rows,id);
+      del(index, id) {
+        this.$refs['dialog'].open();
+        this.id = id;
+        this.index = index;
       },
-      handleSizeChange(val) {
-
-      },
-      handleCurrentChange(val) {
-        this.loading=true;
+      handleCurrentChange(opt) {
+        let val = opt.page;
         if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
           api.getAllProdStg(10,val).then((response) => {
             this.getData(response);
@@ -166,20 +187,7 @@
 </script>
 
 <style>
-  .el-pagination {
-    margin-top: 20px;
-  }
-  .el-dialog__body {
-      padding: 10px 20px 30px;
-      color: #48576a;
-      font-size: 14px;
-  }
-  hr {
-    margin-bottom: 20px;
-  }
-  tr {
-    cursor: pointer; 
-  }
+
 </style>
 
 

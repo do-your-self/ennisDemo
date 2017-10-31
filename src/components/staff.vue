@@ -1,168 +1,205 @@
 <template>
-  <div>
-    <div style="padding:10px 20px;text-align:left;" v-if="$store.state.admin=='false'">
-      <router-link to="/home/staff/addStaff">
-        <el-button size="small" @click="addStaff">添加</el-button>
-      </router-link>
-    </div>
-    <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
-      <el-table-column type="index" width="100" header-align="center"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="150" header-align="center"></el-table-column>
-      <el-table-column prop="sex" label="性别" width="140" header-align="center"></el-table-column>
-      <el-table-column prop="position" label="当前职位" width="200" header-align="center"></el-table-column>
-      <el-table-column prop="birthday" label="生日" width="200" header-align="center"></el-table-column>
-      <el-table-column prop="education_highest" label="最高学历" width="200" header-align="center"></el-table-column>
-      <el-table-column prop="university_graduated" label="毕业院校" width="200" header-align="center"></el-table-column>
-      <el-table-column prop="share_held" label="占股比例" width="200" header-align="center"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150" header-align="center">
-        <template scope="scope">
-          <router-link to="/home/staff/editStaff">
-          <el-button type="primary" size="small" icon="edit" @click="editStaff(scope.$index,tableData)" :disabled="$store.state.admin=='true'"></el-button>
-          </router-link>
-          <el-button type="primary" size="small" icon="delete" @click.native.prevent="delStaff(scope.$index, tableData)" :disabled="$store.state.admin=='true'&&$store.state.id!='null'"></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
-      :page-sizes="pageSize"
-      :total="total">
-    </el-pagination>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close="closeDialog">
-    <hr>
-      <router-view :listId="listId" v-if="listId||listId==''" v-on:close="closeDialog"></router-view>
-    </el-dialog>
-  </div>
+  <md-table-card style="width:100%;">
+    <md-toolbar v-if="$store.state.admin=='false'">
+      <h1 class="md-title">
+        <md-button class="md-icon-button" @click="add">
+          <md-icon>add</md-icon>
+        </md-button>
+      </h1>
+    </md-toolbar>
+
+    <md-table-alternate-header md-selected-label="selected">
+      <md-button class="md-icon-button">
+        <md-icon>delete</md-icon>
+      </md-button>
+
+      <md-button class="md-icon-button">
+        <md-icon>more_vert</md-icon>
+      </md-button>
+    </md-table-alternate-header>
+
+    <md-table md-sort="calories">
+      <!-- table header -->
+      <md-table-header>
+        <md-table-row>
+          <md-table-head md-sort-by="name">姓名</md-table-head>
+          <md-table-head md-sort-by="sex">性别</md-table-head>
+          <md-table-head md-sort-by="position">当前职位</md-table-head>
+          <md-table-head md-sort-by="birthday">生日</md-table-head>
+          <md-table-head md-sort-by="education_highest">最高学历</md-table-head>
+          <md-table-head md-sort-by="university_graduated">毕业院校</md-table-head>
+          <md-table-head md-sort-by="share_held">占股比例</md-table-head>
+          <md-table-head md-sort-by="year_start_related_industry">从业年限</md-table-head>
+          <md-table-head md-sort-by="mgrcomp_id" style="width:100px;text-align:center;">操作</md-table-head>
+        </md-table-row>
+      </md-table-header>
+
+      <!-- table body -->
+      <md-table-body>
+        <md-table-row v-for="(row, rowIndex) in tableData" :key="rowIndex" :md-item="row">
+          <md-table-cell v-for="(column, columnIndex) in row" :key="columnIndex"
+                         v-if="columnIndex !== 'desc_past_job' && columnIndex !== 'desc_hist_achievement' && columnIndex !== 'punishment' && columnIndex !== 'conflict' && columnIndex !== 'id' && columnIndex !== 'mgrcomp_id'">
+            <span
+              v-if="columnIndex !== 'desc_past_job' && columnIndex !== 'desc_hist_achievement' && columnIndex !== 'punishment' && columnIndex !== 'conflict' && columnIndex !== 'id' && columnIndex !== 'mgrcomp_id'">{{ column
+              }}</span>
+          </md-table-cell>
+          <md-table-cell>
+            <md-button class="md-raised md-primary md-icon-button" @click="edit(rowIndex,row.id)"
+                       :disabled="$store.state.admin=='true'">
+              <md-icon>edit</md-icon>
+            </md-button>
+            <md-button class="md-raised md-primary md-icon-button" @click="del(rowIndex,row.id)"
+                       :disabled="$store.state.admin=='true'">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </md-table-cell>
+        </md-table-row>
+      </md-table-body>
+    </md-table>
+
+    <!-- 分页 -->
+    <md-table-pagination
+      md-size="5"
+      :md-total="total"
+      :md-page="currentPage"
+      md-label="行"
+      md-separator="共"
+      :md-page-options="[10]"
+      @pagination="handleCurrentChange">
+    </md-table-pagination>
+
+    <!-- 提示框 -->
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
+      <span><md-icon>info</md-icon>{{msg}}</span>
+      <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
+    </md-snackbar>
+
+    <!-- 对话弹框 -->
+    <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog">
+      <md-dialog-title>
+        <md-icon class="md-size-2x md-warn">info</md-icon>
+        提示
+      </md-dialog-title>
+      <md-dialog-content>此操作将永久删除该条信息, 是否继续?</md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-raised" @click="closeDialog('dialog','cancel')">取消</md-button>
+        <md-button class="md-raised md-primary" @click="closeDialog('dialog','submit')">确定</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+  </md-table-card>
 </template>
 
 <script>
   import api from '../axios.js'
+
   export default {
     data() {
       return {
-        loading: true,
         tableData: [],
         currentPage: 1,
-        dialogFormVisible: false,
-        title: '',
-        pageSize: [],
         total: 0,
-        listId: null,
-        form: null
+        vertical: 'top',
+        horizontal: 'center',
+        duration: 4000,
+        msg: '',
+        id: '',
+        index: ''
       }
     },
-    beforeCreate(){
-      if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
-        api.getAllStaff(10,1).then((response) => {
+    beforeCreate() {
+      if (this.$store.state.admin == 'true' && this.$store.state.id == 'null') {
+        api.getAllStaff(10, 1).then((response) => {
           this.getData(response);
         });
-      }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
+      } else if (this.$store.state.admin == 'true' && this.$store.state.id != 'null') {
         let id = this.$store.state.id;
-        api.getIdStaff(id,10,1).then((response) => {
+        api.getIdStaff(id, 10, 1).then((response) => {
           this.getData(response);
         });
-      }else{
-        api.getStaff(10,1).then((response) => {
+      } else {
+        api.getStaff(10, 1).then((response) => {
           this.getData(response);
         });
       }
     },
     methods: {
-      getData: function(response){      //拿到返回的数据
-        if(response){
-          if(response.status === 401){
+      message(msg) {
+        this.msg = msg;
+        this.$refs.snackbar.open();
+      },
+      //判断确定取消操作并关闭回话框
+      closeDialog(ref, e) {
+        if (e == 'submit') {
+          api.delStaff(this.id).then(response => {
+            this.tableData.splice(this.index, 1);
+            this.msg = '删除成功';
+            this.$refs.snackbar.open();
+            --this.total;
+            if (this.total % 10 == 0) {
+              --this.currentPage;
+            }
+            api.getStaff(10, this.currentPage).then((response) => {
+              this.getData(response);
+            });
+          }).catch((err) => {
+          })
+        } else {
+          this.msg = '已取消删除';
+          this.$refs.snackbar.open();
+        }
+        this.$refs[ref].close();
+      },
+      getData: function (response) {      //拿到返回的数据
+        if (response) {
+          if (response.status === 401) {
             this.$router.push('/login');
             //可以把无效的token清楚掉
             this.$store.dispatch('UserLogout');
-          }else{
+          } else {
             let resp = response.data.items;
-            for(var i=0;i<resp.length;i++){
-              for(var k in resp[i]){
-                if(k === 'sex' && resp[i][k] === false){
-                  resp[i][k] = '男';
-                }else if(k === 'sex' && resp[i][k] === true){
+            for (var i = 0; i < resp.length; i++) {
+              for (var k in resp[i]) {
+                if (k === 'sex' && resp[i][k] === false) {
                   resp[i][k] = '女';
+                } else if (k === 'sex' && resp[i][k] === true) {
+                  resp[i][k] = '男';
                 }
               }
             }
-            this.loading = false;
             this.tableData = resp;
-            this.currentPage =  response.data.page;
-            this.pageSize = [response.data.per_page];
+            this.currentPage = response.data.page;
             this.total = response.data.total;
-            this.pages = response.data.pages;
           }
         }
       },
-      open(index,rows,id) {
-        this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          api.delStaff(id)
-          .then(response => {
-            rows.splice(index, 1);
-            this.$message({
-              type: 'success',
-              message: '删除成功'
-            });
-            --this.total;
-            if(this.tatal%10==0){
-              --this.currentPage;
-            }
-          }).catch((err) => {
-            console.log(err);
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
+      add() {
+        this.$router.push('/home/addStaff')
       },
-      closeDialog(res,msg){
-        this.dialogFormVisible = false;
-        this.$router.push('/home/staff');
-        if(res==="success"){
-          this.$message({
-            type: 'success',
-            message: msg
-          });
-          api.getStaff(10,this.currentPage).then((response) => {
+      edit(index, id) {
+        this.$router.push({
+          path: '/home/editStaff',
+          query: this.tableData[index]
+        })
+      },
+      del(index, id) {
+        this.$refs['dialog'].open();
+        this.id = id;
+        this.index = index;
+      },
+      handleCurrentChange(opt) {
+        let val = opt.page;
+        if (this.$store.state.admin == 'true' && this.$store.state.id == 'null') {
+          api.getAllStaff(10, val).then((response) => {
             this.getData(response);
           });
-        }
-      },
-      addStaff(){
-        this.dialogFormVisible = true;
-        this.listId = '';
-        this.title = '新增';
-      },
-      editStaff(index,rows) {
-        this.dialogFormVisible = true;
-        this.listId = rows[index].id;
-        this.title = '编辑';
-      },
-      delStaff(index,rows) {
-        let id = rows[index].id;
-        this.open(index,rows,id);
-      },
-      handleSizeChange(val) {
-
-      },
-      handleCurrentChange(val) {
-        this.loading=true;
-        if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
-          api.getAllStaff(10,val).then((response) => {
-            this.getData(response);
-          });
-        }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
+        } else if (this.$store.state.admin == 'true' && this.$store.state.id != 'null') {
           let id = this.$store.state.id;
-          api.getIdStaff(id,10,val).then((response) => {
+          api.getIdStaff(id, 10, val).then((response) => {
             this.getData(response);
           });
-        }else{
-          api.getStaff(10,val).then((response) => {
+        } else {
+          api.getStaff(10, val).then((response) => {
             this.getData(response);
           });
         }
@@ -172,20 +209,7 @@
 </script>
 
 <style>
-  .el-pagination {
-    margin-top: 20px;
-  }
-  .el-dialog__body {
-      padding: 10px 20px 30px;
-      color: #48576a;
-      font-size: 14px;
-  }
-  hr {
-    margin-bottom: 20px;
-  }
-  tr {
-    cursor: pointer; 
-  }
+
 </style>
 
 

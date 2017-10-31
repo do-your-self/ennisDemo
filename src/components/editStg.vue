@@ -1,127 +1,128 @@
 <template>
-    <el-form ref="form" :model="form" label-width="150px" :rules="rules">
-        <el-col :span="15" :offset="2">
-            <el-form-item label="策略类型" prop="stg_type">
-                <el-select v-model="form.stg_type" placeholder="请选择策略类型" style="width:100%">
-                    <el-option label="股票多空" value="股票多空"></el-option>
-                    <el-option label="量化对冲" value="量化对冲"></el-option>
-                    <el-option label="债券" value="债券"></el-option>
-                    <el-option label="套利" value="套利"></el-option>
-                    <el-option label="CTA" value="CTA"></el-option>
-                    <el-option label="宏观对冲" value="宏观对冲"></el-option>
-                    <el-option label="另类策略" value="另类策略"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="产品数量" prop="product_count">
-                <el-input type="number" v-model.number="form.product_count"><template slot="append">只</template></el-input>
-            </el-form-item>
-            <el-form-item label="规模" prop="scale">
-                <el-input type="number" v-model.number="form.scale"><template slot="append">万</template></el-input>
-            </el-form-item>
-            <el-form-item label="规模上限" prop="scale_ceiling">
-                <el-input type="number" v-model.number="form.scale_ceiling"></el-input>
-            </el-form-item>
-        </el-col>
-        <el-col style="padding:20px 0 50px;">
-            <el-button type="primary" @click="submitForm('form')">提交</el-button>
-            <el-button @click="resetForm('form')">取消</el-button>
-        </el-col>
-    </el-form>             
+  <md-card style="width:100%;">
+
+    <md-card-header>
+      <div class="md-title">编辑</div>
+      <div class="md-subhead">修改策略信息</div>
+    </md-card-header>
+
+    <md-card-content>
+      <md-layout md-align="center" md-gutter="16">
+        <md-layout md-flex="55">
+          <form style="width:100%;">
+            <md-input-container :class="{'md-input-invalid':$v.form.stg_type.$error}">
+              <label for="stg_type">策略类型</label>
+              <md-select name="stg_type" v-model="form.stg_type" placeholder="请选择策略类型" style="width:100%">
+                <md-option value="股票多空策略">股票多空策略</md-option>
+                <md-option value="量化对冲策略">量化对冲策略</md-option>
+                <md-option value="债券策略">债券策略</md-option>
+                <md-option value="套利策略">套利策略</md-option>
+                <md-option value="CTA策略">CTA策略</md-option>
+                <md-option value="宏观对冲策略">宏观对冲策略</md-option>
+                <md-option value="另类策略">另类策略</md-option>
+              </md-select>
+              <span class="md-error">不允许为空</span>
+              </md-select>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.product_count.$error}">
+              <label>产品数量</label>
+              <md-input v-model.number="form.product_count" @input="$v.form.product_count.$touch()"></md-input>
+              <md-icon class="font">只</md-icon>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.scale.$error}">
+              <label>规模</label>
+              <md-input v-model.number="form.scale" @input="$v.form.scale.$touch()"></md-input>
+              <md-icon class="font">万</md-icon>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.scale_ceiling.$error}">
+              <label>规模上限</label>
+              <md-input v-model.number="form.scale_ceiling" @input="$v.form.scale_ceiling.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+
+            <!-- 提示框 -->
+            <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
+              <span><md-icon>info</md-icon>{{msg}}</span>
+              <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
+            </md-snackbar>
+          </form>
+        </md-layout>
+      </md-layout>
+
+      <md-layout md-align="center">
+        <md-button class="md-primary md-raised" @click="submitForm">提交</md-button>
+        <md-button class="md-dense md-raised" @click="cancelForm">取消</md-button>
+      </md-layout>
+    </md-card-content>
+  </md-card>
 </template>
 
 <script>
-    import api from '../axios.js'
-    export default {
-        props: ['listId'],
-        data() {
-            return {
-                form: {
-                  "stg_type": "",
-                  "product_count": "",
-                  "scale": "",
-                  "scale_ceiling": ""
-                },
-                rules: { //验证规则
-                    stg_type: [
-                        { required: true, message: '请选择策略类型', trigger: 'change'}
-                    ],
-                    product_count: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    scale: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    scale_ceiling: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ]
-                },
-                id: null
-            }
+  import api from '../axios.js'
+  import {required} from 'vuelidate/lib/validators'
+
+  export default {
+    data() {
+      return {
+        form: this.$route.query,
+        vertical: 'top',
+        horizontal: 'center',
+        duration: 4000,
+        msg: ''
+      }
+    },
+    validations: {
+      form: {
+        stg_type: {
+          required
         },
-        created(){
-            api.getStgId(this.listId).then((response) => {
-                this.getData(response);
-            });
+        product_count: {
+          required
         },
-        watch: {
-            'listId': function(){
-                if(this.listId){
-                    api.getStgId(this.listId).then((response) => {
-                        this.getData(response);
-                    });
-                }
-            }
+        scale: {
+          required
         },
-        methods: {
-            dateChange(val){
-                this.form.birthday = val;
-            },
-            getData(response){      //拿到返回的数据
-                if(response){
-                    if(response.status === 401){
-                        this.$router.push('/login');
-                        //可以把无效的token清楚掉
-                        this.$store.dispatch('UserLogout');
-                    }else{
-                        this.form = response.data;
-                    }
-                }
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        let opt = {};
-                        opt.stg_type = this.form.stg_type;
-                        opt.product_count = Number(this.form.product_count);
-                        opt.scale = Number(this.form.scale);
-                        opt.scale_ceiling = Number(this.form.scale_ceiling);
-                        let id = this.form.id;
-                        api.setStg(id,opt)
-                        .then(response => {
-                            //移除节点
-                            this.$emit("close","success","修改成功");
-                        }).catch((err) => {
-                            console.log(err);
-                        })
-                    } else {
-                        this.$message({
-                            type: 'error',
-                            message: '请按提示输入合法的值'
-                        });
-                        return false;
-                    }
-                });
-            },
-            resetForm(formName) {
-                this.$refs[formName].resetFields();
-                this.$emit("close");
-            }
+        scale_ceiling: {
+          required
         }
+      }
+    },
+    methods: {
+      message(msg) {
+        this.msg = msg;
+        this.$refs.snackbar.open();
+      },
+      submitForm() {
+        this.$v.form.$touch();
+        if (!this.$v.$error) {
+          let opt = {};
+          opt.stg_type = this.form.stg_type;
+          opt.product_count = Number(this.form.product_count);
+          opt.scale = Number(this.form.scale);
+          opt.scale_ceiling = Number(this.form.scale_ceiling);
+          let id = this.form.id;
+          api.setStg(id, opt)
+            .then(response => {
+              this.message('修改成功');
+              this.$router.push('/home/stg');
+            }).catch((err) => {
+          })
+        }
+      },
+      cancelForm(formName) {
+        this.message('取消');
+        this.$router.push('/home/stg');
+      }
     }
+  }
 </script>
 
 <style scoped>
-
+  .font {
+    font-size: 14px;
+  }
 </style>
 
 

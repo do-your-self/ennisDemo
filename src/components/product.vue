@@ -1,159 +1,190 @@
 <template>
-  <div>
-    <div style="padding:10px 20px;text-align:left;" v-if="$store.state.admin=='false'">
-      <router-link to="/home/product/addProduct">
-        <el-button size="small" @click="addProduct">添加</el-button>
-      </router-link>
-    </div>
-    <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
-      <el-table-column type="index" width="100"></el-table-column>
-      <el-table-column prop="full_name" label="基金产品全称" width="200" header-align="center"></el-table-column>
-      <el-table-column prop="short_name" label="基金产品简称" width="150" header-align="center"></el-table-column>
-      <el-table-column prop="prod_count" label="产品数量" width="150" header-align="center"></el-table-column>
-      <el-table-column prop="prod_scale" label="产品规模" width="200" header-align="center"></el-table-column>
-      <el-table-column prop="warning_line" label="预警线" width="150" header-align="center"></el-table-column>
-      <el-table-column prop="winding_line" label="风控线" width="150" header-align="center"></el-table-column>
-      <el-table-column prop="date_establishment" label="产品成立时间" width="300" header-align="center"></el-table-column>
-      <el-table-column fixed="right" label="操作" width="150" header-align="center">
-        <template scope="scope">
-          <router-link to="/home/product/editProduct">
-          <el-button type="primary" size="small" icon="edit" @click="editProduct(scope.$index,tableData)" :disabled="$store.state.admin=='true'"></el-button>
-          </router-link>
-          <el-button type="primary" size="small" icon="delete" @click.native.prevent="delProduct(scope.$index, tableData)" :disabled="$store.state.admin=='true'&&$store.state.id!='null'"></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
-      :page-sizes="pageSize"
-      :total="total">
-    </el-pagination>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close="closeDialog">
-    <hr>
-      <router-view :listId="listId" v-if="listId||listId==''" v-on:close="closeDialog"></router-view>
-    </el-dialog>
-  </div>
+  <md-table-card style="width:100%;">
+    <md-toolbar v-if="$store.state.admin=='false'">
+      <h1 class="md-title">
+        <md-button class="md-icon-button" @click="add">
+          <md-icon>add</md-icon>
+        </md-button>
+      </h1>
+    </md-toolbar>
+
+    <md-table md-sort="calories">
+      <!-- table header -->
+      <md-table-header>
+        <md-table-row>
+          <md-table-head md-sort-by="full_name">基金产品全称</md-table-head>
+          <md-table-head md-sort-by="short_name">基金产品简称</md-table-head>
+          <md-table-head md-sort-by="prod_count">产品数量</md-table-head>
+          <md-table-head md-sort-by="prod_scale">产品规模</md-table-head>
+          <md-table-head md-sort-by="warning_line">预警线</md-table-head>
+          <md-table-head md-sort-by="winding_line">风控线</md-table-head>
+          <md-table-head md-sort-by="date_establishment">产品成立时间</md-table-head>
+          <md-table-head md-sort-by="status">运行状态</md-table-head>
+          <md-table-head md-sort-by="avg_turn_over_rate">平均年华换手率</md-table-head>
+          <md-table-head md-sort-by="avg_win_holding_period">盈利股票平均持仓</md-table-head>
+          <md-table-head style="width:100px;text-align:center;">操作</md-table-head>
+        </md-table-row>
+      </md-table-header>
+
+      <!-- table body -->
+      <md-table-body>
+        <md-table-row v-for="(row, rowIndex) in tableData" :key="rowIndex" :md-item="row">
+          <md-table-cell v-for="(column, columnIndex) in row" :key="columnIndex"
+                         v-if="columnIndex !== 'id' && columnIndex !== 'prod_mgr_id' && columnIndex !== 'desc_struct' && columnIndex !== 'is_auto_trading' && columnIndex !== 'is_intraday_trading' && columnIndex !== 'is_struct' && columnIndex !== 'mgrcomp_id'">
+            <span
+              v-if="columnIndex !== 'id' && columnIndex !== 'prod_mgr_id' && columnIndex !== 'desc_struct' && columnIndex !== 'is_auto_trading' && columnIndex !== 'is_intraday_trading' && columnIndex !== 'is_struct' && columnIndex !== 'mgrcomp_id'">{{ column
+              }}</span>
+          </md-table-cell>
+          <md-table-cell>
+            <md-button class="md-raised md-primary md-icon-button" @click="edit(rowIndex,row.id)"
+                       :disabled="$store.state.admin=='true'">
+              <md-icon>edit</md-icon>
+            </md-button>
+            <md-button class="md-raised md-primary md-icon-button" @click="del(rowIndex,row.id)"
+                       :disabled="$store.state.admin=='true'">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </md-table-cell>
+        </md-table-row>
+      </md-table-body>
+    </md-table>
+
+    <!-- 分页 -->
+    <md-table-pagination
+      md-size="5"
+      :md-total="total"
+      :md-page="currentPage"
+      md-label="行"
+      md-separator="共"
+      :md-page-options="[10]"
+      @pagination="handleCurrentChange">
+    </md-table-pagination>
+
+    <!-- 提示框 -->
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
+      <span><md-icon>info</md-icon>{{msg}}</span>
+      <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
+    </md-snackbar>
+
+    <!-- 对话弹框 -->
+    <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog">
+      <md-dialog-title>
+        <md-icon class="md-size-2x md-warn">info</md-icon>
+        提示
+      </md-dialog-title>
+      <md-dialog-content>此操作将永久删除该条信息, 是否继续?</md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-raised" @click="closeDialog('dialog','cancel')">取消</md-button>
+        <md-button class="md-raised md-primary" @click="closeDialog('dialog','submit')">确定</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+  </md-table-card>
 </template>
 <script>
   import api from '../axios.js'
+
   export default {
     data() {
       return {
-        loading: true,
         tableData: [],
         currentPage: 1,
-        dialogFormVisible: false,
-        title: '',
-        pageSize: [],
         total: 0,
-        listId: null
+        vertical: 'top',
+        horizontal: 'center',
+        duration: 4000,
+        msg: '',
+        id: '',
+        index: ''
       }
     },
-    beforeCreate(){
-      if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
-        api.getAllProd(10,1).then((response) => {
+    beforeCreate() {
+      if (this.$store.state.admin == 'true' && this.$store.state.id == 'null') {
+        api.getAllProd(10, 1).then((response) => {
           this.getData(response);
         });
-      }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
+      } else if (this.$store.state.admin == 'true' && this.$store.state.id != 'null') {
         let id = this.$store.state.id;
-        api.getIdProd(id,10,1).then((response) => {
+        api.getIdProd(id, 10, 1).then((response) => {
           this.getData(response);
         });
-      }else{
-        api.getProduct(10,1).then((response) => {
+      } else {
+        api.getProduct(10, 1).then((response) => {
           this.getData(response);
         });
       }
     },
     methods: {
-      getData: function(response){
-        if(response){
-          if(response.status === 401){
+      message(msg) {
+        this.msg = msg;
+        this.$refs.snackbar.open();
+      },
+      getData: function (response) {
+        if (response) {
+          if (response.status === 401) {
             this.$router.push('/login');
             //可以把无效的token清楚掉
             this.$store.dispatch('UserLogout');
-          }else{
-            this.loading = false;
+          } else {
             let resp = response.data.items;
-            for(var i=0; i<resp.length;i++){
-              resp[i].prod_scale=Math.round(resp[i].prod_scale* 100) / 100;
+            for (var i = 0; i < resp.length; i++) {
+              resp[i].prod_scale = Math.round(resp[i].prod_scale * 100) / 100;
             }
             this.tableData = resp;
             this.pageSize = [response.data.per_page];
             this.total = response.data.total;
-            this.pages = response.data.pages;
           }
         }
       },
-      open(index,rows,id) {
-        this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          api.delProduct(id)
-          .then(response => {
-            rows.splice(index, 1);
-            this.$message({
-              type: 'success',
-              message: '删除成功'
-            });
+      //判断确定取消操作并关闭回话框
+      closeDialog(ref, e) {
+        if (e == 'submit') {
+          api.delProduct(this.id).then(response => {
+            this.tableData.splice(this.index, 1);
+            this.msg = '删除成功';
+            this.$refs.snackbar.open();
             --this.total;
-            if(this.tatal%10==0){
+            if (this.total % 10 == 0) {
               --this.currentPage;
             }
+            api.getProduct(10, this.currentPage).then((response) => {
+              this.getData(response);
+            });
           }).catch((err) => {
-            console.log(err);
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
-      },
-      closeDialog(res,msg){
-        this.dialogFormVisible = false;
-        this.$router.push('/home/product');
-        if(res==="success"){
-          this.$message({
-            type: 'success',
-            message: msg
-          });
-          api.getProduct(10,this.currentPage).then((response) => {
-            this.getData(response);
-          });
+        } else {
+          this.msg = '已取消删除';
+          this.$refs.snackbar.open();
         }
+        this.$refs[ref].close();
       },
-      addProduct(){
-        this.dialogFormVisible = true;
-        this.listId = '';
-        this.title = '新增';
+      add() {
+        this.$router.push('/home/addProduct')
       },
-      editProduct(index,rows) {
-        this.dialogFormVisible = true;
-        this.listId = rows[index].id;
-        this.title = '编辑';
+      edit(index, id) {
+        this.$router.push({
+          path: '/home/editProduct',
+          query: this.tableData[index]
+        })
       },
-      delProduct(index,rows) {
-        let id = rows[index].id;
-        this.open(index,rows,id);
+      del(index, id) {
+        this.$refs['dialog'].open();
+        this.id = id;
+        this.index = index;
       },
-      handleSizeChange(val) {
-
-      },
-      handleCurrentChange(val) {
-        this.loading=true;
-        if(this.$store.state.admin=='true'&&this.$store.state.id=='null'){
-          api.getAllProd(10,val).then((response) => {
+      handleCurrentChange(opt) {
+        let val = opt.page;
+        if (this.$store.state.admin == 'true' && this.$store.state.id == 'null') {
+          api.getAllProd(10, val).then((response) => {
             this.getData(response);
           });
-        }else if(this.$store.state.admin=='true'&&this.$store.state.id!='null'){
+        } else if (this.$store.state.admin == 'true' && this.$store.state.id != 'null') {
           let id = this.$store.state.id;
-          api.getIdProd(id,10,val).then((response) => {
+          api.getIdProd(id, 10, val).then((response) => {
             this.getData(response);
           });
-        }else{
-          api.getProduct(10,val).then((response) => {
+        } else {
+          api.getProduct(10, val).then((response) => {
             this.getData(response);
           });
         }
@@ -163,20 +194,7 @@
 </script>
 
 <style>
-  .el-pagination {
-    margin-top: 20px;
-  }
-  .el-dialog__body {
-      padding: 10px 20px 30px;
-      color: #48576a;
-      font-size: 14px;
-  }
-  hr {
-    margin-bottom: 20px;
-  }
-  tr {
-    cursor: pointer; 
-  }
+
 </style>
 
 

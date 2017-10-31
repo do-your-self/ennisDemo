@@ -1,213 +1,229 @@
-<template>                
-    <el-form ref="form" :model="form" label-width="150px" :rules="rules">
-        <el-col :span="11">
-            <el-form-item label="基金经理" prop="prod_mgr_id">
-                <el-select v-model.number="form.prod_mgr_id" filterable placeholder="请选择" style="width:100%" no-match-text="无匹配数据,请添加一个基金经理">
-                    <el-option v-for="item in list" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="基金产品全称" prop="full_name">
-                <el-input v-model="form.full_name"></el-input>
-            </el-form-item>
-            <el-form-item label="基金产品简称" prop="short_name">
-                <el-input v-model="form.short_name"></el-input>
-            </el-form-item>
-            <el-form-item label="预警线" prop="warning_line">
-                <el-input type="number" v-model.number="form.warning_line"></el-input>
-            </el-form-item>
-            <el-form-item label="风控线" prop="winding_line">
-                <el-input type="number" v-model.number="form.winding_line"></el-input>
-            </el-form-item>
-            <el-form-item label="产品成立时间" prop="date_establishment">
-                <el-date-picker type="date" placeholder="选择日期" v-model="form.date_establishment" @change="dateChange" style="width: 100%;"></el-date-picker>
-            </el-form-item>
-        </el-col>
-        <el-col :span="11">
-            <el-form-item label="产品数量" prop="prod_count">
-                <el-input type="number" v-model.number="form.prod_count"><template slot="append">只</template></el-input>
-            </el-form-item>
-            <el-form-item label="产品规模" prop="prod_scale">
-                <el-input type="number" v-model.number="form.prod_scale"><template slot="append">万</template></el-input>
-            </el-form-item>
-            <el-form-item label="平均年华换手率" prop="avg_turn_over_rate">
-                <el-input type="number" v-model.number="form.avg_turn_over_rate"><template slot="append">%</template></el-input>
-            </el-form-item>
-            <el-form-item label="盈利股票平均持仓" prop="avg_win_holding_period">
-                <el-input type="number" v-model.number="form.avg_win_holding_period"><template slot="append">天</template></el-input>
-            </el-form-item>
-            <el-form-item label="运行状态" prop="status">
-                 <el-select v-model="form.status" placeholder="请选择" style="width:100%">
-                    <el-option key="1" label="未发行" value="1"></el-option>
-                    <el-option key="2" label="运行中" value="2"></el-option>
-                    <el-option key="3" label="已清盘" value="3"></el-option>
-                </el-select>
-            </el-form-item>
-            <el-form-item label="结构化描述信息(如果是结构化产品)" prop="desc_struct">
-                <el-input type="textarea" v-model="form.desc_struct"></el-input>
-            </el-form-item>
-        </el-col>
-        <div style="text-align:left;padding:0 150px 10px;float:left;">
-            <el-checkbox v-model="form.is_auto_trading">是否程序化交易</el-checkbox>
-            <el-checkbox v-model="form.is_intraday_trading">是否日内交易</el-checkbox>
-            <el-checkbox v-model="form.is_struct">是否结构化</el-checkbox>
-        </div>
-        <el-col style="padding:20px 0 50px;">
-            <el-button type="primary" @click="submitForm('form')">提交</el-button>
-            <el-button @click="resetForm('form')">取消</el-button>
-        </el-col>
-    </el-form>
+<template>
+  <md-card style="width:100%;">
+
+    <md-card-header>
+      <div class="md-title">新增</div>
+      <div class="md-subhead">添加一个新的产品</div>
+    </md-card-header>
+
+    <md-card-content>
+      <form style="width:100%;">
+        <md-layout md-gutter="16">
+          <md-layout md-flex="30" md-flex-offset="15">
+            <md-input-container :class="{'md-input-invalid':$v.form.prod_mgr_id.$error}">
+              <label for="stg_type">基金经理</label>
+              <md-select name="prod_mgr_id" v-model="form.prod_mgr_id" style="width:100%">
+                <md-option v-for="item in list" :key="item.value" :value="item.value">{{item.label}}</md-option>
+              </md-select>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.full_name.$error}">
+              <label>基金产品全称</label>
+              <md-input class="md-input" v-model.trim="form.full_name" @input="$v.form.full_name.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.short_name.$error}">
+              <label>基金产品简称</label>
+              <md-input v-model="form.short_name" @input="$v.form.short_name.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.date_establishment.$error}">
+              <label>产品成立时间</label>
+              <md-input v-model="form.date_establishment" type="date"
+                        @input="$v.form.date_establishment.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.warning_line.$error}">
+              <label>预警线</label>
+              <md-input v-model.number="form.warning_line" @input="$v.form.warning_line.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.winding_line.$error}">
+              <label>风控线</label>
+              <md-input v-model.number="form.winding_line" @input="$v.form.winding_line.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.desc_struct.$error}">
+              <label>结构化描述信息(如果是结构化产品)</label>
+              <md-input v-model="form.desc_struct" @input="$v.form.desc_struct.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+
+          </md-layout>
+          <md-layout md-flex="30" md-flex-offset="5">
+            <md-input-container :class="{'md-input-invalid':$v.form.prod_count.$error}">
+              <label>产品数量</label>
+              <md-input v-model.number="form.prod_count" @input="$v.form.prod_count.$touch()"></md-input>
+              <md-icon class="font">只</md-icon>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.prod_scale.$error}">
+              <label>产品规模</label>
+              <md-input v-model.number="form.prod_scale" @input="$v.form.prod_scale.$touch()"></md-input>
+              <md-icon class="font">万</md-icon>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.avg_turn_over_rate.$error}">
+              <label>平均年华换手率</label>
+              <md-input v-model.number="form.avg_turn_over_rate"
+                        @input="$v.form.avg_turn_over_rate.$touch()"></md-input>
+              <md-icon class="font">%</md-icon>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container :class="{'md-input-invalid':$v.form.avg_win_holding_period.$error}">
+              <label>盈利股票平均持仓</label>
+              <md-input v-model.number="form.avg_win_holding_period"
+                        @input="$v.form.avg_win_holding_period.$touch()"></md-input>
+              <md-icon class="font">天</md-icon>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
+            <md-input-container>
+              <label for="status">运行状态</label>
+              <md-select name="status" v-model="form.status" style="width:100%">
+                <md-option value="0">未发行</md-option>
+                <md-option value="1">运行中</md-option>
+                <md-option value="2">已清盘</md-option>
+              </md-select>
+            </md-input-container>
+            <div class="inputCon">
+              <md-checkbox name="my-test1" v-model="form.is_auto_trading">是否程序化交易</md-checkbox>
+              <md-checkbox name="my-test1" v-model="form.is_intraday_trading">是否日内交易</md-checkbox>
+              <md-checkbox name="my-test1" v-model="form.is_struct">是否结构化</md-checkbox>
+            </div>
+
+          </md-layout>
+        </md-layout>
+
+        <!-- 提示框 -->
+        <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
+          <span><md-icon>info</md-icon>{{msg}}</span>
+          <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
+        </md-snackbar>
+
+      </form>
+
+      <md-layout md-align="center">
+        <md-button class="md-primary md-raised" @click="submitForm">提交</md-button>
+        <md-button class="md-dense md-raised" @click="cancelForm">取消</md-button>
+      </md-layout>
+    </md-card-content>
+  </md-card>
 </template>
 
 <script>
-    import api from '../axios.js'
-    export default {
-        data() {
-            return {
-                items: [],
-                staff: [],
-                list: [],
-                loading: false,
-                states: [],
-                form: {
-                    "full_name": "",
-                    "short_name": "",
-                    "prod_count": "",
-                    "prod_scale": "",
-                    "warning_line": "",
-                    "winding_line": "",
-                    "desc_struct": "",
-                    "status": "1",
-                    "date_establishment": "",
-                    "is_auto_trading": false,
-                    "is_intraday_trading": false,
-                    "avg_turn_over_rate": "",
-                    "avg_win_holding_period": "",
-                    "is_struct": false,
-                    "prod_mgr_id": ""
-                },
-                rules: { //验证规则
-                    full_name: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    short_name: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    prod_count: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    prod_scale: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    warning_line: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    winding_line: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    desc_struct: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    status: [
-                        { required: true, message: '请选择运行状态', trigger: 'change'}
-                    ],
-                    date_establishment: [
-                        { required: true, message: '请选择时间', trigger: 'change'}
-                    ],
-                    is_auto_trading: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    is_intraday_trading: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    avg_turn_over_rate: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    avg_win_holding_period: [
-                        { type: 'number', required: true, message: '不允许为空和非数字类型的值', trigger: 'blur'}
-                    ],
-                    is_struct: [
-                        { required: true, message: '不允许为空', trigger: 'blur'}
-                    ],
-                    prod_mgr_id: [
-                        { type: 'number', required: true, message: '请选择产品经理', trigger: 'change'}
-                    ]
-                }
-            }
+  import api from '../axios.js'
+  import {required} from 'vuelidate/lib/validators'
+
+  export default {
+    data() {
+      return {
+        items: [],
+        staff: [],
+        list: [],
+        loading: false,
+        states: [],
+        form: {
+          "full_name": "",
+          "short_name": "",
+          "prod_count": "",
+          "prod_scale": "",
+          "warning_line": "",
+          "winding_line": "",
+          "desc_struct": "",
+          "status": "",
+          "date_establishment": "",
+          "is_auto_trading": false,
+          "is_intraday_trading": false,
+          "avg_turn_over_rate": "",
+          "avg_win_holding_period": "",
+          "is_struct": false,
+          "prod_mgr_id": ""
         },
-        mounted() {
-            api.getStaff(50,1).then(response => {
-                this.states = response.data.items;
-                this.list = this.states.map(item => {
-                    return { value: item.id, label: item.name };
-                });
-            }).catch((err) => {
-                console.log(err);
-            })
+        vertical: 'top',
+        horizontal: 'center',
+        duration: 4000,
+        msg: ''
+      }
+    },
+    validations: {
+      form: {
+        full_name: {
+          required
         },
-        methods: {
-            getData(response){      //拿到返回的数据
-                if(response){
-                    if(response.status === 401){
-                        this.$router.push('/login');
-                        //可以把无效的token清楚掉
-                        this.$store.dispatch('UserLogout');
-                    }else{
-                        this.loading = false;
-                        this.form = response.data;
-                        if(this.form.sex){
-                            this.form.sex = '1';
-                        }else{
-                            this.form.sex = '0';
-                        }
-                    }
-                }
-            },
-            remoteMethod(query) {
-                if (query !== '') {
-                    this.loading = true;
-                    setTimeout(() => {
-                        this.loading = false;
-                        this.items = this.list.filter(item => {
-                            return item.label.toLowerCase().indexOf(query.toLowerCase()) > -1;
-                        });
-                    }, 200);
-                } else {
-                    this.items = [];
-                }
-            },
-            dateChange(val){
-                this.form.date_establishment = val;
-            },
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        let opt = JSON.parse(JSON.stringify(this.form));
-                        opt.status = Number(opt.status);
-                        api.addProduct(opt)
-                        .then(response => {
-                            this.$emit("close","success","添加成功");
-                        }).catch((err) => {
-                            console.log(err);
-                        })
-                    } else {
-                        this.$message({
-                            type: 'error',
-                            message: '请按提示输入合法的值'
-                        });
-                        return false;
-                    }
-                });
-            },
-            resetForm(formName) {
-                this.$emit("close");
-                // this.$refs[formName].resetFields();
-            }
+        short_name: {
+          required
+        },
+        prod_count: {
+          required
+        },
+        prod_scale: {
+          required
+        },
+        warning_line: {
+          required
+        },
+        winding_line: {
+          required
+        },
+        desc_struct: {
+          required
+        },
+        status: {
+          required
+        },
+        date_establishment: {
+          required
+        },
+        avg_turn_over_rate: {
+          required
+        },
+        avg_win_holding_period: {
+          required
+        },
+        prod_mgr_id: {
+          required
         }
+      }
+    },
+    mounted() {
+      api.getStaff(50, 1).then(response => {
+        this.states = response.data.items;
+        this.list = this.states.map(item => {
+          return {value: item.id, label: item.name};
+        });
+      }).catch((err) => {
+      })
+    },
+    methods: {
+      message(msg) {
+        this.msg = msg;
+        this.$refs.snackbar.open();
+      },
+      submitForm() {
+        this.$v.form.$touch();
+        if (!this.$v.$error) {
+          let opt = JSON.parse(JSON.stringify(this.form));
+          opt.status = Number(opt.status);
+          api.addProduct(opt)
+            .then(response => {
+              this.message('添加成功');
+              this.$router.push('/home/product');
+            }).catch((err) => {
+          })
+        }
+      },
+      cancelForm(formName) {
+        this.message('取消');
+        this.$router.push('/home/product');
+      }
     }
+  }
 </script>
 
 <style scoped>
-
+  .font {
+    font-size: 14px;
+  }
 </style>
 
 

@@ -1,102 +1,132 @@
 <template>
-  <div>
-    <el-table :data="tableData" stripe style="width: 100%" v-loading="loading">
-      <el-table-column type="index" width="200" header-align="center"></el-table-column>
-      <el-table-column prop="username" label="用户名" width="300" header-align="center"></el-table-column>
-      <el-table-column prop="comp_name" label="公司名称" width="300" header-align="center"></el-table-column>
-      <el-table-column prop="create_time" label="注册时间" width="340" header-align="center"></el-table-column>
-      <el-table-column prop="active" label="激活" width="200" :formatter="isAct" header-align="center">
-      </el-table-column>
-      <el-table-column fixed="right" label="操作" width="150" header-align="center">
-        <template scope="scope">
-          <el-button type="primary" size="small" icon="delete" @click.native.prevent="delUser(scope.$index, tableData)"></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" layout="total, sizes, prev, pager, next, jumper"
-      :current-page="currentPage"
-      :page-sizes="pageSize"
-      :total="total">
-    </el-pagination>
-  </div>
+  <md-table-card style="width:100%;">
+    <md-table md-sort="calories">
+
+      <!-- table header -->
+      <md-table-header>
+        <md-table-row>
+          <md-table-head md-sort-by="username">用户名</md-table-head>
+          <md-table-head md-sort-by="comp_name">公司名称</md-table-head>
+          <md-table-head md-sort-by="create_time">注册时间</md-table-head>
+          <md-table-head md-sort-by="active">激活</md-table-head>
+          <md-table-head md-sort-by="mgrcomp_id" style="width:100px;text-align:center;">操作</md-table-head>
+        </md-table-row>
+      </md-table-header>
+
+      <!-- table body -->
+      <md-table-body>
+        <md-table-row v-for="(row, rowIndex) in tableData" :key="rowIndex" :md-item="row">
+          <md-table-cell v-for="(column, columnIndex) in row" :key="columnIndex" v-if="columnIndex !== 'id'">
+            <span v-if="columnIndex !== 'id' && columnIndex !== 'active'">{{ column }}</span>
+            <span v-if="columnIndex == 'active'">{{ column ? '是' : '否' }}</span>
+          </md-table-cell>
+          <md-table-cell>
+            <md-button class="md-raised md-primary md-icon-button" @click="del(index,row.id)">
+              <md-icon>delete</md-icon>
+            </md-button>
+          </md-table-cell>
+        </md-table-row>
+      </md-table-body>
+    </md-table>
+
+    <!-- 分页 -->
+    <md-table-pagination
+      md-size="5"
+      :md-total="total"
+      :md-page="currentPage"
+      md-label="行"
+      md-separator="共"
+      :md-page-options="[10]"
+      @pagination="handleCurrentChange">
+    </md-table-pagination>
+
+    <!-- 提示框 -->
+    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
+      <span><md-icon>info</md-icon>{{msg}}</span>
+      <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
+    </md-snackbar>
+
+    <!-- 对话弹框 -->
+    <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog">
+      <md-dialog-title>
+        <md-icon class="md-size-2x md-warn">info</md-icon>
+        提示
+      </md-dialog-title>
+      <md-dialog-content>此操作将永久删除该条信息, 是否继续?</md-dialog-content>
+      <md-dialog-actions>
+        <md-button class="md-raised" @click="closeDialog('dialog','cancel')">取消</md-button>
+        <md-button class="md-raised md-primary" @click="closeDialog('dialog','submit')">确定</md-button>
+      </md-dialog-actions>
+    </md-dialog>
+
+  </md-table-card>
 </template>
 
 <script>
   import api from '../axios.js'
+
   export default {
     data() {
       return {
-        loading: true,
         tableData: [],
-        currentPage: 1,
-        pageSize: [],
         total: 0,
-        form: null
+        currentPage: 1,
+        vertical: 'top',
+        horizontal: 'center',
+        duration: 4000,
+        msg: '',
+        id: '',
+        index: ''
       }
     },
-    beforeCreate(){      
-      api.getUser(10,1).then((response) => {
+    beforeCreate() {
+      api.getUser(10, 1).then((response) => {
         this.getData(response);
       });
     },
     methods: {
-      isAct(data){
-        return data.active?'是':'否';
-      },
-      getData: function(response){
-        if(response){
-          if(response.status === 401){
+      getData: function (response) {
+        if (response) {
+          if (response.status === 401) {
             this.$router.push('/login');
             //可以把无效的token清楚掉
             this.$store.dispatch('UserLogout');
-          }else{
-            let resp = response.data.items;
-            this.loading = false;
-            this.tableData = resp;
-            this.currentPage =  response.data.page;
-            this.pageSize = [response.data.per_page];
+          } else {
+            this.tableData = response.data.items;
             this.total = response.data.total;
-            this.pages = response.data.pages;
+            this.currentPage = response.data.page;
           }
         }
       },
-      open(index,rows,id) {
-        this.$confirm('此操作将永久删除该条信息, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          api.delUser(id)
-          .then(response => {
-            rows.splice(index, 1);
-            this.$message({
-              type: 'success',
-              message: '删除成功'
-            });
+      //判断确定取消操作并关闭回话框
+      closeDialog(ref, e) {
+        if (e == 'submit') {
+          api.delUser(this.id).then(response => {
+            this.tableData.splice(this.index, 1);
+            this.msg = '删除成功';
+            this.$refs.snackbar.open();
             --this.total;
-            if(this.tatal%10==0){
+            if (this.total % 10 == 0) {
               --this.currentPage;
             }
+            api.getUser(10, this.currentPage).then((response) => {
+              this.getData(response);
+            });
           }).catch((err) => {
-            console.log(err);
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });          
-        });
+        } else {
+          this.msg = '已取消删除';
+          this.$refs.snackbar.open();
+        }
+        this.$refs[ref].close();
       },
-      delUser(index,rows) {
-        let id = rows[index].id;
-        this.open(index,rows,id);
-      },
-      handleSizeChange(val) {
-
+      del(index, id) {
+        this.$refs['dialog'].open();
+        this.id = id;
+        this.index = index;
       },
       handleCurrentChange(val) {
-        this.loading=true;
-        api.getUser(10,val).then((response) => {
+        api.getUser(10, val.page).then((response) => {
           this.getData(response);
         });
       }
@@ -104,19 +134,6 @@
   }
 </script>
 
-<style>
-  .el-pagination {
-    margin-top: 20px;
-  }
-  .el-dialog__body {
-      padding: 10px 20px 30px;
-      color: #48576a;
-      font-size: 14px;
-  }
-  hr {
-    margin-bottom: 20px;
-  }
-</style>
 
 
 

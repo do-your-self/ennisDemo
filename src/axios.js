@@ -3,7 +3,9 @@ import store from './store'
 import router from './router'
 
 //设置全局axios默认值
-axios.defaults.baseURL = 'http://10.0.5.115:5001/';
+
+axios.defaults.baseURL = 'http://c.foriseinvest.com:5000/';
+
 axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
 //创建一个axios实例

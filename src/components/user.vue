@@ -28,6 +28,8 @@
         </md-table-row>
       </md-table-body>
     </md-table>
+    <!-- loading -->
+    <div v-show="loading" class="loading"><md-spinner md-indeterminate class="spinner"></md-spinner></div>
 
     <!-- 分页 -->
     <md-table-pagination
@@ -68,6 +70,7 @@
   export default {
     data() {
       return {
+        loading: true,
         tableData: [],
         total: 0,
         currentPage: 1,
@@ -95,6 +98,7 @@
             this.tableData = response.data.items;
             this.total = response.data.total;
             this.currentPage = response.data.page;
+            this.loading = false;
           }
         }
       },
@@ -126,6 +130,7 @@
         this.index = index;
       },
       handleCurrentChange(val) {
+        this.loading = true;
         api.getUser(10, val.page).then((response) => {
           this.getData(response);
         });

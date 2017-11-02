@@ -46,6 +46,18 @@
     top: 0;
     padding-top: 64px;
   }
+  .loading {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.8);
+    text-align: center;
+  }
+  .spinner {
+    top: 50%;
+    margin-top: -25px;
+  }
 </style>
 
 

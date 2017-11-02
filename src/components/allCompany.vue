@@ -30,6 +30,9 @@
       </md-table-body>
     </md-table>
 
+    <!-- loading -->
+    <div v-show="loading" class="loading"><md-spinner md-indeterminate class="spinner"></md-spinner></div>
+    
     <!-- 分页 -->
     <md-table-pagination
       md-size="5"
@@ -69,6 +72,7 @@
   export default {
     data() {
       return {
+        loading: true,
         tableData: [],
         currentPage: 1,
         total: 0,
@@ -94,6 +98,7 @@
             this.tableData = response.data.items;
             this.currentPage = response.data.page;
             this.total = response.data.total;
+            this.loading = false;
           }
         }
       },
@@ -117,6 +122,7 @@
         });
       },
       handleCurrentChange(val) {
+        this.loading = true;
         api.getAllCompany(10, val.page).then((response) => {
           this.getData(response);
         });

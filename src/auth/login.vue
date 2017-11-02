@@ -1,5 +1,5 @@
 <template>
-  <md-layout md-align="center" md-gutter="35" style="min-height: 600px;margin-top:150px;">
+  <md-layout md-align="center" md-gutter="35" style="min-height: 540px;margin-top:200px;">
     <md-layout md-flex="25">
       <form novalidate class="form">
         <md-tabs md-fixed style="background:#fff;">
@@ -22,7 +22,7 @@
               <span class="md-error" v-if="!$v.regForm.password.minLength">密码不能少于5位</span>
             </md-input-container>
             <md-checkbox v-model="rempsw">记住密码</md-checkbox>
-            <md-button class="md-primary btn" @click="submitLogin">提交</md-button>
+            <md-button class="btn md-raised md-primary" @click="submitLogin">提交</md-button>
           </md-tab>
           <md-tab md-label="注册">
 
@@ -59,7 +59,7 @@
               <md-input required v-model="regForm.code" @input="$v.regForm.code.$touch()"></md-input>
               <span class="md-error">不允许为空</span>
             </md-input-container>
-            <md-button class="md-primary btn" @click="submitReg">提交</md-button>
+            <md-button class="btn md-raised md-primary" @click="submitReg">提交</md-button>
           </md-tab>
         </md-tabs>
 
@@ -257,8 +257,6 @@
   .btn {
     width: 100%;
     font-weight: 800 !important;
-    border: 1px solid #3f51b5 !important;
-    border-radius: 5px !important;
   }
 
   .md-theme-default.md-tabs > .md-tabs-navigation {
@@ -275,7 +273,5 @@
   .md-input-container {
     margin: 2px 0 23px !important;
     float: left;
-    /*    height: 48px!important;
-		overflow: hidden;*/
   }
 </style>

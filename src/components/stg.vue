@@ -80,8 +80,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
-
   export default {
     data() {
       return {
@@ -99,16 +97,16 @@
     },
     beforeCreate() {
       if (this.$store.state.admin == 'true' && this.$store.state.id == 'null') {
-        api.getAllStg(10, 1).then((response) => {
+        this.api.getAllStg(10, 1).then((response) => {
           this.getData(response);
         });
       } else if (this.$store.state.admin == 'true' && this.$store.state.id != 'null') {
         let id = this.$store.state.id;
-        api.getIdStg(id, 10, 1).then((response) => {
+        this.api.getIdStg(id, 10, 1).then((response) => {
           this.getData(response);
         });
       } else {
-        api.getStg(10, 1).then((response) => {
+        this.api.getStg(10, 1).then((response) => {
           this.getData(response);
         });
       }
@@ -139,7 +137,7 @@
       //判断确定取消操作并关闭回话框
       closeDialog(ref, e) {
         if (e == 'submit') {
-          api.delStg(this.id).then(response => {
+          this.api.delStg(this.id).then(response => {
             this.tableData.splice(this.index, 1);
             this.msg = '删除成功';
             this.$refs.snackbar.open();
@@ -147,7 +145,7 @@
             if (this.total % 10 == 0) {
               --this.currentPage;
             }
-            api.getStg(10, this.currentPage).then((response) => {
+            this.api.getStg(10, this.currentPage).then((response) => {
               this.getData(response);
             });
           }).catch((err) => {
@@ -176,16 +174,16 @@
         this.loading = true;
         let val = opt.page;
         if (this.$store.state.admin == 'true' && this.$store.state.id == 'null') {
-          api.getAllStg(10, val).then((response) => {
+          this.api.getAllStg(10, val).then((response) => {
             this.getData(response);
           });
         } else if (this.$store.state.admin == 'true' && this.$store.state.id != 'null') {
           let id = this.$store.state.id;
-          api.getIdStg(id, 10, val).then((response) => {
+          this.api.getIdStg(id, 10, val).then((response) => {
             this.getData(response);
           });
         } else {
-          api.getStg(10, val).then((response) => {
+          this.api.getStg(10, val).then((response) => {
             this.getData(response);
           });
         }

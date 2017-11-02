@@ -1,5 +1,5 @@
 <template>
-  <md-layout md-align="center" md-gutter="35" style="min-height: 600px;margin-top:220px;">
+  <md-layout md-align="center" md-gutter="35" style="min-height: 600px;margin-top:150px;">
     <md-layout md-flex="25">
       <form novalidate class="form">
         <md-tabs md-fixed style="background:#fff;">
@@ -76,7 +76,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
   import {required, minLength, email} from 'vuelidate/lib/validators'
 
 
@@ -154,7 +153,7 @@
         this.$v.loginForm.$touch();
         if (!this.$v.$error) {
           let opt = this.loginForm;
-          api.userLogin(opt)
+          this.api.userLogin(opt)
             .then(({data}) => {
               //解构赋值拿到data
               //账号存在
@@ -204,7 +203,7 @@
       submitReg() {
         this.$v.regForm.$touch();
         if (!this.$v.$error) {
-          api.userRegister(this.regForm)
+          this.api.userRegister(this.regForm)
             .then((data) => {
               switch (data.status) {
                 case 200:

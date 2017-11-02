@@ -18,7 +18,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
   import Header from '../components/header'
   import Menu from '../components/menu'
 

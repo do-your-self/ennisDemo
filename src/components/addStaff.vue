@@ -97,7 +97,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
   import {required} from 'vuelidate/lib/validators'
 
   export default {
@@ -170,7 +169,7 @@
         if (!this.$v.$error) {
           this.form.sex = Number(this.form.sex);
           let opt = this.form;
-          api.addStaff(opt)
+          this.api.addStaff(opt)
             .then(response => {
               this.message('添加成功');
               this.$router.push({

@@ -65,8 +65,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
-
   export default {
     data() {
       return {
@@ -83,7 +81,7 @@
       }
     },
     beforeCreate() {
-      api.getUser(10, 1).then((response) => {
+      this.api.getUser(10, 1).then((response) => {
         this.getData(response);
       });
     },
@@ -105,7 +103,7 @@
       //判断确定取消操作并关闭回话框
       closeDialog(ref, e) {
         if (e == 'submit') {
-          api.delUser(this.id).then(response => {
+          this.api.delUser(this.id).then(response => {
             this.tableData.splice(this.index, 1);
             this.msg = '删除成功';
             this.$refs.snackbar.open();
@@ -113,7 +111,7 @@
             if (this.total % 10 == 0) {
               --this.currentPage;
             }
-            api.getUser(10, this.currentPage).then((response) => {
+            this.api.getUser(10, this.currentPage).then((response) => {
               this.getData(response);
             });
           }).catch((err) => {
@@ -131,7 +129,7 @@
       },
       handleCurrentChange(val) {
         this.loading = true;
-        api.getUser(10, val.page).then((response) => {
+        this.api.getUser(10, val.page).then((response) => {
           this.getData(response);
         });
       }

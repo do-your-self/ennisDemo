@@ -97,7 +97,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
   import {required} from 'vuelidate/lib/validators'
 
   export default {
@@ -165,7 +164,7 @@
           let id = this.form.id;
           delete this.form.id;
           delete this.form.mgrcomp_id;
-          api.setStaff(id, opt)
+          this.api.setStaff(id, opt)
             .then(response => {
               this.message('修改成功');
               this.$router.push('/home/staff');

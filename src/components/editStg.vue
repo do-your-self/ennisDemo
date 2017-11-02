@@ -60,7 +60,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
   import {required} from 'vuelidate/lib/validators'
 
   export default {
@@ -103,7 +102,7 @@
           opt.scale = Number(this.form.scale);
           opt.scale_ceiling = Number(this.form.scale_ceiling);
           let id = this.form.id;
-          api.setStg(id, opt)
+          this.api.setStg(id, opt)
             .then(response => {
               this.message('修改成功');
               this.$router.push('/home/stg');

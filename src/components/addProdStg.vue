@@ -97,7 +97,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
   import {required} from 'vuelidate/lib/validators'
 
   export default {
@@ -147,7 +146,7 @@
       }
     },
     mounted() {
-      api.getProduct(50, 1).then(response => {
+      this.api.getProduct(50, 1).then(response => {
         this.states = response.data.items;
         this.list = this.states.map(item => {
           return {value: item.id, label: item.full_name};
@@ -181,7 +180,7 @@
         this.$v.form.$touch();
         if (!this.$v.$error) {
           let opt = this.form;
-          api.addProdStg(opt)
+          this.api.addProdStg(opt)
             .then(response => {
               this.message('添加成功');
               this.$router.push('/home/prodStg');

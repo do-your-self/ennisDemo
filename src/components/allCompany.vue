@@ -67,8 +67,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
-
   export default {
     data() {
       return {
@@ -83,7 +81,7 @@
       }
     },
     beforeCreate() {
-      api.getAllCompany(10, 1).then((response) => {
+      this.api.getAllCompany(10, 1).then((response) => {
         this.getData(response);
       });
     },
@@ -105,7 +103,7 @@
       closeDialog(clo, res) {
         this.dialogFormVisible = clo;
         if (res === "success") {
-          api.getAllCompany(10, this.currentPage).then((response) => {
+          this.api.getAllCompany(10, this.currentPage).then((response) => {
             this.getData(response);
           });
         }
@@ -123,7 +121,7 @@
       },
       handleCurrentChange(val) {
         this.loading = true;
-        api.getAllCompany(10, val.page).then((response) => {
+        this.api.getAllCompany(10, val.page).then((response) => {
           this.getData(response);
         });
       }

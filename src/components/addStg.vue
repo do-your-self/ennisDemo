@@ -61,7 +61,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
   import {required} from 'vuelidate/lib/validators'
 
   export default {
@@ -104,7 +103,7 @@
         this.$v.form.$touch();
         if (!this.$v.$error) {
           let opt = this.form;
-          api.addStg(opt)
+          this.api.addStg(opt)
             .then(response => {
               this.message('修改成功');
               this.$router.push('/home/stg');

@@ -23,7 +23,6 @@
 </template>
 
 <script>
-  import api from '../axios.js'
   import {required, email} from 'vuelidate/lib/validators'
 
   export default {
@@ -50,7 +49,7 @@
       submit() {
         this.$v.email.$touch();
         if (!this.$v.$error) { //验证通过
-          api.sendMail({"email": this.email}).then(({data}) => {
+          this.api.sendMail({"email": this.email}).then(({data}) => {
             if (data.Success) {
               this.message('已发送');
             } else {

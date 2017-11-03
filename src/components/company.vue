@@ -1,76 +1,102 @@
 <template>
   <md-table-card style="width:100%;">
 
-    <md-card-header v-if="$store.state.admin=='false'">
-      <router-link tag="md-button" :to="{path:'/home/editCompany',query: {'form': form}}" class="md-raised md-primary">
+    <md-card-header>
+      <md-card-header-text>
+        <div class="md-title">{{form.mgrcomp_short_name}}<span class="md-subhead">(投顾公司简称)</span></div>
+      </md-card-header-text>
+
+      <router-link tag="md-button" :to="{path:'/home/editCompany',query: {'form': form}}" class="md-raised md-primary" v-if="$store.state.admin=='false'">
         <md-icon>edit</md-icon>
         编辑
       </router-link>
     </md-card-header>
-    <md-layout md-gutter>
-      <md-layout md-flex="33">
-        <md-list>
-          <md-list-item>
-            <span>投顾公司简称:{{form.mgrcomp_short_name}}</span>
-          </md-list-item>
-          <md-list-item>
-            <span>协会注册备案号:{{form.reg_id}}</span>
-          </md-list-item>
-          <md-list-item>
-            <span>地址:{{form.address}}</span>
-          </md-list-item>
-          <md-list-item>
-            <span>成立时间:{{form.date_establishment}}</span>
-          </md-list-item>
-          <md-list-item>
-            <span>注册资本:{{form.reg_capital}}</span>
-          </md-list-item>
-          <md-list-item>
-            <span>股东名单:{{form.shareholder_names}}</span>
-          </md-list-item>
-          <md-list-item>
-            <span></span>
-          </md-list-item>
-        </md-list>
-      </md-layout>
-      <md-layout>
-        <md-tabs>
-          <md-tab md-label="员工">
-            <p>
-              <span slot="label">员工</span>
-            <div class="text item">员工数量: {{form.num_staff}}</div>
-            <div class="text item">投研人数: {{form.num_rd}}</div>
-            <div class="text item">交易人员数(含运维): {{form.num_trade}}</div>
-            <div class="text item">IT人数: {{form.num_it}}</div>
-            <div class="text item">风控人数: {{form.num_risk_mgr}}</div>
-            <div class="text item">硕士及以上学历人数: {{form.num_master}}</div>
-            </p>
-          </md-tab>
-          <md-tab md-label="基础硬件硬件信息">
-            <p>基础硬件硬件信息: {{form.desc_hardware}}</p>
-          </md-tab>
-          <md-tab md-label="平台">
-            <p>交易平台,商业平台(如TB,讯投),或自建平台: {{form.desc_trading_platform}}</p>
-          </md-tab>
-          <md-tab md-label="数据库类型">
-            <p>数据库类型: {{form.desc_db}}</p>
-          </md-tab>
-          <md-tab md-label="数据库备份及系统冗余">
-            <p>数据库备份及系统冗余: {{form.desc_backup}}</p>
-          </md-tab>
-          <md-tab md-label="其他风控措施">
-            <p>其他风控措施: {{form.desc_risk_mgr}}</p>
-          </md-tab>
+    <div style="padding:0 20px">
+      <div style="padding:0 20px;width:700px;float:left;">
+        <div>
+          <md-icon class="md-primary">beenhere</md-icon>
+          <span class="md-subhead leftW">协会注册备案号</span>{{form.reg_id}}</div>
+        <div>
+          <md-icon class="md-primary">place</md-icon>
+          <span class="md-subhead leftW">地址</span>
+          {{form.address}}
+        </div>
+        <div>
+          <md-icon class="md-primary">insert_invitation</md-icon>
+          <span class="md-subhead leftW">成立时间</span>
+          {{form.date_establishment}}
+        </div>
+        <div>
+          <md-icon class="md-primary">attach_money</md-icon>
+          <span class="md-subhead leftW">注册资本</span>
+          {{form.reg_capital}}
+        </div>
+        <div>
+          <md-icon class="md-primary">assignment</md-icon>
+          <span class="md-subhead leftW">股东名单</span>
+          {{form.shareholder_names}}
+        </div>
 
-        </md-tabs>
-      </md-layout>
+      </div>
+      <div style="padding:0 20px 20px;width:400px;float:right;">
+        <div class="num-con">
+          <div>{{form.num_staff}}
+          <md-icon class="md-size-2x" v-if="!form.num_staff">supervisor_account</md-icon></div>
+          <span>员工数量</span>
+        </div>
+        <div class="num-con">
+          <div>{{form.num_rd}}
+          <md-icon class="md-size-2x" v-if="!form.num_rd">supervisor_account</md-icon></div>
+          <span>投研人数</span>
+        </div>
+        <div class="num-con">
+          <div>{{form.num_trade}}
+          <md-icon class="md-size-2x" v-if="!form.num_trade">supervisor_account</md-icon></div>
+          <span>交易人员数(含运维)</span>
+        </div>
+        <div class="num-con">
+          <div>{{form.num_it}}
+          <md-icon class="md-size-2x" v-if="!form.num_it">supervisor_account</md-icon></div>
+          <span>IT人数</span>
+        </div>
+        <div class="num-con">
+          <div>{{form.num_risk_mgr}}
+          <md-icon class="md-size-2x" v-if="!form.num_risk_mgr">supervisor_account</md-icon></div>
+          <span>风控人数</span>
+        </div>
+        <div class="num-con">
+          <div>{{form.num_master}}
+          <md-icon class="md-size-2x" v-if="!form.num_master">supervisor_account</md-icon></div>
+          <span>硕士及以上学历人数</span>
+        </div>
+      </div>
+    </div>
+
+    <md-tabs class="tab">
+      <md-tab md-label="基础硬件硬件信息">
+        <p>{{form.desc_hardware}}</p>
+      </md-tab>
+      <md-tab md-label="平台">
+        <p>{{form.desc_trading_platform}}</p>
+      </md-tab>
+      <md-tab md-label="数据库类型">
+        <p>{{form.desc_db}}</p>
+      </md-tab>
+      <md-tab md-label="数据库备份及系统冗余">
+        <p>{{form.desc_backup}}</p>
+      </md-tab>
+      <md-tab md-label="其他风控措施">
+        <p>{{form.desc_risk_mgr}}</p>
+      </md-tab>
+
+    </md-tabs>
     </md-layout>
+    <!-- loading -->
+    <div v-show="loading" class="loading"><md-spinner md-indeterminate class="spinner"></md-spinner></div>
   </md-table-card>
 </template>
 
 <script>
-  import api from '../axios.js'
-
   export default {
     data() {
       return {
@@ -95,18 +121,19 @@
           "risk_role_backup": "",
           "risk_web_backup": "",
           "shareholder_names": ""
-        }
+        },
+        loading:true
       }
     },
     beforeCreate() {
       let admin = this.$store.state.admin;
       if (admin == "true" && this.$store.state.id != "null") {
         let id = this.$store.state.id;
-        api.getIdCompany(id).then((response) => {
+        this.api.getIdCompany(id).then((response) => {
           this.getData(response);
         });
       } else {
-        api.getCompany().then((response) => {
+        this.api.getCompany().then((response) => {
           this.getData(response);
         });
       }
@@ -121,6 +148,7 @@
           } else {
             if (response != {}) {
               this.form = response.data;
+              this.loading = false;
             }
           }
         }
@@ -130,8 +158,53 @@
 </script>
 
 <style>
-  .text {
-    font-size: 14px;
+  p {
+    text-indent: 2em;
+    min-height: 40px;
+  }
+
+  .md-divider.md-inset {
+    margin: 20px !important;
+  }
+
+  .leftW {
+    display: inline-block;
+    width: 150px;
+    font-weight: 800 !important;
+    padding: 5px 0;
+  }
+
+  .num-con {
+    display: inline-block;
+    width: 100px;
+    height: 114px;
+    margin: 0 0 10px 15px;
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 100px;
+    background: #eee;
+  }
+
+  .num-con div {
+    height: 50px;
+  }
+
+  .num-con span {
+    opacity: .54;
+    font-size: 12px;
+    letter-spacing: .01em;
+    line-height: 20px;
+    display: inline-block;
+    font-weight: 100;
+  }
+
+  .md-theme-default.tab > .md-tabs-navigation {
+    background-color: #eee !important;
+  }
+
+  .md-tabs .md-tab-header {
+    font-size: 14px !important;
   }
 </style>
 

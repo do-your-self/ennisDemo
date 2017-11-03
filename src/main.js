@@ -15,11 +15,13 @@ Vue.use(MaterialIcons)
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.css'
 Vue.use(VueMaterial)
-Vue.material.registerTheme('default',{
-  primary: 'blue',
-  accent: 'blue',
-  background: 'white',
-})
+
+// theme
+// Vue.material.registerTheme('default',{
+//   primary: 'blue',
+//   accent: 'blue',
+//   background: 'white',
+// })
 
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)

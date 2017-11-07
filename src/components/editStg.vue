@@ -26,19 +26,19 @@
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.product_count.$error}">
               <label>产品数量</label>
-              <md-input v-model.number="form.product_count" @input="$v.form.product_count.$touch()"></md-input>
+              <md-input v-model.number="form.product_count" @input="$v.form.product_count.$touch()" type="number"></md-input>
               <md-icon class="font">只</md-icon>
               <span class="md-error">不允许为空</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.scale.$error}">
               <label>规模</label>
-              <md-input v-model.number="form.scale" @input="$v.form.scale.$touch()"></md-input>
+              <md-input v-model.number="form.scale" @input="$v.form.scale.$touch()" type="number"></md-input>
               <md-icon class="font">万</md-icon>
               <span class="md-error">不允许为空</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.scale_ceiling.$error}">
               <label>规模上限</label>
-              <md-input v-model.number="form.scale_ceiling" @input="$v.form.scale_ceiling.$touch()"></md-input>
+              <md-input v-model.number="form.scale_ceiling" @input="$v.form.scale_ceiling.$touch()" type="number"></md-input>
               <span class="md-error">不允许为空</span>
             </md-input-container>
 

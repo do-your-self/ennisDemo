@@ -7,38 +7,33 @@
             <md-input-container :class="{'md-input-invalid':$v.loginForm.username.$error}">
               <md-icon>person</md-icon>
               <label>用户名</label>
-              <md-input type="text" required v-model="loginForm.username"
-                        @input="$v.loginForm.username.$touch()"></md-input>
-              <span class="md-error" v-if="$v.regForm.username.$error&&$v.regForm.password.username">不允许为空</span>
-              <span class="md-error" v-if="!$v.regForm.username.minLength">用户名不能少于5位</span>
+              <md-input type="text" required v-model="loginForm.username" @input="$v.loginForm.username.$touch()"></md-input>
+              <span class="md-error" v-if="$v.loginForm.username.$error&&$v.loginForm.username.minLength">不允许为空</span>
+              <span class="md-error" v-if="!$v.loginForm.username.minLength">用户名不能少于5位</span>
             </md-input-container>
 
             <md-input-container md-has-password :class="{'md-input-invalid':$v.loginForm.password.$error}">
               <md-icon>lock</md-icon>
               <label>密码</label>
-              <md-input type="password" required v-model="loginForm.password"
-                        @input="$v.loginForm.password.$touch()"></md-input>
-              <span class="md-error" v-if="$v.regForm.password.$error&&$v.regForm.password.minLength">不允许为空</span>
-              <span class="md-error" v-if="!$v.regForm.password.minLength">密码不能少于5位</span>
+              <md-input type="password" required v-model="loginForm.password" @input="$v.loginForm.password.$touch()"></md-input>
+              <span class="md-error" v-if="$v.loginForm.password.$error&&$v.loginForm.password.minLength">不允许为空</span>
+              <span class="md-error" v-if="!$v.loginForm.password.minLength">密码不能少于5位</span>
             </md-input-container>
             <md-checkbox v-model="rempsw">记住密码</md-checkbox>
             <md-button class="btn md-raised md-primary" @click="submitLogin">提交</md-button>
           </md-tab>
           <md-tab md-label="注册">
-
             <md-input-container :class="{'md-input-invalid':$v.regForm.username.$error}">
               <md-icon>person</md-icon>
               <label>用户名</label>
-              <md-input type="text" required v-model="regForm.username"
-                        @input="$v.regForm.username.$touch()"></md-input>
-              <span class="md-error" v-if="$v.regForm.username.$error&&$v.regForm.password.username">不允许为空</span>
+              <md-input type="text" required v-model="regForm.username" @input="$v.regForm.username.$touch()"></md-input>
+              <span class="md-error" v-if="$v.regForm.username.$error&&$v.regForm.username.minLength">不允许为空</span>
               <span class="md-error" v-if="!$v.regForm.username.minLength">用户名不能少于5位</span>
             </md-input-container>
             <md-input-container md-has-password :class="{'md-input-invalid':$v.regForm.password.$error}">
               <md-icon>lock</md-icon>
               <label>密码</label>
-              <md-input type="password" required v-model="regForm.password"
-                        @input="$v.regForm.password.$touch()"></md-input>
+              <md-input type="password" required v-model="regForm.password" @input="$v.regForm.password.$touch()"></md-input>
               <span class="md-error" v-if="$v.regForm.password.$error&&$v.regForm.password.minLength">不允许为空</span>
               <span class="md-error" v-if="!$v.regForm.password.minLength">密码不能少于5位</span>
             </md-input-container>
@@ -137,11 +132,6 @@
       }
     },
     methods: {
-      keyup(e) {
-        if (e.keyCode == "13") {
-          this.submitLogin('loginForm');
-        }
-      },
       message(msg) {
         this.msg = msg;
         this.$refs.snackbar.open();

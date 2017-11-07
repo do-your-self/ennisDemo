@@ -51,7 +51,7 @@
               <md-layout md-gutter>
                 <md-layout md-flex="49">
                   <md-input-container :class="{'md-input-invalid':$v.form.stg_proportion_from.$error}">
-                    <label>策略占比区间sta</label>
+                    <label>策略占比区间开始</label>
                     <md-input v-model.number="form.stg_proportion_from"
                               @input="$v.form.stg_proportion_from.$touch()"></md-input>
                     <span class="md-error">不允许为空</span>
@@ -60,7 +60,7 @@
                 &nbsp;&nbsp;_&nbsp;&nbsp;
                 <md-layout md-flex="50">
                   <md-input-container :class="{'md-input-invalid':$v.form.stg_proportion_to.$error}">
-                    <label>策略占比区间end</label>
+                    <label>策略占比区间结束</label>
                     <md-input v-model.number="form.stg_proportion_to"
                               @input="$v.form.stg_proportion_to.$touch()"></md-input>
                     <span class="md-error">不允许为空</span>

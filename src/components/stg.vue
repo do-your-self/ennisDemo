@@ -12,10 +12,10 @@
       <!-- table header -->
       <md-table-header>
         <md-table-row>
-          <md-table-head md-sort-by="stg_type">策略类型</md-table-head>
-          <md-table-head md-sort-by="product_count">产品数量</md-table-head>
-          <md-table-head md-sort-by="scale">规模</md-table-head>
-          <md-table-head md-sort-by="scale_ceiling">规模上限</md-table-head>
+          <md-table-head>策略类型</md-table-head>
+          <md-table-head>产品数量</md-table-head>
+          <md-table-head>规模</md-table-head>
+          <md-table-head>规模上限</md-table-head>
           <md-table-head style="width:100px;text-align:center;">操作</md-table-head>
         </md-table-row>
       </md-table-header>

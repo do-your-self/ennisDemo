@@ -5,14 +5,14 @@
       <!-- table header -->
       <md-table-header>
         <md-table-row>
-          <md-table-head md-sort-by="user">投顾公司</md-table-head>
-          <md-table-head md-sort-by="mgrcomp_short_name">公司简称</md-table-head>
-          <md-table-head md-sort-by="reg_id">协会注册备案号</md-table-head>
-          <md-table-head md-sort-by="address">地址</md-table-head>
-          <md-table-head md-sort-by="date_establishment">成立时间</md-table-head>
-          <md-table-head md-sort-by="reg_capital">注册资本</md-table-head>
-          <md-table-head md-sort-by="shareholder_names">股东名单</md-table-head>
-          <md-table-head md-sort-by="num_staff">员工数量</md-table-head>
+          <md-table-head>投顾公司</md-table-head>
+          <md-table-head>公司简称</md-table-head>
+          <md-table-head>协会注册备案号</md-table-head>
+          <md-table-head>地址</md-table-head>
+          <md-table-head>成立时间</md-table-head>
+          <md-table-head>注册资本</md-table-head>
+          <md-table-head>股东名单</md-table-head>
+          <md-table-head>员工数量</md-table-head>
         </md-table-row>
       </md-table-header>
 

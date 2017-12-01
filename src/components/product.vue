@@ -12,16 +12,16 @@
       <!-- table header -->
       <md-table-header>
         <md-table-row>
-          <md-table-head md-sort-by="full_name">基金产品全称</md-table-head>
-          <md-table-head md-sort-by="short_name">基金产品简称</md-table-head>
-          <md-table-head md-sort-by="prod_count">产品数量</md-table-head>
-          <md-table-head md-sort-by="prod_scale">产品规模</md-table-head>
-          <md-table-head md-sort-by="warning_line">预警线</md-table-head>
-          <md-table-head md-sort-by="winding_line">风控线</md-table-head>
-          <md-table-head md-sort-by="date_establishment">产品成立时间</md-table-head>
-          <md-table-head md-sort-by="status">运行状态</md-table-head>
-          <md-table-head md-sort-by="avg_turn_over_rate">平均年华换手率</md-table-head>
-          <md-table-head md-sort-by="avg_win_holding_period">盈利股票平均持仓</md-table-head>
+          <md-table-head>基金产品全称</md-table-head>
+          <md-table-head>基金产品简称</md-table-head>
+          <md-table-head>产品数量</md-table-head>
+          <md-table-head>产品规模</md-table-head>
+          <md-table-head>预警线</md-table-head>
+          <md-table-head>风控线</md-table-head>
+          <md-table-head>产品成立时间</md-table-head>
+          <md-table-head>运行状态</md-table-head>
+          <md-table-head>平均年华换手率</md-table-head>
+          <md-table-head>盈利股票平均持仓</md-table-head>
           <md-table-head style="width:100px;text-align:center;">操作</md-table-head>
         </md-table-row>
       </md-table-header>

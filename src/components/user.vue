@@ -5,11 +5,11 @@
       <!-- table header -->
       <md-table-header>
         <md-table-row>
-          <md-table-head md-sort-by="username">用户名</md-table-head>
-          <md-table-head md-sort-by="comp_name">公司名称</md-table-head>
-          <md-table-head md-sort-by="create_time">注册时间</md-table-head>
-          <md-table-head md-sort-by="active">激活</md-table-head>
-          <md-table-head md-sort-by="mgrcomp_id" style="width:100px;text-align:center;">操作</md-table-head>
+          <md-table-head>用户名</md-table-head>
+          <md-table-head>公司名称</md-table-head>
+          <md-table-head>注册时间</md-table-head>
+          <md-table-head>激活</md-table-head>
+          <md-table-head style="width:100px;text-align:center;">操作</md-table-head>
         </md-table-row>
       </md-table-header>
 

@@ -45,11 +45,13 @@
               <span class="md-error" v-if="!$v.regForm.email.email">请填写正确的邮箱格式</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.regForm.company_name.$error}">
+              <md-icon>business</md-icon>
               <label>公司</label>
               <md-input required v-model="regForm.company_name" @input="$v.regForm.company_name.$touch()"></md-input>
               <span class="md-error">不允许为空</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.regForm.code.$error}">
+              <md-icon>font_download</md-icon>
               <label>邀请码</label>
               <md-input required v-model="regForm.code" @input="$v.regForm.code.$touch()"></md-input>
               <span class="md-error">不允许为空</span>

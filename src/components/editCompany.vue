@@ -1,8 +1,7 @@
 <template>
   <md-card style="width:100%;">
     <md-card-header>
-      <div class="md-title">编辑</div>
-      <div class="md-subhead">修改/完善公司信息</div>
+      <div class="md-title">编辑<span class="md-subhead">(修改/完善公司信息)</span></div>
     </md-card-header>
 
     <md-card-content>

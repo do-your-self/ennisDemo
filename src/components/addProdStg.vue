@@ -2,8 +2,7 @@
   <md-card style="width:100%;">
 
     <md-card-header>
-      <div class="md-title">新增</div>
-      <div class="md-subhead">添加一个新的产品策略</div>
+      <div class="md-title">编辑<span class="md-subhead">(添加一个新的产品策略)</span></div>
     </md-card-header>
 
     <md-card-content>

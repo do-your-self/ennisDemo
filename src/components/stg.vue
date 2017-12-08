@@ -110,7 +110,7 @@
             this.$store.dispatch('UserLogout');
           } else {
             let resp = response.data.items;
-            for (var i = 0; i < resp.length; i++) {
+            for (var i = 0; i < resp.length; i++) {            
               resp[i].scale_ceiling = Math.round(resp[i].scale_ceiling * 100) / 100;
             }
             this.tableData = resp;

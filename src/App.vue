@@ -1,13 +1,15 @@
 <template>
   <div id="app">
     <!-- 消息提示框 -->
-    <div class="md-snackbar md-theme-default md-active md-position-top-center" v-show="$store.state.msg">
-      <div class="md-snackbar-container">
-        <div class="md-snackbar-content">
-          <span><md-icon class="md-primary">info</md-icon>{{ $store.state.message }}</span> 
-          <button type="button" class="md-button md-accent md-theme-light-blue" @click="close">关闭</button>
+    <div class="md-snackbar md-theme-default md-active md-position-top-center">
+      <transition name="fade">
+        <div class="md-snackbar-container" v-show="$store.state.msg">
+          <div class="md-snackbar-content">
+            <span><md-icon class="md-primary">info</md-icon>{{ $store.state.message }}</span> 
+            <button type="button" class="md-button md-accent md-theme-light-blue" @click="close">关闭</button>
+          </div>
         </div>
-      </div>
+      </transition>
     </div>
 
     <router-view></router-view>
@@ -17,15 +19,6 @@
 <script>
 export default {
   name: 'app',
-  data: function() {
-    return {
-      showSnackbar: true,
-      vertical: 'top',
-      horizontal: 'center',
-      duration: 4000,
-      msg: ''
-    }
-  },
   methods: {
     close() {
       this.$store.state.msg=false;
@@ -73,4 +66,12 @@ export default {
     width: 100%;
     height: 100%;
   } 
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 4s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
+
 </style>

@@ -52,11 +52,11 @@
         this.$store.dispatch('Id', "null");
       },
       logout() {
-        this.$store.dispatch('Message', {msg: true,message:"添加成功"});
+        this.$store.dispatch('Message', {msg: true,message:"登出成功"});
         //清除token
         this.$store.dispatch('UserLogout');
         if (!this.$store.state.token) {
-          this.$store.dispatch('Message', {msg: true,message:"添加成功"});
+          this.$store.dispatch('Message', {msg: true,message:"登出成功"});
           this.$router.push('/login');
         } else {
           this.$store.dispatch('Message', {msg: true,message:"登出失败"});

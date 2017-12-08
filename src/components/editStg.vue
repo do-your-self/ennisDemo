@@ -42,11 +42,6 @@
               <span class="md-error">不允许为空</span>
             </md-input-container>
 
-            <!-- 提示框 -->
-            <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
-              <span><md-icon>info</md-icon>{{msg}}</span>
-              <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
-            </md-snackbar>
           </form>
         </md-layout>
       </md-layout>
@@ -65,11 +60,7 @@
   export default {
     data() {
       return {
-        form: this.$route.query,
-        vertical: 'top',
-        horizontal: 'center',
-        duration: 4000,
-        msg: ''
+        form: this.$route.query
       }
     },
     validations: {
@@ -89,10 +80,6 @@
       }
     },
     methods: {
-      message(msg) {
-        this.msg = msg;
-        this.$refs.snackbar.open();
-      },
       submitForm() {
         this.$v.form.$touch();
         if (!this.$v.$error) {
@@ -104,14 +91,14 @@
           let id = this.form.id;
           this.api.setStg(id, opt)
             .then(response => {
-              this.message('修改成功');
+              this.$store.dispatch('Message', {msg: true,message:"添加成功"});
               this.$router.push('/home/stg');
             }).catch((err) => {
           })
         }
       },
       cancelForm(formName) {
-        this.message('取消');
+        this.$store.dispatch('Message', {msg: true,message:"取消"});
         this.$router.push('/home/stg');
       }
     }

@@ -73,7 +73,7 @@
     </div>
 
     <md-tabs class="tab">
-      <md-tab md-label="基础硬件硬件信息">
+      <md-tab md-label="基础硬件信息">
         <p>{{form.desc_hardware}}</p>
       </md-tab>
       <md-tab md-label="平台">
@@ -90,6 +90,7 @@
       </md-tab>
 
     </md-tabs>
+
     </md-layout>
     <!-- loading -->
     <div v-show="loading" class="loading"><md-spinner md-indeterminate class="spinner"></md-spinner></div>
@@ -205,6 +206,9 @@
 
   .md-tabs .md-tab-header {
     font-size: 14px !important;
+  }
+  .md-size-2x{
+    color:#ccc!important;
   }
 </style>
 

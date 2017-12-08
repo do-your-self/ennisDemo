@@ -14,11 +14,13 @@ const state = {
     id: window.sessionStorage.getItem('id'),
     user: window.sessionStorage.getItem('user'),
     company: window.sessionStorage.getItem('company'),
-    username: ''
+    username: '',
+    msg: false,
+    message: ''
 };
 
 export default new Vuex.Store({
     state,
     mutations,
-    actions
+    actions,
 });

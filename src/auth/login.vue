@@ -60,12 +60,6 @@
           </md-tab>
         </md-tabs>
 
-        <!-- 提示框 -->
-        <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
-          <span><md-icon>info</md-icon>{{msg}}</span>
-          <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
-        </md-snackbar>
-
       </form>
     </md-layout>
     <md-layout md-flex="25" class="right-bg"></md-layout>
@@ -94,11 +88,7 @@
           email: '',
           company_name: '',
           code: ''
-        },
-        vertical: 'top',
-        horizontal: 'center',
-        duration: 4000,
-        msg: ''
+        }
       }
     },  //验证注册登录
     validations: {
@@ -134,10 +124,6 @@
       }
     },
     methods: {
-      message(msg) {
-        this.msg = msg;
-        this.$refs.snackbar.open();
-      },
       resetForm(formName) {
         this.$refs[formName].resetFields();
       },
@@ -150,10 +136,10 @@
               //解构赋值拿到data
               //账号存在
               if (data.success === false) {
-                this.message('用户名或密码错误');
+                this.$store.dispatch('Message', {msg: true,message:"用户名或密码错误"});
               }
               if (data.success) {
-                this.message('登录成功');
+                this.$store.dispatch('Message', {msg: true,message:"登录成功"});
                 let token = data.token;
                 let company = data.company;
                 let admin = data.admin;
@@ -186,7 +172,7 @@
                   });
                 }
               } else {
-                this.message('用户名或密码错误');
+                this.$store.dispatch('Message', {msg: true,message:"用户名或密码错误"});
               }
             }).catch((err) => {
           });
@@ -200,21 +186,26 @@
               switch (data.status) {
                 case 200:
                   this.message('注册成功');
+                  this.$store.dispatch('Message', {msg: true,message:""});
                   setTimeout(function () {
                     window.location.reload();
                   }, 2000)
                   break;
                 case 433:
-                  this.message('邀请码不存在'); //code过期 Invalid validation code
+                  //code过期 Invalid validation code
+                  this.$store.dispatch('Message', {msg: true,message:"邀请码不存在"});
                   break;
                 case 434:
-                  this.message('投资公司已存在'); // User name already exists
+                  // User name already exists
+                  this.$store.dispatch('Message', {msg: true,message:"投资公司已存在"});
                   break;
                 case 435:
-                  this.message('投资公司已存在'); //Company name already exists
+                  //Company name already exists
+                  this.$store.dispatch('Message', {msg: true,message:"投资公司已存在"});
                   break;
                 case 436:
-                  this.message('邮箱已存在'); //Email already exists
+                  //Email already exists
+                  this.$store.dispatch('Message', {msg: true,message:"邮箱已存在"});
                   break;
               }
             }).catch((err) => {

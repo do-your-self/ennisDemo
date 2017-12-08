@@ -11,13 +11,6 @@
         </md-input-container>
         <md-button class="md-raised md-primary" @click="submit">提交</md-button>
       </form>
-
-      <!-- 提示框 -->
-      <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
-        <span><md-icon>info</md-icon>{{msg}}</span>
-        <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
-      </md-snackbar>
-
     </md-layout>
   </md-layout>
 </template>
@@ -28,11 +21,7 @@
   export default {
     data() {
       return {
-        email: "",
-        vertical: 'top',
-        horizontal: 'center',
-        duration: 4000,
-        msg: ''
+        email: ""
       }
     }, //验证注册登录
     validations: {
@@ -42,18 +31,14 @@
       }
     },
     methods: {
-      message(msg) {
-        this.msg = msg;
-        this.$refs.snackbar.open();
-      },
       submit() {
         this.$v.email.$touch();
         if (!this.$v.$error) { //验证通过
           this.api.sendMail({"email": this.email}).then(({data}) => {
             if (data.Success) {
-              this.message('已发送');
+              this.$store.dispatch('Message', {msg: true,message:"已发送"});
             } else {
-              this.message(data.statusText);
+              this.$store.dispatch('Message', {msg: true,message:data.statusText});
             }
           });
         } else { //验证不通过

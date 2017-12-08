@@ -78,12 +78,6 @@
           </md-layout>
         </md-layout>
 
-        <!-- 提示框 -->
-        <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
-          <span><md-icon>info</md-icon>{{msg}}</span>
-          <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
-        </md-snackbar>
-
       </form>
 
       <md-layout md-align="center">
@@ -115,11 +109,7 @@
           "desc_hist_achievement": "",
           "punishment": "",
           "conflict": ""
-        },
-        vertical: 'top',
-        horizontal: 'center',
-        duration: 4000,
-        msg: ''
+        }
       }
     },
     validations: {
@@ -160,10 +150,6 @@
       }
     },
     methods: {
-      message(msg) {
-        this.msg = msg;
-        this.$refs.snackbar.open();
-      },
       submitForm() {
         this.$v.form.$touch();
         if (!this.$v.$error) {
@@ -171,7 +157,7 @@
           let opt = this.form;
           this.api.addStaff(opt)
             .then(response => {
-              this.message('添加成功');
+              this.$store.dispatch('Message', {msg: true,message:"添加成功"});
               this.$router.push({
                 path: '/home/staff',
                 query: {
@@ -183,7 +169,7 @@
         }
       },
       cancelForm(formName) {
-        this.message('取消');
+        this.$store.dispatch('Message', {msg: true,message:"取消"});
         this.$router.push('/home/staff');
       }
     }

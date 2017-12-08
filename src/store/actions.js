@@ -23,6 +23,9 @@ export default {
     },
     User({ commit }, data){
         commit(types.USER, data);
+    },
+    Message({ commit }, data){
+        commit(types.MESSAGE,data);
     }
 }
 

@@ -44,12 +44,6 @@
       @pagination="handleCurrentChange">
     </md-table-pagination>
 
-    <!-- 提示框 -->
-    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
-      <span><md-icon>info</md-icon>{{msg}}</span>
-      <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
-    </md-snackbar>
-
     <!-- 对话弹框 -->
     <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog">
       <md-dialog-title>
@@ -73,11 +67,7 @@
         loading: true,
         tableData: [],
         currentPage: 1,
-        total: 0,
-        vertical: 'top',
-        horizontal: 'center',
-        duration: 4000,
-        msg: ''
+        total: 0
       }
     },
     beforeCreate() {

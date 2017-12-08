@@ -42,12 +42,6 @@
       @pagination="handleCurrentChange">
     </md-table-pagination>
 
-    <!-- 提示框 -->
-    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
-      <span><md-icon>info</md-icon>{{msg}}</span>
-      <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
-    </md-snackbar>
-
     <!-- 对话弹框 -->
     <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog">
       <md-dialog-title>
@@ -72,10 +66,6 @@
         tableData: [],
         total: 0,
         currentPage: 1,
-        vertical: 'top',
-        horizontal: 'center',
-        duration: 4000,
-        msg: '',
         id: '',
         index: ''
       }
@@ -105,8 +95,7 @@
         if (e == 'submit') {
           this.api.delUser(this.id).then(response => {
             this.tableData.splice(this.index, 1);
-            this.msg = '删除成功';
-            this.$refs.snackbar.open();
+            this.$store.dispatch('Message', {msg: true,message:"删除成功"});
             --this.total;
             if (this.total % 10 == 0) {
               --this.currentPage;
@@ -117,8 +106,7 @@
           }).catch((err) => {
           })
         } else {
-          this.msg = '已取消删除';
-          this.$refs.snackbar.open();
+          this.$store.dispatch('Message', {msg: true,message:"已取消删除"});
         }
         this.$refs[ref].close();
       },

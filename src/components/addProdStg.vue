@@ -76,12 +76,6 @@
 
             </md-layout>
 
-            <!-- 提示框 -->
-            <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
-              <span>{{msg}}</span>
-              <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
-            </md-snackbar>
-
           </form>
         </md-layout>
       </md-layout>
@@ -113,11 +107,7 @@
           "stg_proportion_to": "",
           "desc": "",
           "prod_id": ""
-        },
-        vertical: 'top',
-        horizontal: 'center',
-        duration: 4000,
-        msg: ''
+        }
       }
     },
     validations: {
@@ -155,10 +145,6 @@
       })
     },
     methods: {
-      message(msg) {
-        this.msg = msg;
-        this.$refs.snackbar.open();
-      },
       getData(response) {      //拿到返回的数据
         if (response) {
           if (response.status === 401) {
@@ -182,14 +168,14 @@
           let opt = this.form;
           this.api.addProdStg(opt)
             .then(response => {
-              this.message('添加成功');
+              this.$store.dispatch('Message', {msg: true,message:"添加成功"});
               this.$router.push('/home/prodStg');
             }).catch((err) => {
           })
         }
       },
       cancelForm(formName) {
-        this.message('取消');
+        this.$store.dispatch('Message', {msg: true,message:"取消"});
         this.$router.push('/home/prodStg');
       }
     }

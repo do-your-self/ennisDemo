@@ -34,12 +34,6 @@
       <md-icon>exit_to_app</md-icon>&nbsp;&nbsp;登出
     </md-button>
 
-    <!-- 提示框 -->
-    <md-snackbar :md-position="vertical + ' ' + horizontal" ref="snackbar" :md-duration="duration">
-      <span><md-icon>info</md-icon>{{msg}}</span>
-      <md-button class="md-accent" @click="$refs.snackbar.close()">关闭</md-button>
-    </md-snackbar>
-
   </md-toolbar>
 </template>
 
@@ -48,37 +42,24 @@
   export default {
     data() {
       return {
-        active: this.$router.currentRoute.fullPath,
-        vertical: 'top',
-        horizontal: 'center',
-        duration: 4000,
-        msg: ''
+        active: this.$router.currentRoute.fullPath
       }
     },
     methods: {
-      message(msg) {
-        this.msg = msg;
-        this.$refs.snackbar.open();
-        this.$router.push('/login');
-      },
       routerLink(path) {
         this.$router.push(path)
         this.active = path;
         this.$store.dispatch('Id', "null");
       },
       logout() {
-        this.message('登出成功')
+        this.$store.dispatch('Message', {msg: true,message:"添加成功"});
         //清除token
         this.$store.dispatch('UserLogout');
         if (!this.$store.state.token) {
-          this.msg = '登出成功';
-          this.$refs.snackbar.open();
+          this.$store.dispatch('Message', {msg: true,message:"添加成功"});
           this.$router.push('/login');
         } else {
-          this.$message({
-            type: 'info',
-            message: '登出失败'
-          })
+          this.$store.dispatch('Message', {msg: true,message:"登出失败"});
         }
       }
     }

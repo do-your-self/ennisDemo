@@ -50,6 +50,14 @@ const mutations = {
         //把adimn存起来
         state.user = data;
         window.sessionStorage.setItem('user', data);
+    },
+    [types.MESSAGE]: (state, data) => {
+        //把adimn存起来
+        state.msg = data.msg;
+        state.message = data.message;
+        setTimeout(function(){
+            state.msg=false;
+        },4000)
     }
 };
 

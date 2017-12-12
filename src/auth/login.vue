@@ -59,7 +59,6 @@
             <md-button class="btn md-raised md-primary" @click="submitReg">提交</md-button>
           </md-tab>
         </md-tabs>
-
       </form>
     </md-layout>
     <md-layout md-flex="25" class="right-bg"></md-layout>
@@ -129,7 +128,7 @@
       },
       submitLogin() {
         this.$v.loginForm.$touch();
-        if (!this.$v.$error) {
+        if (!this.$v.loginForm.$error) {
           let opt = this.loginForm;
           this.api.userLogin(opt)
             .then(({data}) => {
@@ -180,7 +179,7 @@
       },
       submitReg() {
         this.$v.regForm.$touch();
-        if (!this.$v.$error) {
+        if (!this.$v.regForm.$error) {
           this.api.userRegister(this.regForm)
             .then((data) => {
               switch (data.status) {
@@ -258,3 +257,4 @@
     float: left;
   }
 </style>
+<!-- { "loginForm": { "$invalid": true, "$dirty": true, "$error": true, "$pending": false, "$params": { "username": null, "password": null } }, -->

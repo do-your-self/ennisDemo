@@ -18,8 +18,8 @@
           <md-table-head>产品规模</md-table-head>
           <md-table-head>预警线</md-table-head>
           <md-table-head>风控线</md-table-head>
-          <md-table-head>产品成立时间</md-table-head>
           <md-table-head>运行状态</md-table-head>
+          <md-table-head>产品成立时间</md-table-head>
           <md-table-head>平均年华换手率</md-table-head>
           <md-table-head>盈利股票平均持仓</md-table-head>
           <md-table-head style="width:100px;text-align:center;">操作</md-table-head>

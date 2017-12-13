@@ -26,9 +26,9 @@
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.year_start_related_industry.$error}">
               <label>从业年限</label>
-              <md-input v-model.number="form.year_start_related_industry"
-                        @input="$v.form.year_start_related_industry.$touch()"></md-input>
-              <span class="md-error">不允许为空</span>
+              <md-input v-model.number="form.year_start_related_industry" @input="$v.form.year_start_related_industry.$touch()" type="number"></md-input>
+              <span class="md-error" v-if="!$v.form.year_start_related_industry.required">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.year_start_related_industry.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.conflict.$error}">
               <label>利益冲突</label>
@@ -61,7 +61,8 @@
             <md-input-container :class="{'md-input-invalid':$v.form.share_held.$error}">
               <label>占股比例</label>
               <md-input v-model.number="form.share_held" @input="$v.form.share_held.$touch()"></md-input>
-              <span class="md-error">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.share_held.required">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.share_held.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.punishment.$error}">
               <label>最近一次收到处罚</label>
@@ -70,8 +71,7 @@
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.desc_hist_achievement.$error}">
               <label>历史业绩</label>
-              <md-textarea v-model="form.desc_hist_achievement" maxlength="100"
-                           @input="$v.form.desc_hist_achievement.$touch()"></md-textarea>
+              <md-textarea v-model="form.desc_hist_achievement" maxlength="100" @input="$v.form.desc_hist_achievement.$touch()"></md-textarea>
               <span class="md-error">不允许为空</span>
             </md-input-container>
           </md-layout>
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-  import {required} from 'vuelidate/lib/validators'
+  import {required,numeric} from 'vuelidate/lib/validators'
 
   export default {
     data() {
@@ -129,10 +129,12 @@
           required
         },
         year_start_related_industry: {
-          required
+          required,
+          numeric
         },
         share_held: {
-          required
+          required,
+          numeric
         },
         desc_past_job: {
           required

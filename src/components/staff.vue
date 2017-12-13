@@ -22,14 +22,14 @@
       <!-- table header -->
       <md-table-header>
         <md-table-row>
-          <md-table-head>姓名</md-table-head>
-          <md-table-head>性别</md-table-head>
-          <md-table-head>当前职位</md-table-head>
-          <md-table-head>生日</md-table-head>
-          <md-table-head>最高学历</md-table-head>
-          <md-table-head>毕业院校</md-table-head>
-          <md-table-head>占股比例</md-table-head>
-          <md-table-head>从业年限</md-table-head>
+          <md-table-head md-sort-by="name">姓名</md-table-head>
+          <md-table-head md-sort-by="sex">性别</md-table-head>
+          <md-table-head md-sort-by="birthday">生日</md-table-head>
+          <md-table-head md-sort-by="position">当前职位</md-table-head>
+          <md-table-head md-sort-by="education_highest">最高学历</md-table-head>
+          <md-table-head md-sort-by="university_graduated">毕业院校</md-table-head>
+          <md-table-head md-sort-by="year_start_related_industry">从业年限</md-table-head>
+          <md-table-head md-sort-by="share_held">占股比例</md-table-head>
           <md-table-head style="width:100px;text-align:center;">操作</md-table-head>
         </md-table-row>
       </md-table-header>

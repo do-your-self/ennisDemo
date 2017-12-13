@@ -97,12 +97,14 @@
             this.tableData.splice(this.index, 1);
             this.$store.dispatch('Message', {msg: true,message:"删除成功"});
             --this.total;
-            if (this.total % 10 == 0) {
-              --this.currentPage;
+            if(this.total !== 0){
+              if (this.total % 10 == 0) {
+                --this.currentPage;
+              }
+              this.api.getUser(10, this.currentPage).then((response) => {
+                this.getData(response);
+              });
             }
-            this.api.getUser(10, this.currentPage).then((response) => {
-              this.getData(response);
-            });
           }).catch((err) => {
           })
         } else {

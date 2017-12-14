@@ -110,7 +110,7 @@
             this.$store.dispatch('UserLogout');
           } else {
             let resp = response.data.items;
-            for (var i = 0; i < resp.length; i++) {
+            for (var i = 0; i < resp.length; i++) {            
               resp[i].scale_ceiling = Math.round(resp[i].scale_ceiling * 100) / 100;
             }
             this.tableData = resp;
@@ -127,12 +127,14 @@
             this.tableData.splice(this.index, 1);
             this.$store.dispatch('Message', {msg: true,message:"删除成功"});
             --this.total;
-            if (this.total % 10 == 0) {
-              --this.currentPage;
+            if(this.total !== 0){
+              if (this.total % 10 == 0) {
+                --this.currentPage;
+              }
+              this.api.getStg(10, this.currentPage).then((response) => {
+                this.getData(response);
+              });
             }
-            this.api.getStg(10, this.currentPage).then((response) => {
-              this.getData(response);
-            });
           }).catch((err) => {
           })
         } else {

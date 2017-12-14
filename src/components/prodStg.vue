@@ -12,13 +12,13 @@
     <!-- table header -->
     <md-table-header>
       <md-table-row>
+        <md-table-head>策略类型</md-table-head>
+        <md-table-head>产品数量</md-table-head>
         <md-table-head>规模</md-table-head>
         <md-table-head>策略占比区间开始</md-table-head>
-        <md-table-head>产品数量</md-table-head>
-        <md-table-head>规模上限</md-table-head>
-        <md-table-head>策略描述</md-table-head>
-        <md-table-head>策略类型</md-table-head>
         <md-table-head>策略占比区间结束</md-table-head>
+        <md-table-head>策略描述</md-table-head>
+        <md-table-head>产品</md-table-head>
         <md-table-head style="width:100px;text-align:center;">操作</md-table-head>
       </md-table-row>
     </md-table-header>
@@ -126,12 +126,14 @@
             this.tableData.splice(this.index, 1);
             this.$store.dispatch('Message', {msg: true,message:"删除成功"});
             --this.total;
-            if (this.total % 10 == 0) {
-              --this.currentPage;
+            if(this.total !== 0){
+              if (this.total % 10 == 0) {
+                --this.currentPage;
+              }
+              this.api.getProdStg(10, this.currentPage).then((response) => {
+                this.getData(response);
+              });
             }
-            this.api.getProdStg(10, this.currentPage).then((response) => {
-              this.getData(response);
-            });
           }).catch((err) => {
           })
         } else {

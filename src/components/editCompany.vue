@@ -1,8 +1,7 @@
 <template>
   <md-card style="width:100%;">
     <md-card-header>
-      <div class="md-title">编辑</div>
-      <div class="md-subhead">修改/完善公司信息</div>
+      <div class="md-title">编辑<span class="md-subhead">(修改/完善公司信息)</span></div>
     </md-card-header>
 
     <md-card-content>
@@ -22,23 +21,27 @@
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.reg_capital.$error}">
               <label>注册资本</label>
-              <md-input required v-model.number="form.reg_capital" @input="$v.form.reg_capital.$touch()"></md-input>
-              <span class="md-error">不允许为空</span>
+              <md-input required v-model.number="form.reg_capital" @input="$v.form.reg_capital.$touch()" type="number"></md-input>
+              <span class="md-error" v-if="!$v.form.reg_capital.required">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.reg_capital.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_staff.$error}">
               <label>员工数量</label>
-              <md-input required v-model.number="form.num_staff" @input="$v.form.num_staff.$touch()"></md-input>
-              <span class="md-error">不允许为空</span>
+              <md-input required v-model.number="form.num_staff" @input="$v.form.num_staff.$touch()" type="number"></md-input>
+              <span class="md-error" v-if="!$v.form.num_staff.required">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.num_staff.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_rd.$error}">
               <label>投研人数</label>
-              <md-input required v-model.number="form.num_rd" @input="$v.form.num_rd.$touch()"></md-input>
-              <span class="md-error">不允许为空</span>
+              <md-input required v-model.number="form.num_rd" @input="$v.form.num_rd.$touch()" type="number"></md-input>
+              <span class="md-error" v-if="!$v.form.num_rd.required">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.num_rd.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_trade.$error}">
               <label>交易人员数(含运维)</label>
-              <md-input required v-model.number="form.num_trade" @input="$v.form.num_trade.$touch()"></md-input>
-              <span class="md-error">不允许为空</span>
+              <md-input required v-model.number="form.num_trade" @input="$v.form.num_trade.$touch()" type="number"></md-input>
+              <span class="md-error" v-if="!$v.form.num_trade.required">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.num_trade.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.desc_hardware.$error}">
               <label>基础硬件硬件信息</label>
@@ -48,8 +51,7 @@
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.desc_trading_platform.$error}">
               <label>交易平台,商业平台(如TB,讯投),或自建平台</label>
-              <md-textarea required v-model="form.desc_trading_platform" maxlength="100"
-                           @input="$v.form.desc_trading_platform.$touch()"></md-textarea>
+              <md-textarea required v-model="form.desc_trading_platform" maxlength="100" @input="$v.form.desc_trading_platform.$touch()"></md-textarea>
               <span class="md-error">不允许为空</span>
             </md-input-container>
             <div class="inputCon">
@@ -76,23 +78,25 @@
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_it.$error}">
               <label>IT人数</label>
-              <md-input required v-model.number="form.num_it" @input="$v.form.num_it.$touch()"></md-input>
-              <span class="md-error">不允许为空</span>
+              <md-input required v-model.number="form.num_it" @input="$v.form.num_it.$touch()" type="number"></md-input>
+              <span class="md-error" v-if="!$v.form.num_it.required">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.num_it.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_risk_mgr.$error}">
               <label>风控人数</label>
-              <md-input required v-model.number="form.num_risk_mgr" @input="$v.form.num_risk_mgr.$touch()"></md-input>
-              <span class="md-error">不允许为空</span>
+              <md-input required v-model.number="form.num_risk_mgr" @input="$v.form.num_risk_mgr.$touch()" type="number"></md-input>
+              <span class="md-error" v-if="!$v.form.num_risk_mgr.required">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.num_risk_mgr.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_master.$error}">
               <label>硕士及以上学历人数</label>
-              <md-input required v-model.number="form.num_master" @input="$v.form.num_master.$touch()"></md-input>
-              <span class="md-error">不允许为空</span>
+              <md-input required v-model.number="form.num_master" @input="$v.form.num_master.$touch()" type="number"></md-input>
+              <span class="md-error" v-if="!$v.form.num_master.required">不允许为空</span>
+              <span class="md-error" v-if="!$v.form.num_master.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.desc_risk_mgr.$error}">
               <label>其他风控措施</label>
-              <md-textarea required v-model="form.desc_risk_mgr" maxlength="100"
-                           @input="$v.form.desc_risk_mgr.$touch()"></md-textarea>
+              <md-textarea required v-model="form.desc_risk_mgr" maxlength="100" @input="$v.form.desc_risk_mgr.$touch()"></md-textarea>
               <span class="md-error">不允许为空</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.desc_db.$error}">
@@ -102,8 +106,7 @@
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.desc_backup.$error}">
               <label>数据库备份及系统冗余</label>
-              <md-textarea required v-model="form.desc_backup" maxlength="100"
-                           @input="$v.form.desc_backup.$touch()"></md-textarea>
+              <md-textarea required v-model="form.desc_backup" maxlength="100" @input="$v.form.desc_backup.$touch()"></md-textarea>
               <span class="md-error">不允许为空</span>
             </md-input-container>
 
@@ -123,7 +126,7 @@
 </template>
 
 <script>
-  import {required} from 'vuelidate/lib/validators'
+  import {required,numeric} from 'vuelidate/lib/validators'
 
   export default {
     data() {
@@ -158,25 +161,32 @@
           required
         },
         num_it: {
-          required
+          required,
+          numeric
         },
         num_master: {
-          required
+          required,
+          numeric
         },
         num_rd: {
-          required
+          required,
+          numeric
         },
         num_risk_mgr: {
-          required
+          required,
+          numeric
         },
         num_staff: {
-          required
+          required,
+          numeric
         },
         num_trade: {
-          required
+          required,
+          numeric
         },
         reg_capital: {
-          required
+          required,
+          numeric
         },
         reg_id: {
           required

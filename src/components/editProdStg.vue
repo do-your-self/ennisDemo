@@ -2,8 +2,7 @@
   <md-card style="width:100%;">
 
     <md-card-header>
-      <div class="md-title">编辑</div>
-      <div class="md-subhead">修改产品策略信息</div>
+      <div class="md-title">编辑<span class="md-subhead">(修改产品策略信息)</span></div>
     </md-card-header>
 
     <md-card-content>
@@ -47,14 +46,14 @@
                 <md-icon class="font">万</md-icon>
                 <span class="md-error">不允许为空</span>
               </md-input-container>
-
               <md-layout md-gutter>
                 <md-layout md-flex="49">
                   <md-input-container :class="{'md-input-invalid':$v.form.stg_proportion_from.$error}">
                     <label>策略占比区间开始</label>
                     <md-input v-model.number="form.stg_proportion_from"
-                              @input="$v.form.stg_proportion_from.$touch()"></md-input>
-                    <span class="md-error">不允许为空</span>
+                              @input="$v.form.stg_proportion_from.$touch()" type="number"></md-input>
+                    <span class="md-error" v-if="!$v.form.stg_proportion_from.required">不允许为空</span>
+                    <span class="md-error" v-if="!$v.form.stg_proportion_from.numeric">输入必须为数值</span>
                   </md-input-container>
                 </md-layout>
                 &nbsp;&nbsp;_&nbsp;&nbsp;
@@ -62,8 +61,9 @@
                   <md-input-container :class="{'md-input-invalid':$v.form.stg_proportion_to.$error}">
                     <label>策略占比区间结束</label>
                     <md-input v-model.number="form.stg_proportion_to"
-                              @input="$v.form.stg_proportion_to.$touch()"></md-input>
-                    <span class="md-error">不允许为空</span>
+                              @input="$v.form.stg_proportion_to.$touch()" type="number"></md-input>
+                    <span class="md-error" v-if="!$v.form.stg_proportion_to.required">不允许为空</span>
+                    <span class="md-error" v-if="!$v.form.stg_proportion_to.numeric">输入必须为数值</span>
                   </md-input-container>
 
                 </md-layout>
@@ -90,7 +90,7 @@
 </template>
 
 <script>
-  import {required} from 'vuelidate/lib/validators'
+  import {required,numeric} from 'vuelidate/lib/validators'
 
   export default {
     data() {
@@ -116,10 +116,12 @@
           required
         },
         stg_proportion_from: {
-          required
+          required,
+          numeric
         },
         stg_proportion_to: {
-          required
+          required,
+          numeric
         },
         desc: {
           required

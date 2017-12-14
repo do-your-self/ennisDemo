@@ -1,7 +1,7 @@
 <template>
   <md-table-card style="width:100%;">
 
-    <md-card-header>
+    <md-card-header style="border-bottom: 1px solid #ccc;">
       <md-card-header-text>
         <div class="md-title">{{form.mgrcomp_short_name}}<span class="md-subhead">(投顾公司简称)</span></div>
       </md-card-header-text>
@@ -11,7 +11,7 @@
         编辑
       </router-link>
     </md-card-header>
-    <div style="padding:0 20px">
+    <div style="padding:20px 20px 0">
       <div style="padding:0 20px;width:700px;float:left;">
         <div>
           <md-icon class="md-primary">beenhere</md-icon>
@@ -163,6 +163,14 @@
     text-indent: 2em;
     min-height: 40px;
   }
+/*
+  .md-card-header {
+    border-bottom: 1px solid #ccc;
+  }
+
+  .md-card-content{
+    padding-top:10px;
+  }*/
 
   .md-divider.md-inset {
     margin: 20px !important;

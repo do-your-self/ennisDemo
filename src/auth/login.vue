@@ -229,7 +229,7 @@
   }
 
   .right-bg {
-    background: url(../../static/login.jpg) no-repeat;
+    background: url(/static/login.jpg) no-repeat;
     background-size: auto 600px;
     border-radius: 0 5px 5px 0;
     box-shadow: 0 20px 60px -2px rgba(27, 33, 58, .4);

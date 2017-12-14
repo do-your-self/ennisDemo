@@ -34,7 +34,7 @@ export default {
     font-family: 'Material Icons';
     font-style: normal;
     font-weight: 400;
-    src: url(../static/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+    src: url(/static/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
   }
 
   .material-icons {

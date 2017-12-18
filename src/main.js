@@ -4,11 +4,6 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-//引用elment-ui
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
-Vue.use(ElementUI);
-
 import MaterialIcons from 'material-design-icons'
 Vue.use(MaterialIcons)
 //引用vue-material

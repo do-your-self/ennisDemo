@@ -23,25 +23,21 @@
               <label>注册资本</label>
               <md-input required v-model.number="form.reg_capital" @input="$v.form.reg_capital.$touch()" type="number"></md-input>
               <span class="md-error" v-if="!$v.form.reg_capital.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.reg_capital.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_staff.$error}">
               <label>员工数量</label>
               <md-input required v-model.number="form.num_staff" @input="$v.form.num_staff.$touch()" type="number"></md-input>
               <span class="md-error" v-if="!$v.form.num_staff.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.num_staff.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_rd.$error}">
               <label>投研人数</label>
               <md-input required v-model.number="form.num_rd" @input="$v.form.num_rd.$touch()" type="number"></md-input>
               <span class="md-error" v-if="!$v.form.num_rd.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.num_rd.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_trade.$error}">
               <label>交易人员数(含运维)</label>
               <md-input required v-model.number="form.num_trade" @input="$v.form.num_trade.$touch()" type="number"></md-input>
               <span class="md-error" v-if="!$v.form.num_trade.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.num_trade.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.desc_hardware.$error}">
               <label>基础硬件硬件信息</label>
@@ -80,19 +76,16 @@
               <label>IT人数</label>
               <md-input required v-model.number="form.num_it" @input="$v.form.num_it.$touch()" type="number"></md-input>
               <span class="md-error" v-if="!$v.form.num_it.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.num_it.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_risk_mgr.$error}">
               <label>风控人数</label>
               <md-input required v-model.number="form.num_risk_mgr" @input="$v.form.num_risk_mgr.$touch()" type="number"></md-input>
               <span class="md-error" v-if="!$v.form.num_risk_mgr.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.num_risk_mgr.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.num_master.$error}">
               <label>硕士及以上学历人数</label>
               <md-input required v-model.number="form.num_master" @input="$v.form.num_master.$touch()" type="number"></md-input>
               <span class="md-error" v-if="!$v.form.num_master.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.num_master.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.desc_risk_mgr.$error}">
               <label>其他风控措施</label>
@@ -126,7 +119,7 @@
 </template>
 
 <script>
-  import {required,numeric} from 'vuelidate/lib/validators'
+  import {required} from 'vuelidate/lib/validators'
 
   export default {
     data() {
@@ -161,32 +154,25 @@
           required
         },
         num_it: {
-          required,
-          numeric
+          required
         },
         num_master: {
-          required,
-          numeric
+          required
         },
         num_rd: {
-          required,
-          numeric
+          required
         },
         num_risk_mgr: {
-          required,
-          numeric
+          required
         },
         num_staff: {
-          required,
-          numeric
+          required
         },
         num_trade: {
-          required,
-          numeric
+          required
         },
         reg_capital: {
-          required,
-          numeric
+          required
         },
         reg_id: {
           required

@@ -33,20 +33,13 @@
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.warning_line.$error}">
               <label>预警线</label>
-              <md-input v-model.number="form.warning_line" @input="$v.form.warning_line.$touch()"></md-input>
+              <md-input v-model.number="form.warning_line" @input="$v.form.warning_line.$touch()" type="number" step="0.01"></md-input>
               <span class="md-error" v-if="!$v.form.warning_line.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.warning_line.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.winding_line.$error}">
               <label>风控线</label>
-              <md-input v-model.number="form.winding_line" @input="$v.form.winding_line.$touch()" type="number"></md-input>
+              <md-input v-model.number="form.winding_line" @input="$v.form.winding_line.$touch()" type="number" step="0.01"></md-input>
               <span class="md-error" v-if="!$v.form.winding_line.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.winding_line.numeric">输入必须为数值</span>
-            </md-input-container>
-            <md-input-container :class="{'md-input-invalid':$v.form.desc_struct.$error}">
-              <label>结构化描述信息(如果是结构化产品)</label>
-              <md-input v-model.number="form.desc_struct" @input="$v.form.desc_struct.$touch()" type="number"></md-input>
-              <span class="md-error">不允许为空</span>
             </md-input-container>
 
           </md-layout>
@@ -54,30 +47,26 @@
             <md-input-container :class="{'md-input-invalid':$v.form.prod_count.$error}">
               <label>产品数量</label>
               <md-input v-model.number="form.prod_count" @input="$v.form.prod_count.$touch()" type="number"></md-input>
-              <md-icon class="font">只</md-icon>
+              <!-- <md-icon class="font">只</md-icon> -->
               <span class="md-error" v-if="!$v.form.prod_count.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.prod_count.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.prod_scale.$error}">
               <label>产品规模</label>
               <md-input v-model.number="form.prod_scale" @input="$v.form.prod_scale.$touch()" type="number"></md-input>
-              <md-icon class="font">万</md-icon>
+              <!-- <md-icon class="font">万</md-icon> -->
               <span class="md-error" v-if="!$v.form.prod_scale.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.prod_scale.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.avg_turn_over_rate.$error}">
               <label>平均年华换手率</label>
               <md-input v-model.number="form.avg_turn_over_rate" @input="$v.form.avg_turn_over_rate.$touch()" type="number"></md-input>
-              <md-icon class="font">%</md-icon>
+              <!-- <md-icon class="font">%</md-icon> -->
               <span class="md-error" v-if="!$v.form.avg_turn_over_rate.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.avg_turn_over_rate.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.avg_win_holding_period.$error}">
               <label>盈利股票平均持仓</label>
               <md-input v-model.number="form.avg_win_holding_period" @input="$v.form.avg_win_holding_period.$touch()" type="number"></md-input>
-              <md-icon class="font">天</md-icon>
+              <!-- <md-icon class="font">天</md-icon> -->
               <span class="md-error" v-if="!$v.form.avg_win_holding_period.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.avg_win_holding_period.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container>
               <label for="status">运行状态</label>
@@ -87,12 +76,17 @@
                 <md-option value="2">已清盘</md-option>
               </md-select>
             </md-input-container>
-            <div class="inputCon">
-              <md-checkbox name="my-test1" v-model="form.is_auto_trading">是否程序化交易</md-checkbox>
-              <md-checkbox name="my-test1" v-model="form.is_intraday_trading">是否日内交易</md-checkbox>
-              <md-checkbox name="my-test1" v-model="form.is_struct">是否结构化</md-checkbox>
-            </div>
+            <md-input-container :class="{'md-input-invalid':$v.form.desc_struct.$error}">
+              <label>结构化描述信息(如果是结构化产品)</label>
+              <md-input v-model.number="form.desc_struct" @input="$v.form.desc_struct.$touch()"></md-input>
+              <span class="md-error">不允许为空</span>
+            </md-input-container>
 
+          </md-layout>
+          <md-layout class="inputCon" md-flex="30" md-flex-offset="15">
+            <md-checkbox name="my-test1" v-model="form.is_auto_trading">是否程序化交易</md-checkbox>
+            <md-checkbox name="my-test1" v-model="form.is_intraday_trading">是否日内交易</md-checkbox>
+            <md-checkbox name="my-test1" v-model="form.is_struct">是否结构化</md-checkbox>
           </md-layout>
         </md-layout>
 
@@ -107,7 +101,7 @@
 </template>
 
 <script>
-  import {required,numeric} from 'vuelidate/lib/validators'
+  import {required} from 'vuelidate/lib/validators'
 
   export default {
     data() {
@@ -127,20 +121,16 @@
           required
         },
         prod_count: {
-          required,
-          numeric
+          required
         },
         prod_scale: {
-          required,
-          numeric
+          required
         },
         warning_line: {
-          required,
-          numeric
+          required
         },
         winding_line: {
-          required,
-          numeric
+          required
         },
         desc_struct: {
           required
@@ -152,12 +142,10 @@
           required
         },
         avg_turn_over_rate: {
-          required,
-          numeric
+          required
         },
         avg_win_holding_period: {
-          required,
-          numeric
+          required
         },
         prod_mgr_id: {
           required

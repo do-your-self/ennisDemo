@@ -184,8 +184,7 @@
             .then((data) => {
               switch (data.status) {
                 case 200:
-                  this.message('注册成功');
-                  this.$store.dispatch('Message', {msg: true,message:""});
+                  this.$store.dispatch('Message', {msg: true,message:"注册成功"});
                   setTimeout(function () {
                     window.location.reload();
                   }, 2000)

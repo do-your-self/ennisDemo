@@ -6,7 +6,7 @@
     </md-list-item>
     <md-list-item @click="routerLink('/home/staff')" :class="{'md-primary': active=='/home/staff'?true:false}">
       <md-icon class="md-primary">group</md-icon>
-      <span>职工信息</span>
+      <span>核心人员信息</span>
     </md-list-item>
     <md-list-item @click="routerLink('/home/stg')" :class="{'md-primary': active=='/home/stg'?true:false}">
       <md-icon class="md-primary">short_text</md-icon>

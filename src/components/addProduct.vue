@@ -34,12 +34,12 @@
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.warning_line.$error}">
               <label>预警线</label>
-              <md-input v-model.number="form.warning_line" @input="$v.form.warning_line.$touch()" type="number" step="0.01"></md-input>
+              <md-input v-model.number="form.warning_line" @input="$v.form.warning_line.$touch()" type="number" step="0.001"></md-input>
               <span class="md-error" v-if="!$v.form.warning_line.required">不允许为空</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.winding_line.$error}">
               <label>风控线</label>
-              <md-input v-model.number="form.winding_line" @input="$v.form.winding_line.$touch()" type="number" step="0.01"></md-input>
+              <md-input v-model.number="form.winding_line" @input="$v.form.winding_line.$touch()" type="number" step="0.001"></md-input>
               <span class="md-error" v-if="!$v.form.winding_line.required">不允许为空</span>
             </md-input-container>
 

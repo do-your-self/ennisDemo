@@ -2,7 +2,7 @@
   <md-card style="width:100%;">
 
     <md-card-header>
-      <div class="md-title">编辑<span class="md-subhead">(添加一个新的策略)</span></div>
+      <div class="md-title">添加<span class="md-subhead">(添加一个新的策略)</span></div>
     </md-card-header>
 
     <md-card-content>
@@ -28,20 +28,17 @@
               <md-input v-model.number="form.product_count" @input="$v.form.product_count.$touch()" type="number"></md-input>
               <md-icon class="font">只</md-icon>
               <span class="md-error" v-if="!$v.form.product_count.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.product_count.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.scale.$error}">
               <label>规模</label>
               <md-input v-model.number="form.scale" @input="$v.form.scale.$touch()" type="number"></md-input>
               <md-icon class="font">万</md-icon>
               <span class="md-error" v-if="!$v.form.scale.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.scale.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.scale_ceiling.$error}">
               <label>规模上限</label>
               <md-input v-model.number="form.scale_ceiling" @input="$v.form.scale_ceiling.$touch()" type="number"></md-input>
               <span class="md-error" v-if="!$v.form.scale_ceiling.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.scale_ceiling.numeric">输入必须为数值</span>
             </md-input-container>
 
           </form>
@@ -57,7 +54,7 @@
 </template>
 
 <script>
-  import {required,numeric} from 'vuelidate/lib/validators'
+  import {required} from 'vuelidate/lib/validators'
 
   export default {
     data() {
@@ -76,16 +73,13 @@
           required
         },
         product_count: {
-          required,
-          numeric
+          required
         },
         scale: {
-          required,
-          numeric
+          required
         },
         scale_ceiling: {
-          required,
-          numeric
+          required
         }
       }
     },

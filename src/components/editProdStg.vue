@@ -53,7 +53,6 @@
                     <md-input v-model.number="form.stg_proportion_from"
                               @input="$v.form.stg_proportion_from.$touch()" type="number"></md-input>
                     <span class="md-error" v-if="!$v.form.stg_proportion_from.required">不允许为空</span>
-                    <span class="md-error" v-if="!$v.form.stg_proportion_from.numeric">输入必须为数值</span>
                   </md-input-container>
                 </md-layout>
                 &nbsp;&nbsp;_&nbsp;&nbsp;
@@ -63,7 +62,6 @@
                     <md-input v-model.number="form.stg_proportion_to"
                               @input="$v.form.stg_proportion_to.$touch()" type="number"></md-input>
                     <span class="md-error" v-if="!$v.form.stg_proportion_to.required">不允许为空</span>
-                    <span class="md-error" v-if="!$v.form.stg_proportion_to.numeric">输入必须为数值</span>
                   </md-input-container>
 
                 </md-layout>
@@ -90,7 +88,7 @@
 </template>
 
 <script>
-  import {required,numeric} from 'vuelidate/lib/validators'
+  import {required} from 'vuelidate/lib/validators'
 
   export default {
     data() {
@@ -116,12 +114,10 @@
           required
         },
         stg_proportion_from: {
-          required,
-          numeric
+          required
         },
         stg_proportion_to: {
-          required,
-          numeric
+          required
         },
         desc: {
           required

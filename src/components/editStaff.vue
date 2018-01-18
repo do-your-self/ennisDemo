@@ -29,7 +29,6 @@
               <label>从业年限</label>
               <md-input v-model.number="form.year_start_related_industry" @input="$v.form.year_start_related_industry.$touch()" type="number"></md-input>
               <span class="md-error" v-if="!$v.form.year_start_related_industry.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.year_start_related_industry.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.conflict.$error}">
               <label>利益冲突</label>
@@ -63,7 +62,6 @@
               <label>占股比例</label>
               <md-input v-model.number="form.share_held" @input="$v.form.share_held.$touch()"></md-input>
               <span class="md-error" v-if="!$v.form.share_held.required">不允许为空</span>
-              <span class="md-error" v-if="!$v.form.share_held.numeric">输入必须为数值</span>
             </md-input-container>
             <md-input-container :class="{'md-input-invalid':$v.form.punishment.$error}">
               <label>最近一次收到处罚</label>
@@ -91,7 +89,7 @@
 </template>
 
 <script>
-  import {required,numeric} from 'vuelidate/lib/validators'
+  import {numeric} from 'vuelidate/lib/validators'
 
   export default {
     data() {
@@ -117,12 +115,10 @@
           required
         },
         year_start_related_industry: {
-          required,
-          numeric
+          required
         },
         share_held: {
-          required,
-          numeric
+          required
         },
         desc_past_job: {
           required
